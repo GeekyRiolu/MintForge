@@ -9,38 +9,60 @@ type ResponseData = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData>,
 ) {
   if (req.method !== 'GET') {
-    return res.status(405).json({ success: false, error: 'Method not allowed' });
+    return res
+      .status(405)
+      .json({ success: false, error: 'Method not allowed' });
   }
 
   const { taskId } = req.query;
 
   if (!taskId || typeof taskId !== 'string') {
-    return res.status(400).json({ success: false, error: 'Task ID is required' });
+    return res
+      .status(400)
+      .json({ success: false, error: 'Task ID is required' });
   }
 
-  try {
-    const FREEPIK_API_KEY = process.env.FREEPIK_API_KEY;
+  const result = await checkFreepikTask(taskId);
 
-    if (!FREEPIK_API_KEY) {
-      return res
-        .status(500)
-        .json({ success: false, error: 'Freepik API key not configured' });
+  if (!result.success && result.status === 'FAILED') {
+    return res.status(400).json(result);
+  }
+
+  if (!result.success && result.status) {
+    return res.status(202).json(result);
+  }
+
+  if (!result.success) {
+    return res.status(500).json(result);
+  }
+
+  return res.status(200).json(result);
+}
+
+export async function checkFreepikTask(
+  taskId: string,
+): Promise<ResponseData> {
+  try {
+    const freepikApiKey = process.env.FREEPIK_API_KEY;
+
+    if (!freepikApiKey) {
+      return {
+        success: false,
+        error: 'Freepik API key not configured',
+      };
     }
 
     console.log('[Freepik Check] Polling task:', taskId);
 
-    const response = await fetch(
-      `https://api.freepik.com/v1/ai/mystic/${taskId}`,
-      {
-        method: 'GET',
-        headers: {
-          'x-freepik-api-key': FREEPIK_API_KEY,
-        },
-      }
-    );
+    const response = await fetch(`https://api.freepik.com/v1/ai/mystic/${taskId}`, {
+      method: 'GET',
+      headers: {
+        'x-freepik-api-key': freepikApiKey,
+      },
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -49,55 +71,60 @@ export default async function handler(
     }
 
     const data = await response.json();
-    const status = data.data?.status;
+    const status = data.data?.status as string | undefined;
 
     console.log('[Freepik Check] Status:', status);
 
-    // Task statuses: CREATED, QUEUED, PROCESSING, COMPLETED, DELETED, FAILED
     if (status === 'COMPLETED' && data.data?.generated) {
       console.log('[Freepik Check] Task completed, fetching images...');
-
-      // Convert URLs to base64 for consistency with HF API
       const images: string[] = [];
 
-      for (const imageUrl of data.data.generated) {
+      for (const imageUrl of data.data.generated as string[]) {
         try {
           const imageResponse = await fetch(imageUrl);
           if (!imageResponse.ok) {
-            throw new Error(`Failed to fetch image: ${imageResponse.statusText}`);
+            throw new Error(
+              `Failed to fetch image: ${imageResponse.statusText}`,
+            );
           }
 
           const arrayBuffer = await imageResponse.arrayBuffer();
           const buffer = Buffer.from(arrayBuffer);
           const base64 = buffer.toString('base64');
-          const mimeType = imageResponse.headers
-            .get('content-type')
-            ?.split(';')[0] || 'image/png';
+          const mimeType =
+            imageResponse.headers.get('content-type')?.split(';')[0] ??
+            'image/png';
           images.push(`data:${mimeType};base64,${base64}`);
         } catch (error) {
           console.error('[Freepik Check] Error fetching image:', error);
         }
       }
 
-      res
-        .status(200)
-        .json({ success: images.length > 0, status, images });
-    } else if (status === 'FAILED') {
-      res.status(400).json({
+      return {
+        success: images.length > 0,
+        status,
+        images,
+      };
+    }
+
+    if (status === 'FAILED') {
+      return {
         success: false,
         status,
         error: 'Image generation failed',
-      });
-    } else {
-      // Still processing
-      res
-        .status(202)
-        .json({ success: false, status, error: 'Still processing' });
+      };
     }
+
+    return {
+      success: false,
+      status,
+      error: 'Still processing',
+    };
   } catch (error) {
     console.error('[Freepik Check] Error:', error);
-    res
-      .status(500)
-      .json({ success: false, error: 'Failed to check task status' });
+    return {
+      success: false,
+      error: 'Failed to check task status',
+    };
   }
 }

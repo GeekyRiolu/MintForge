@@ -1,16 +1,19 @@
-import React, { useEffect } from 'react';
+import 'aos/dist/aos.css';
+
 import dynamic from 'next/dynamic';
 import { NextSeo } from 'next-seo';
+import React, { useEffect } from 'react';
+
+import HomeLayout from 'components/layouts/HomeLayout';
+
 import AOS from 'aos';
-import 'aos/dist/aos.css';
-import DefaultLayout from 'components/layouts/DefaultLayout';
 
 const AIGeneratorChat = dynamic(
   () =>
     import('components/modules/AIGenerator/AIGeneratorChat').then(
-      (mod) => mod.AIGeneratorChat
+      (mod) => mod.AIGeneratorChat,
     ),
-  { ssr: false }
+  { ssr: false },
 );
 
 export default function GenerateWithAI() {
@@ -32,88 +35,97 @@ export default function GenerateWithAI() {
         }}
       />
 
-      <div className="min-h-screen bg-gradient-to-b from-black via-gray-950 to-black pt-24 pb-12">
-        {/* Main Chat Container */}
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Title Section */}
-          <div className="mb-8 text-center" data-aos="fade-up">
-            <h1 className="text-4xl sm:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Create NFT with AI
-              </span>
-            </h1>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-              Describe your vision in words. Our AI will generate 3 unique NFT designs instantly.
-            </p>
-          </div>
+      <main className="bg-white pb-16 pt-28 text-black minlg:pt-36">
+        <section className="px-4 sm:px-6 lg:px-10">
+          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div className="lg:sticky lg:top-32" data-aos="fade-up">
+              <p className="mb-4 inline-flex rounded-full border border-black/10 bg-[#fff3c2] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em]">
+                Landing Page AI
+              </p>
 
-          {/* Chat Interface */}
-          <div className="mb-12" data-aos="fade-up" data-aos-delay="100">
-            <div className="h-[700px] rounded-2xl overflow-hidden">
-              <AIGeneratorChat
-                onGenerateImages={(prompt) => {
-                  console.log('Generated NFT for prompt:', prompt);
-                }}
-              />
+              <h1 className="max-w-xl text-[2.8rem] leading-[1.05] tracking-tight sm:text-[4.2rem] lg:text-[5.35rem]">
+                Keep the
+                <span className="textColorGradient"> Mintly feel</span>
+                <br />
+                while chatting with AI.
+              </h1>
+
+              <p className="mt-6 max-w-xl text-base leading-7 text-black/65 sm:text-lg">
+                This experience now uses the Vercel AI Chat SDK for the
+                conversation layer, but it still calls the same NFT generation
+                API you already wired up.
+              </p>
+
+              <div className="mt-8 grid gap-4 sm:grid-cols-3">
+                {[
+                  {
+                    title: 'Same backend',
+                    description:
+                      'Your existing image generation route is still the source of truth.',
+                  },
+                  {
+                    title: 'Chat-native UI',
+                    description:
+                      'The thread, streaming state, and assistant replies now run through Vercel AI chat.',
+                  },
+                  {
+                    title: 'Landing palette',
+                    description:
+                      'The screen now follows the homepage tone instead of the older neon AI styling.',
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.title}
+                    className="rounded-[1.75rem] border border-black/10 bg-[#faf5e8] p-5"
+                    data-aos="fade-up"
+                  >
+                    <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-black/90">
+                      {item.title}
+                    </h2>
+                    <p className="mt-3 text-sm leading-6 text-black/60">
+                      {item.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div data-aos="fade-up" data-aos-delay="100">
+              <div className="rounded-[2.25rem] bg-[#f9d54c] p-2 shadow-[0_30px_120px_rgba(0,0,0,0.12)]">
+                <div className="h-[760px] rounded-[2rem]">
+                  <AIGeneratorChat />
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Info Cards */}
-          <div className="grid md:grid-cols-3 gap-4 mt-12" data-aos="fade-up" data-aos-delay="200">
-            {[
-              {
-                icon: '✨',
-                title: 'AI-Powered',
-                description: 'Powered by Stable Diffusion for high-quality generations',
-              },
-              {
-                icon: '🎨',
-                title: '3 Variations',
-                description: 'Get 3 unique designs with every prompt',
-              },
-              {
-                icon: '⚡',
-                title: 'Instant',
-                description: 'Generate beautiful NFT art in seconds',
-              },
-            ].map((info, idx) => (
-              <div
-                key={idx}
-                className="p-4 rounded-xl bg-gray-800/40 border border-gray-700/50 hover:border-cyan-500/30 transition-all duration-300 hover:bg-gray-800/60"
-              >
-                <div className="text-3xl mb-2">{info.icon}</div>
-                <h3 className="font-semibold text-white mb-1">{info.title}</h3>
-                <p className="text-sm text-gray-400">{info.description}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Tips Section */}
-          <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/20" data-aos="fade-up" data-aos-delay="300">
-            <h2 className="text-lg font-semibold text-white mb-4">💡 Tips for Better Results</h2>
-            <div className="grid sm:grid-cols-2 gap-3">
+          <div
+            className="mx-auto mt-10 max-w-7xl rounded-[2rem] border border-black/10 bg-[#111111] px-6 py-6 text-white"
+            data-aos="fade-up"
+            data-aos-delay="150"
+          >
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               {[
-                '🎭 Be specific about art style (cyberpunk, watercolor, oil painting)',
-                '🌈 Describe colors and mood (vibrant, dark, ethereal)',
-                '🔍 Mention composition (close-up, panoramic, centered)',
-                '✨ Add lighting details (neon, sunset, dramatic shadows)',
-              ].map((tip, idx) => (
-                <div key={idx} className="flex items-start gap-2 text-sm text-gray-300">
-                  <span className="flex-shrink-0">{tip}</span>
+                'Use detailed subject nouns before style words for stronger generations.',
+                'Mention camera angle or framing if you want more consistent compositions.',
+                'Switch to Mystic Mode when realism matters more than response time.',
+                'The assistant reply streams through Vercel AI while the art still comes from your API.',
+              ].map((tip) => (
+                <div
+                  key={tip}
+                  className="rounded-[1.5rem] border border-white/10 bg-white/5 px-4 py-4 text-sm leading-6 text-white/75"
+                >
+                  {tip}
                 </div>
               ))}
             </div>
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
     </>
   );
 }
 
-GenerateWithAI.getLayout = function getLayout(page) {
-  return (
-    <DefaultLayout>
-      {page}
-    </DefaultLayout>
-  );
+GenerateWithAI.getLayout = function getLayout(page: React.ReactNode) {
+  return <HomeLayout>{page}</HomeLayout>;
 };

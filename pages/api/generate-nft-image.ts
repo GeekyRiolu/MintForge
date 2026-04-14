@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+import type { ImageGenerationProvider } from 'types/ai-chat';
+
 type ResponseData = {
   success: boolean;
   images?: string[];
@@ -7,45 +9,87 @@ type ResponseData = {
   taskId?: string;
 };
 
+type GenerationSuccess = {
+  success: true;
+  images: string[];
+  provider: ImageGenerationProvider;
+};
+
+type GenerationPending = {
+  success: true;
+  taskId: string;
+  provider: 'freepik';
+};
+
+type GenerationFailure = {
+  success: false;
+  error: string;
+};
+
+export type GenerateNftImagesResult =
+  | GenerationSuccess
+  | GenerationPending
+  | GenerationFailure;
+
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData>,
 ) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ success: false, error: 'Method not allowed' });
+    return res
+      .status(405)
+      .json({ success: false, error: 'Method not allowed' });
   }
 
   const { prompt, useFreepik } = req.body;
 
   if (!prompt || typeof prompt !== 'string') {
-    return res.status(400).json({ success: false, error: 'Prompt is required' });
+    return res
+      .status(400)
+      .json({ success: false, error: 'Prompt is required' });
   }
 
+  const result = await generateNftImages(prompt, Boolean(useFreepik));
+
+  if (!result.success) {
+    return res.status(500).json({ success: false, error: result.error });
+  }
+
+  if ('taskId' in result) {
+    return res.status(202).json({
+      success: true,
+      taskId: result.taskId,
+      images: [],
+    });
+  }
+
+  return res.status(200).json({ success: true, images: result.images });
+}
+
+export async function generateNftImages(
+  prompt: string,
+  useFreepik: boolean,
+): Promise<GenerateNftImagesResult> {
   try {
-    // Check if user wants to use Freepik Mystic API
     if (useFreepik) {
-      return await generateWithFreepik(prompt, res);
+      return await generateWithFreepik(prompt);
     }
 
-    // Default: Use Hugging Face Stable Diffusion
-    return await generateWithHuggingFace(prompt, res);
+    return await generateWithHuggingFace(prompt);
   } catch (error) {
     console.error('Generation error:', error);
-    res
-      .status(500)
-      .json({ success: false, error: 'Failed to generate images' });
+    return { success: false, error: 'Failed to generate images' };
   }
 }
 
 async function generateWithFreepik(
   prompt: string,
-  res: NextApiResponse<ResponseData>
-): Promise<void> {
-  const FREEPIK_API_KEY = process.env.FREEPIK_API_KEY;
+): Promise<GenerateNftImagesResult> {
+  const freepikApiKey = process.env.FREEPIK_API_KEY;
 
-  if (!FREEPIK_API_KEY) {
+  if (!freepikApiKey) {
     console.log('[Freepik] No API key found, falling back to Hugging Face');
-    return generateWithHuggingFace(prompt, res);
+    return generateWithHuggingFace(prompt);
   }
 
   try {
@@ -57,7 +101,7 @@ async function generateWithFreepik(
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-freepik-api-key': FREEPIK_API_KEY,
+        'x-freepik-api-key': freepikApiKey,
       },
       body: JSON.stringify({
         prompt: enhancedPrompt,
@@ -78,102 +122,104 @@ async function generateWithFreepik(
     }
 
     const data = await response.json();
-    console.log('[Freepik] Task created:', data.data?.task_id);
+    const taskId = data.data?.task_id;
+    console.log('[Freepik] Task created:', taskId);
 
-    if (data.data?.task_id) {
-      // Freepik uses async generation, return task ID for polling
-      res.status(202).json({
+    if (taskId) {
+      return {
         success: true,
-        taskId: data.data.task_id,
-        images: [],
-      });
-    } else {
-      throw new Error('No task ID returned from Freepik');
+        taskId,
+        provider: 'freepik',
+      };
     }
+
+    throw new Error('No task ID returned from Freepik');
   } catch (error) {
     console.error('[Freepik] Error:', error);
-    // Fallback to Hugging Face
-    return generateWithHuggingFace(prompt, res);
+    return generateWithHuggingFace(prompt);
   }
 }
 
 async function generateWithHuggingFace(
   prompt: string,
-  res: NextApiResponse<ResponseData>
-): Promise<void> {
-  const HF_API_KEY = process.env.HUGGINGFACE_API_KEY;
+): Promise<GenerateNftImagesResult> {
+  const huggingFaceApiKey = process.env.HUGGINGFACE_API_KEY;
 
-  console.log('[HuggingFace] API Key present:', !!HF_API_KEY);
+  console.log('[HuggingFace] API Key present:', !!huggingFaceApiKey);
   console.log('[HuggingFace] Prompt:', prompt);
 
-  if (!HF_API_KEY) {
+  if (!huggingFaceApiKey) {
     console.log('[HuggingFace] No API key, using placeholders');
-    const images = generatePlaceholderImages(prompt);
-    return res.status(200).json({ success: true, images });
+    return {
+      success: true,
+      images: generatePlaceholderImages(prompt),
+      provider: 'placeholder',
+    };
   }
 
   const images: string[] = [];
 
-  // Generate 3 images
-  for (let i = 0; i < 3; i++) {
+  for (let index = 0; index < 3; index += 1) {
     try {
-      const enhancedPrompt = `${prompt}, NFT art style, digital art, high quality, 4k${i > 0 ? `, variation ${i + 1}` : ''}`;
+      const enhancedPrompt = `${prompt}, NFT art style, digital art, high quality, 4k${index > 0 ? `, variation ${index + 1}` : ''}`;
 
-      console.log(`[HuggingFace] Generating image ${i + 1}/3...`);
+      console.log(`[HuggingFace] Generating image ${index + 1}/3...`);
 
       const response = await fetch(
         'https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5',
         {
+          method: 'POST',
           headers: {
-            Authorization: `Bearer ${HF_API_KEY}`,
+            Authorization: `Bearer ${huggingFaceApiKey}`,
             'Content-Type': 'application/json',
           },
-          method: 'POST',
           body: JSON.stringify({
             inputs: enhancedPrompt,
           }),
-        }
+        },
       );
 
       console.log(`[HuggingFace] Response status: ${response.status}`);
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error(`[HuggingFace] API Error:`, response.status, errorText);
+        console.error('[HuggingFace] API Error:', response.status, errorText);
         throw new Error(`HF API error: ${response.statusText}`);
       }
 
       const arrayBuffer = await response.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
       const base64 = buffer.toString('base64');
-      console.log(`[HuggingFace] Image ${i + 1} generated, size: ${base64.length} bytes`);
+      console.log(
+        `[HuggingFace] Image ${index + 1} generated, size: ${base64.length} bytes`,
+      );
       images.push(`data:image/png;base64,${base64}`);
     } catch (error) {
-      console.error(`[HuggingFace] Error generating image ${i + 1}:`, error);
-      images.push(generatePlaceholderImage(prompt, i));
+      console.error(
+        `[HuggingFace] Error generating image ${index + 1}:`,
+        error,
+      );
+      images.push(generatePlaceholderImage(prompt, index));
     }
   }
 
   console.log('[HuggingFace] All images generated successfully');
-  res.status(200).json({ success: true, images });
+
+  return {
+    success: true,
+    images,
+    provider: 'huggingface',
+  };
 }
 
 function generatePlaceholderImages(prompt: string): string[] {
-  return Array.from({ length: 3 }, (_, i) =>
-    generatePlaceholderImage(prompt, i)
+  return Array.from({ length: 3 }, (_, index) =>
+    generatePlaceholderImage(prompt, index),
   );
 }
 
 function generatePlaceholderImage(prompt: string, index: number): string {
-  // Create a colorful SVG placeholder
-  const colors = [
-    '#6366f1',
-    '#8b5cf6',
-    '#d946ef',
-    '#ec4899',
-    '#f43f5e',
-    '#f97316'
-  ];
+  const colors = ['#6366f1', '#8b5cf6', '#d946ef', '#ec4899', '#f43f5e', '#f97316'];
   const color = colors[index % colors.length];
 
   const svg = `
