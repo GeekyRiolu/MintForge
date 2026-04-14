@@ -1,0 +1,40 @@
+mutation UpdateProfileView($input: UpdateProfileViewInput) {
+  updateProfileView(input: $input) {
+    id
+    bannerURL
+    createdAt
+    chainId
+    description
+    displayType
+    layoutType
+    followersCount
+    isFollowedByMe
+    isOwnedByMe
+    isLikedByUser
+    gkIconVisible
+    nftsDescriptionsVisible
+    deployedContractsVisible
+    owner {
+      id
+      address
+      chainId
+      chainName
+      network
+      createdAt
+    }
+    tokenId
+    photoURL
+    status
+    url
+    winningBid {
+      id
+      nftType
+      price
+      stakeWeightedSeconds
+      status
+      createdAt
+      updatedAt
+    }
+    profileView
+  }
+}

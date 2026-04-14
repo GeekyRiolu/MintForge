@@ -1,0 +1,8 @@
+{
+    "mainnet": {
+        "profileUrl": "chris"
+    },
+    "testnet": {
+        "profileUrl": "just_toby"
+    }
+}

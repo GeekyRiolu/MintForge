@@ -1,0 +1,43 @@
+query GetNFTDetails($input: NFTDetailInput) {
+  getNFTDetails(input: $input) {
+    response
+    nft {
+      chain
+      contract_address
+      token_id
+      metadata_url
+      metadata {
+        description
+        background_color
+        external_url
+        image
+        name
+        animation_url
+      }
+      file_information {
+        height
+        width
+        file_size
+      }
+      file_url
+      animation_url
+      cached_file_url
+      cached_animation_url
+      mint_date
+      updated_date
+    }
+    owner
+    contract {
+      name
+      symbol
+      type
+      metadata {
+        description
+        thumbnail_url
+        cached_thumbnail_url
+        banner_url
+        cached_banner_url
+      }
+    }
+  }
+}

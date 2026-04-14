@@ -1,0 +1,112 @@
+query NotificationActivities($input: TxActivitiesInput) {
+    getActivities(input: $input) {
+        totalItems
+        pageInfo {
+            firstCursor
+            lastCursor
+        }
+        items {
+            id
+            read
+            chainId
+            activityType
+            activityTypeId
+            timestamp
+            walletAddress
+            nftContract
+            nftId
+            status
+            transaction {
+              transactionHash
+                protocol
+        protocolData {
+         ... on TxSeaportProtocolData {
+            offer {
+            itemType
+            token
+            identifierOrCriteria
+            startAmount
+            endAmount
+            }
+            consideration {
+            itemType
+            token
+            identifierOrCriteria
+            startAmount
+            endAmount
+            recipient
+            }
+        }
+          ... on TxLooksrareProtocolData {
+            isOrderAsk
+            signer
+            collectionAddress
+            price
+            tokenId
+            amount
+            strategy
+            currencyAddress
+            nonce
+            startTime
+            endTime
+            minPercentageToAsk
+            params
+            v
+            r
+            s
+          }
+          ... on TxX2Y2ProtocolData {
+            currency
+            amount
+            orderSalt
+            settleSalt
+            intent
+            delegateType
+            deadline
+            data
+          }
+          ... on TxNFTCOMProtocolData {
+            makeAsset {
+            standard {
+                assetClass
+                bytes
+                contractAddress
+                tokenId
+                allowAll
+            }
+            nftId
+            bytes
+            value
+            minimumBid
+            }
+            takeAsset {
+            standard {
+                assetClass
+                bytes
+                contractAddress
+                tokenId
+                allowAll
+            }
+            nftId
+            bytes
+            value
+            minimumBid
+            }
+            swapTransactionId
+            acceptedAt
+            rejectedAt
+            listingId
+            buyNowTaker
+            auctionType
+            salt
+            start
+            end
+            private
+            listingOrderId
+            bidOrderId
+        }
+        }
+      }
+        }
+    }
+}

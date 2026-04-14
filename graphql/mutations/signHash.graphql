@@ -1,0 +1,6 @@
+mutation SignHash($input: SignHashInput!) {
+  signHash(input: $input) {
+    signature
+    hash
+  }
+}

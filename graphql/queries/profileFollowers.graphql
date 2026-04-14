@@ -1,0 +1,13 @@
+query ProfileFollowers($input: FollowersInput!) {
+  profileFollowers(input: $input) {
+    pageInfo {
+      firstCursor
+      lastCursor
+    }
+    items {
+      address
+      chainId
+      network
+    }
+  }
+}

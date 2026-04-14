@@ -1,0 +1,14 @@
+query ProfilesByDisplayedNft($input: ProfilesByDisplayNftInput!) {
+  profilesByDisplayNft(input: $input) {
+    items {
+      id
+      photoURL
+      url
+    }
+    pageInfo {
+      firstCursor
+      lastCursor
+    }
+    totalItems
+  }
+}

@@ -1,0 +1,41 @@
+mutation UpdateWalletProfileId($profileId: ID!) {
+  updateWalletProfileId(profileId: $profileId) {
+    id
+    address
+    chainId
+    chainName
+    network
+    profileId
+    preferredProfile {
+      id
+      bannerURL
+      createdAt
+      chainId
+      description
+      displayType
+      layoutType
+      followersCount
+      isFollowedByMe
+      isOwnedByMe
+      gkIconVisible
+      nftsDescriptionsVisible
+      deployedContractsVisible
+      tokenId
+      photoURL
+      status
+      url
+      profileView
+    }
+    user {
+      id
+      avatarURL
+      email
+      chainId
+      username
+      isEmailConfirmed
+      referredBy
+      referralId
+    }
+    createdAt
+  }
+}

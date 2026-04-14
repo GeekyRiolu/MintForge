@@ -1,0 +1,8 @@
+query AssociatedCollectionForProfile($profile: String!, $chainId: String) {
+  associatedCollectionForProfile(url: $profile, chainId: $chainId) {
+    collection {
+        deployer
+        contract
+    }
+  }
+}

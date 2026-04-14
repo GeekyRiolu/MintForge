@@ -1,0 +1,5 @@
+mutation CreateApproval($input: ApprovalInput!) {
+  approveAmount(input: $input) {
+    id
+  }
+}

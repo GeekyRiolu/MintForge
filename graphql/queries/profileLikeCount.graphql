@@ -1,0 +1,7 @@
+query ProfileLikeCount($url: String!, $chainId: String!, $likedById: ID!) {
+  profile(url: $url, chainId: $chainId) {
+    likeCount
+    isLikedByUser
+    isLikedBy(likedById: $likedById)
+  }
+}

@@ -1,0 +1,18 @@
+{
+    "title": "test blog post",
+    "slug": "test-blog-post",
+    "heroImage": {
+     "url": "https://nft-llc.mypinata.cloud/ipfs/QmQwXG9uuU92QzsEPW2ami1yhYbR1c1k6BWh9VJhz6sLSb",
+     "description": "Hero Image"
+    },
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut lobortis diam metus, sed porttitor ex fermentum nec. Cras vel metus eu lorem fermentum condimentum et ut enim. Duis dictum malesuada mi, in sagittis sem elementum eget. Pellentesque sit amet erat porta, gravida purus non, varius risus.",
+    "author": {
+     "name": "John Doe",
+     "image": {
+         "url": "https://nft-llc.mypinata.cloud/ipfs/QmQwXG9uuU92QzsEPW2ami1yhYbR1c1k6BWh9VJhz6sLSb",
+         "description": "Author Image"
+     }
+    },
+    "body": "test",
+    "publishDate": "09/01/2003"
+}

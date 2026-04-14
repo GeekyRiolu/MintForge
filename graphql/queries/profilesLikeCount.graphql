@@ -1,0 +1,7 @@
+query ProfilesLikeCount($input: [ProfilesByURLInput!]!, $likedById: ID!) {
+  profiles(input: $input) {
+    likeCount
+    isLikedByUser
+    isLikedBy(likedById: $likedById)
+  }
+}

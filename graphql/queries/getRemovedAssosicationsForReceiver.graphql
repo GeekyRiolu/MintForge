@@ -1,0 +1,8 @@
+query GetRemovedAssociationsForReceiver {
+  getRemovedAssociationsForReceiver {
+    id
+    url
+    owner
+    hidden
+  }
+}

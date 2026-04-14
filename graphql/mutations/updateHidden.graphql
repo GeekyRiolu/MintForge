@@ -1,0 +1,5 @@
+mutation UpdateHidden($input: UpdateHiddenInput!) {
+  updateHidden(input: $input) {
+    message
+  }
+}

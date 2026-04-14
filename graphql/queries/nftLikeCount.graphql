@@ -1,0 +1,12 @@
+query NftLikeCount(
+  $contract: Address!, 
+  $id: String!, 
+  $chainId: String,
+  $likedById: ID!
+) {
+  nft(contract: $contract, id: $id, chainId: $chainId) {
+    isLikedBy(likedById: $likedById)
+    isLikedByUser
+    likeCount
+  }
+}

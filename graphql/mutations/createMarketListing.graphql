@@ -1,0 +1,19 @@
+mutation CreateMarketListing($input: CreateListingInput!) {
+  createMarketListing(input: $input) {
+    id
+    orderHash
+    nonce
+    signature {
+      v
+      r
+      s
+    }
+    makerAddress
+    start
+    end
+    salt
+    chainId
+    auctionType
+    memo
+  }
+}

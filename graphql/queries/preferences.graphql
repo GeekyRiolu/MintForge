@@ -1,0 +1,11 @@
+query MyPreferences {
+  me {
+    preferences {
+      outbidNotifications
+      bidActivityNotifications
+      priceChangeNotifications
+      promotionalNotifications
+      purchaseSuccessNotifications
+    }
+  }
+}

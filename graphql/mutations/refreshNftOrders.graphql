@@ -1,0 +1,3 @@
+mutation RefreshNftOrders($id: ID!, $ttl: DateTime, $force: Boolean) {
+  refreshNFTOrder(id: $id, ttl: $ttl, force: $force)
+}

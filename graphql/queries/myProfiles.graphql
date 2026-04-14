@@ -1,0 +1,32 @@
+# include input for pagination data.
+query MyProfiles($input: ProfilesInput) {
+  myProfiles(input: $input) {
+    pageInfo {
+      firstCursor
+      lastCursor
+    }
+    items {
+      photoURL
+      status
+      id
+      url
+      winningBid {
+        id
+        price
+        profile {
+          id
+          url
+        }
+        wallet {
+          id
+          address
+        }
+        signature {
+          v
+          r
+          s
+        }
+      }
+    }
+  }
+}

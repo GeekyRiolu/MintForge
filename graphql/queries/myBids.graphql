@@ -1,0 +1,27 @@
+query MyBids($input: BidsInput) {
+  myBids(input: $input) {
+    items {
+      id
+      status
+      price
+      updatedAt
+      createdAt
+      stakeWeightedSeconds
+      profile {
+        url
+      }
+      wallet {
+        address
+      }
+      signature {
+        r
+        s
+        v
+      }
+    }
+    pageInfo {
+      firstCursor
+      lastCursor
+    }
+  }
+}

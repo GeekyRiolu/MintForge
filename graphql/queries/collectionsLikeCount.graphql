@@ -1,0 +1,7 @@
+query CollectionsLikeCount($input: [CollectionInput!]!, $likedById: ID!) {
+  collections(input: $input) {
+    isLikedByUser
+    isLikedBy(likedById: $likedById)
+    likeCount
+  }
+}

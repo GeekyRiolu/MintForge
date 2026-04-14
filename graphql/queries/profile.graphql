@@ -1,0 +1,38 @@
+query Profile($url: String!, $chainId: String!, $likedById: ID!) {
+  profile(url: $url, chainId: $chainId) {
+    id
+    url
+    associatedContract
+    status
+    bannerURL
+    photoURL
+    description
+    gkIconVisible
+    nftsDescriptionsVisible
+    deployedContractsVisible
+    layoutType
+    isGKMinted
+    ownerWalletId
+    ownerUserId
+    likeCount
+    isLikedByUser
+    isLikedBy(likedById: $likedById)
+    tokenId
+    owner {
+      address
+      chainId
+      network
+      preferredProfile {
+        url
+        id
+      }
+    }
+    profileView
+    usersActionsWithPoints {
+      totalPoints
+      userId
+      action
+    }
+    hideCustomization
+  }
+}

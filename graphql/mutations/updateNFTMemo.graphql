@@ -1,0 +1,6 @@
+mutation UpdateNFTMemo($nftId: ID!, $memo: String!) {
+  updateNFTMemo(nftId: $nftId, memo: $memo) {
+    memo
+    tokenId
+  }
+}

@@ -1,0 +1,5 @@
+query ProfileVisibleNFTCount($profileIds: [String!]!, $chainId: String) {
+  profileVisibleNFTCount(profileIds: $profileIds, chainId: $chainId) {
+    visibleNFTs
+  }
+}

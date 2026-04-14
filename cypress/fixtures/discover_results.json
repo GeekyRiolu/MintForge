@@ -1,0 +1,185 @@
+{
+    "facet_counts":[
+       
+    ],
+    "found":51,
+    "hits":[
+       {
+          "document":{
+             "chain":"1",
+             "contractAddr":"0xf76F0CAF5Db8CA73f68C3AEB6C35257D634283d5",
+             "contractName":"The Toy Boogers NFT",
+             "description":"",
+             "floor":1.12,
+             "id":"goK8PpzlpsW8N3hgvmut_",
+             "nftType":"ERC1155"
+          },
+          "highlights":[
+             {
+                "field":"contractName",
+                "matched_tokens":[
+                   "NFT"
+                ],
+                "snippet":"The Toy Boogers <mark>NFT</mark>"
+             }
+          ],
+          "text_match":282583068049411
+       },
+       {
+          "document":{
+             "chain":"1",
+             "contractAddr":"0xb163292cB92C9039e5902dE29a43df9dF8dDD89d",
+             "contractName":"Kuroki Nft",
+             "description":"",
+             "floor":4.85,
+             "id":"ghj1BzSKZDv262QoaQ3aC",
+             "nftType":"ERC721"
+          },
+          "highlights":[
+             {
+                "field":"contractName",
+                "matched_tokens":[
+                   "Nft"
+                ],
+                "snippet":"Kuroki <mark>Nft</mark>"
+             }
+          ],
+          "text_match":282583068049411
+       },
+       {
+          "document":{
+             "chain":"1",
+             "contractAddr":"0x5845E8E62522a5AbCF689759431F9D63b13BcFfA",
+             "contractName":"McLaren Genesis NFT",
+             "description":"",
+             "floor":4.45,
+             "id":"FUmkqgJpyz5CtYCF_BK2z",
+             "nftType":"ERC1155"
+          },
+          "highlights":[
+             {
+                "field":"contractName",
+                "matched_tokens":[
+                   "NFT"
+                ],
+                "snippet":"McLaren Genesis <mark>NFT</mark>"
+             }
+          ],
+          "text_match":282583068049411
+       },
+       {
+          "document":{
+             "chain":"1",
+             "contractAddr":"0x3CE341ebeBb3341d3878c7Ff22A94d30B7E25df8",
+             "contractName":"DOOMSDAYX Gen 01: Haleek Maul Producer NFT",
+             "description":"",
+             "floor":3.52,
+             "id":"yDvQUZ_6LKkU7GQ91hRAN",
+             "nftType":"ERC721"
+          },
+          "highlights":[
+             {
+                "field":"contractName",
+                "matched_tokens":[
+                   "NFT"
+                ],
+                "snippet":"DOOMSDAYX Gen 01: Haleek Maul Producer <mark>NFT</mark>"
+             }
+          ],
+          "text_match":282583068049411
+       },
+       {
+          "document":{
+             "chain":"1",
+             "contractAddr":"0x2Bdc536ce434BF6c012F49db90B726042368b6eb",
+             "contractName":"Fish Tank NFT",
+             "description":"",
+             "floor":4.09,
+             "id":"hohKy2ohJJbCahI4qYRv0",
+             "nftType":"ERC721"
+          },
+          "highlights":[
+             {
+                "field":"contractName",
+                "matched_tokens":[
+                   "NFT"
+                ],
+                "snippet":"Fish Tank <mark>NFT</mark>"
+             }
+          ],
+          "text_match":282583068049411
+       },
+       {
+          "document":{
+             "chain":"1",
+             "contractAddr":"0x79Fdd68171b70271e98A06d2B7888a2a7D8ab5d6",
+             "contractName":"Sussy Sharks NFT",
+             "description":"",
+             "floor":2.08,
+             "id":"FP9gNrRNstvFJPoTKednA",
+             "nftType":"ERC1155"
+          },
+          "highlights":[
+             {
+                "field":"contractName",
+                "matched_tokens":[
+                   "NFT"
+                ],
+                "snippet":"Sussy Sharks <mark>NFT</mark>"
+             }
+          ],
+          "text_match":282583068049411
+       },
+       {
+          "document":{
+             "chain":"1",
+             "contractAddr":"0x497c53acF3133BC94BFF89A95e741B659c589b3b",
+             "contractName":"Legend of Asia NFT",
+             "description":"",
+             "floor":3.36,
+             "id":"ihNJ_aiY8IdEkH4tm5hjD",
+             "nftType":"ERC1155"
+          },
+          "highlights":[
+             {
+                "field":"contractName",
+                "matched_tokens":[
+                   "NFT"
+                ],
+                "snippet":"Legend of Asia <mark>NFT</mark>"
+             }
+          ],
+          "text_match":282583068049411
+       },
+       {
+          "document":{
+             "chain":"1",
+             "contractAddr":"0x8910f83dE861479DCaE09F91a8C12D9C20A7c75b",
+             "contractName":"NFT Finesser",
+             "description":"",
+             "floor":0.61,
+             "id":"s-sa9UMKF8f1qbXWio5g4",
+             "nftType":"ERC721"
+          },
+          "highlights":[
+             {
+                "field":"contractName",
+                "matched_tokens":[
+                   "NFT"
+                ],
+                "snippet":"<mark>NFT</mark> Finesser"
+             }
+          ],
+          "text_match":282583068049411
+       }
+    ],
+    "out_of":2159,
+    "page":1,
+    "request_params":{
+       "collection_name":"collections",
+       "per_page":8,
+       "q":"nft"
+    },
+    "search_cutoff":false,
+    "search_time_ms":0
+ }

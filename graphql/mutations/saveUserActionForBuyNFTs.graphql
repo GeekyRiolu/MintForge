@@ -1,0 +1,5 @@
+mutation SaveUserActionForBuyNFTs($profileUrl: String!) {
+  saveUserActionForBuyNFTs(profileUrl: $profileUrl) {
+    message
+  }
+}

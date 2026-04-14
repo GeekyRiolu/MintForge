@@ -1,0 +1,9 @@
+mutation UploadProfileImages(
+  $input: UploadProfileImagesInput!
+) {
+  uploadProfileImages(
+    input: $input
+  ) {
+    id
+  }
+}

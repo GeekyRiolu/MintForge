@@ -1,0 +1,26 @@
+query TopBids($input: TopBidsInput) {
+  topBids(input: $input) {
+    pageInfo {
+      firstCursor
+      lastCursor
+    }
+    totalItems
+    items {
+      id
+      status
+      wallet {
+        address
+      }
+      price
+      profile {
+        url
+        createdAt
+        bannerURL
+        photoURL
+        owner {
+          address
+        }
+      }
+    }
+  }
+}

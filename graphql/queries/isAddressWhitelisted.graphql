@@ -1,0 +1,3 @@
+query IsAddressWhitelisted($input: WhitelistCheckInput) {
+  isAddressWhitelisted(input: $input)
+}

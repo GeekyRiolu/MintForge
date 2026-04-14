@@ -1,0 +1,6 @@
+mutation SignHashProfile($profileUrl: String!) {
+  signHashProfile(profileUrl: $profileUrl) {
+    signature
+    hash
+  }
+}

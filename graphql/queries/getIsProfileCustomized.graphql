@@ -1,0 +1,3 @@
+query Query($url: String!, $chainId: String) {
+  isProfileCustomized(url: $url, chainId: $chainId)
+}

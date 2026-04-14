@@ -1,0 +1,6 @@
+mutation UpdateActivityStatus($ids: [String]!, $status: ActivityStatus) {
+  updateStatusByIds(ids: $ids, status: $status) {
+    updatedIdsSuccess
+    idsNotFoundOrFailed
+  }
+}

@@ -1,0 +1,3 @@
+query ProfileBlocklist($url: String!, $blockReserved: Boolean!) {
+  blockedProfileURI(url: $url, blockReserved: $blockReserved)
+}

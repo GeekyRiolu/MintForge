@@ -1,0 +1,5 @@
+mutation CreateBid($input: BidInput!) {
+  bid(input: $input) {
+    id
+  }
+}

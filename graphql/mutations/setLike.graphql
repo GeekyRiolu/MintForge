@@ -1,0 +1,10 @@
+mutation SetLike($input: SetLikeInput!) {
+  setLike(input: $input) {
+    id
+    createdAt
+    updatedAt
+    likedById
+    likedId
+    likedType
+  }
+}

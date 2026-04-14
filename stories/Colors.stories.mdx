@@ -1,0 +1,73 @@
+{/* Colors.stories.mdx */}
+
+import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs';
+
+<Meta title="Style Guide/Colors" />
+
+## Brand Colors
+<ColorPalette>
+  <ColorItem
+    title="Text Colors"
+    colors={{ Primary: '#000000', PrimaryHover: '#4D4D4D', Grey: '#6A6A6A', LightGrey: '#B2B2B2', Yellow: '#E4BA18', White: '#FFFFFF' }}
+  />
+  <ColorItem 
+    title="Background Colors" 
+    colors={{ Black: '#000000', Grey: '#F2F2F2', LightGrey: '#FBFBFB', Yellow: '#FCE795', LightYellow: '#FFF4CA', White: '#FFFFFF'  }} 
+  />
+  <ColorItem 
+    title="Accent Yellow" 
+    colors={{ Yellow: '#F9D54C' }} 
+  />
+  <ColorItem 
+    title="Accent Gradient" 
+    colors={{ Gradient: 'linear-gradient(90deg, #FAC213 0%, #FF9B37 100%)' }} 
+  />
+  <ColorItem 
+    title="Accent Gradient (Logo)" 
+    colors={{ Yellow: 'linear-gradient(324.29deg, #FDCC00 19.68%, #FF9D39 68.47%)' }} 
+  />
+</ColorPalette>
+
+## Buttons
+<ColorPalette>
+  <ColorItem
+    title="Button Primary"
+    colors={{ Background: '#F9D54C', Hover: '#EFC71E', Focus: '#E4BA18', Text: '#000000' }}
+  />
+  <ColorItem 
+    title="Button Secondary" 
+    colors={{ Background: '#000000', Hover: '#282828', Focus: '#414141', Text: '#FFFFFF'  }} 
+  />
+  <ColorItem 
+    title="Button Tertiary" 
+    colors={{ Base: '#000000', Hover: '#4D4D4D', Focus: '#969696' }} 
+  />
+  <ColorItem 
+    title="Button Disabled" 
+    colors={{ Background: '#E6E6E6', Text: '#969696' }} 
+  />
+</ColorPalette>
+
+## Inputs
+<ColorPalette>
+  <ColorItem
+    title="Inputs"
+    colors={{ Background: '#F8F8F8', Border: '#ECECEC', BorderFocus: '#F9D54C' }}
+  />
+</ColorPalette>
+
+## Alerts
+<ColorPalette>
+  <ColorItem
+    title="Success"
+    colors={{ Text: '#26AA73', TextLight: '#3EC98E', Background: '#C1F4DE', BackgroundLight: '#F0FFF9' }}
+  />
+  <ColorItem
+    title="Warning"
+    colors={{ Text: '#E2A200', TextLight: '#FFC737', Background: '#FFF0CB', BackgroundLight: '#FFF9ED' }}
+  />
+  <ColorItem
+    title="Error"
+    colors={{ Text: '#E43D20', TextLight: '#E45E47', Background: '#FCE3E3', BackgroundLight: '#FFF8F7' }}
+  />
+</ColorPalette>

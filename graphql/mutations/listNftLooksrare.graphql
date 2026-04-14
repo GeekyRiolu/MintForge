@@ -1,0 +1,3 @@
+mutation ListNftLooksrare($input: ListNFTLooksrareInput!) {
+  listNFTLooksrare(input: $input)
+}

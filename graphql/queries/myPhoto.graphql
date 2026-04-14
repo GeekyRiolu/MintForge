@@ -1,0 +1,5 @@
+query MyPhoto {
+  me {
+    avatarURL
+  }
+}

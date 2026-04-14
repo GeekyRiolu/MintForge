@@ -1,0 +1,7 @@
+mutation ProfileClaimed($input: ProfileClaimedInput!) {
+  profileClaimed(input: $input) {
+    status
+    url
+    id
+  }
+}

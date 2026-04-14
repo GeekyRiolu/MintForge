@@ -1,0 +1,16 @@
+query IgnoredEvents($input: IgnoredEventsInput!) {
+  ignoredEvents(input: $input) {
+    id
+    chainId
+    contract
+    eventName
+    txHash
+    ownerAddress
+    profileUrl
+    destinationAddress
+    blockNumber
+    ignore
+    hideIgnored
+    hidden
+  }
+}

@@ -1,0 +1,7 @@
+query GetRejectedAssociations($profileUrl: String!) {
+  getRejectedAssociations(profileUrl: $profileUrl) {
+    hidden
+    id
+    receiver
+  }
+}

@@ -1,0 +1,6 @@
+mutation UpdateReadByIds($ids: [String]!) {
+  updateReadByIds(ids: $ids) {
+    updatedIdsSuccess
+    idsNotFoundOrFailed
+  }
+}

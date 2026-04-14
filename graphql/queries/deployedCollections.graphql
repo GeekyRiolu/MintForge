@@ -1,0 +1,7 @@
+query DeployedCollections($deployer: String!) {
+  collectionsByDeployer(deployer: $deployer) {
+    id
+    contract
+    name
+  }
+}

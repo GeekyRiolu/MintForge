@@ -1,0 +1,11 @@
+query GetSeaportSignatures($input: GetSeaportSignaturesInput) {
+  getSeaportSignatures(input: $input) { 
+        orderHash
+        protocol
+        protocolData {
+            ... on SeaportProtocolData {
+                signature
+            }
+        }
+    }
+}

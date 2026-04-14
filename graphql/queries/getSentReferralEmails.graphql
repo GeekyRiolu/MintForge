@@ -1,0 +1,7 @@
+query GetSentReferralEmails($profileUrl: String!) {
+  getSentReferralEmails(profileUrl: $profileUrl) {
+    accepted
+    email
+    timestamp
+  }
+}

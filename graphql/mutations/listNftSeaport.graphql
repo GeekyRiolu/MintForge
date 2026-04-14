@@ -1,0 +1,3 @@
+mutation ListNftSeaport($input: ListNFTSeaportInput!) {
+  listNFTSeaport(input: $input)
+}

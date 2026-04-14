@@ -1,0 +1,12 @@
+{
+    "mainnet": {
+        "contract": "0x8fB5a7894AB461a59ACdfab8918335768e411414",
+        "tokenId": "330",
+        "expectedName": "NFT.com Genesis Key #00330"
+    },
+    "testnet": {
+        "contract": "0xe0060010c2c81A817f4c52A9263d4Ce5c5B66D55",
+        "tokenId": "2757",
+        "expectedName": "NFT.com Genesis Key #2757"
+    }
+}

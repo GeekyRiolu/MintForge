@@ -1,0 +1,31 @@
+# query UserBids($input: BidsInput) {
+#   bids(input: $input) {
+#     items {
+#       id
+#       price
+#       createdAt
+#       updatedAt
+#       profile {
+#         id
+#         url
+#         status
+#       }
+#       signature {
+#         r
+#         v
+#         s
+#       }
+#       wallet {
+#         id
+#         address
+#         network
+#         chainId
+#       }
+#     }
+#     totalItems
+#     pageInfo {
+#       firstCursor
+#       lastCursor
+#     }
+#   }
+# }

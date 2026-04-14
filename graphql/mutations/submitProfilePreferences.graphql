@@ -1,0 +1,8 @@
+mutation SubmitProfilePreferences($input: ProfilePreferenceInput!) {
+  setProfilePreferences(input: $input) {
+    id
+    profile {
+      url
+    }
+  }
+}

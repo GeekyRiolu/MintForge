@@ -1,0 +1,10 @@
+query GetSales($input: TransactionSalesInput) {
+  getSales(input: $input) {
+    contractAddress
+    tokenId
+    priceUSD
+    price
+    symbol
+    date
+  }
+}

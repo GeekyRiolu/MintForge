@@ -1,0 +1,6 @@
+mutation AddToWatchlist($url: String!) {
+  followProfile(url: $url) {
+    id
+    isFollowedByMe
+  }
+}

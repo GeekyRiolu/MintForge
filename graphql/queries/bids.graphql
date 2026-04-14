@@ -1,0 +1,23 @@
+# query Bids($input: BidsInput) {
+#   bids(input: $input) {
+#     items {
+#       id
+#       updatedAt
+#       createdAt
+#       stakeWeightedSeconds
+#       status
+#       price
+#       wallet {
+#         address
+#       }
+#       profile {
+#         url
+#       }
+#     }
+#     totalItems
+#     pageInfo {
+#       firstCursor
+#       lastCursor
+#     }
+#   }
+# }

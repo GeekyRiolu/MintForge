@@ -1,0 +1,17 @@
+# include input for pagination
+query Watchlist($input: ProfilesInput) {
+  profilesFollowedByMe(input: $input) {
+    pageInfo {
+      firstCursor
+      lastCursor
+    }
+    items {
+      id
+      status
+      url
+      winningBid {
+        price
+      }
+    }
+  }
+}

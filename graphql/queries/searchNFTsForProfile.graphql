@@ -1,0 +1,46 @@
+query SearchNFTsForProfile($input: SearchNFTsForProfileInput!) {
+  searchNFTsForProfile(input: $input) {
+    pageInfo {
+      firstCursor
+      lastCursor
+    }
+    totalItems
+    items {
+      isOwnedByMe
+      previewLink
+      wallet {
+        address
+      }
+      contract
+      tokenId
+      id
+      type
+      listings {
+        items {
+          status
+          order {
+            protocolData {
+              ... on LooksrareProtocolData {
+                price
+              }
+              ... on X2Y2ProtocolData {
+                price
+              }
+              ... on SeaportProtocolData {
+                parameters {
+                  orderType
+                }
+                signature
+              }
+            }
+          }
+        }
+      }
+      metadata {
+        imageURL
+        description
+        name
+      }
+    }
+  }
+}

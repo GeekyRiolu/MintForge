@@ -1,0 +1,19 @@
+query Leaderboard($input: LeaderboardInput) {
+  leaderboard(input: $input) {
+    pageInfo {
+      firstCursor
+      lastCursor
+    }
+    totalItems
+    items {
+      index
+      id
+      url
+      photoURL
+      numberOfGenesisKeys
+      numberOfCollections
+      itemsVisible
+      isGKMinted
+    }
+  }
+}

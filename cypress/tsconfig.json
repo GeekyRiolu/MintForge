@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "jsx": "preserve",
+    "lib": [
+      "es5",
+      "dom"
+    ],
+    "types": [
+      "cypress",
+      "@testing-library/cypress",
+      "@testing-library/react-hooks",
+      "@testing-library/dom",
+      "@4tw/cypress-drag-drop",
+      "node"
+    ],
+    "resolveJsonModule": true,
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "../../**/*.ts",
+    "../../component/**/*.tsx",
+    "../../component/**/*.ts",
+  ]
+}

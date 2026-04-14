@@ -1,0 +1,11 @@
+query OfficialCollectionNFTs($input: OfficialCollectionNFTsInput!) {
+  officialCollectionNFTs(input: $input) {
+    items {
+      id
+      tokenId
+      updatedAt
+    }
+    totalItems
+    pageCount
+  }
+}

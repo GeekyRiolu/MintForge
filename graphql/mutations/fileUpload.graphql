@@ -1,0 +1,8 @@
+mutation FileUpload {
+  uploadFileSession {
+    bucket
+    accessKey
+    secretKey
+    sessionToken
+  }
+}

@@ -1,0 +1,3 @@
+query NumberOfNFTs($contract: Address!, $chainId: String) {
+  numberOfNFTs(contract: $contract, chainId: $chainId)
+}

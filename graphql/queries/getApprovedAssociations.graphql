@@ -1,0 +1,7 @@
+query getApprovedAssociations($profileUrl: String!) {
+  getApprovedAssociations(profileUrl: $profileUrl) {
+    id
+    receiver
+    hidden
+  }
+}

@@ -1,0 +1,3 @@
+mutation ListNFTX2Y2($input: ListNFTX2Y2Input!) {
+  listNFTX2Y2(input: $input)
+}

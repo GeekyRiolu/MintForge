@@ -1,0 +1,29 @@
+{
+  "background_color": "#fff",
+  "display": "standalone",
+  "homepage_url": "https://nft.com",
+  "providedBy": {
+    "name": "NFT.com",
+    "url": "https://nft.com"
+  },
+  "icons": [
+    {
+      "src": "favicon/icons/256x256_App_Icon.svg",
+      "sizes": "256x256",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "favicon/icons/192x192_App_Icon.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ],
+  "orientation": "portrait",
+  "name": "NFT.com",
+  "description": "Join NFT.com to display, trade, and engage with your NFTs.",
+  "iconPath": "favicon/icons/256x256_App_Icon.svg",
+  "short_name": "NFT.com",
+  "start_url": ".",
+  "theme_color": "#FDCC00"
+}

@@ -1,0 +1,13 @@
+query OfficialCollections($input: OfficialCollectionsInput!) {
+  officialCollections(input: $input) {
+    items {
+      id
+      contract
+      slug
+      chainId
+      updatedAt
+    }
+    pageCount
+    totalItems
+  }
+}

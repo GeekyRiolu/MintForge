@@ -1,0 +1,42 @@
+{
+  "crons": [
+    {
+      "path": "/api/sitemaps/server-sitemap-index?teamKey=eB7q1HKpTLA",
+      "schedule": "59 23 * * *"
+    },
+    {
+      "path": "/api/sitemaps/collection?teamKey=eB7q1HKpTLA",
+      "schedule": "59 23 * * *"
+    },
+    {
+      "path": "/api/sitemaps/article?teamKey=eB7q1HKpTLA",
+      "schedule": "0 * * * *"
+    }
+  ],
+  "functions": {
+    "pages/*.xml": {
+      "maxDuration": 120
+    },
+    "pages/sitemaps/*.xml": {
+      "maxDuration": 120
+    },
+    "pages/sitemaps/**/*.xml": {
+      "maxDuration": 120
+    }
+  },
+  "redirects": [
+    {
+      "source": "/whitelist",
+      "destination": "https://whitelist.nft.com"
+    },
+    {
+      "source": "/discord",
+      "destination": "https://nft.com/discord"
+    },
+    {
+      "source": "/(y|Y)(o|O)(u|U)",
+      "destination": "/app/mint-profiles"
+    }
+  ],
+  "$schema": "https://openapi.vercel.sh/vercel.json"
+}

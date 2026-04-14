@@ -1,0 +1,22 @@
+query NftsForCollections($input: NftsForCollectionsInput!) {
+  nftsForCollections(input: $input) {
+    nfts {
+      id
+      tokenId
+      type
+      isOwnedByMe
+      previewLink
+      metadata {
+        name
+        description
+        imageURL
+        traits {
+          type
+          value
+        }
+      }
+    }
+    collectionAddress
+    actualNumberOfNFTs
+  }
+}

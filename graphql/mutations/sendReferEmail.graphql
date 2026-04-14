@@ -1,0 +1,8 @@
+mutation SendReferEmail($input: SendReferEmailInput!) {
+  sendReferEmail(input: $input) {
+    confirmedEmails
+    message
+    sentEmails
+    unconfirmedEmails
+  }
+}

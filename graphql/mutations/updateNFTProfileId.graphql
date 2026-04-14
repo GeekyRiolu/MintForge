@@ -1,0 +1,50 @@
+mutation UpdateNFTProfileId($nftId: ID!, $profileId: ID!) {
+  updateNFTProfileId(nftId: $nftId, profileId: $profileId) {
+    id
+    chainId
+    contract
+    tokenId
+    isOwnedByMe
+    metadata {
+      name
+      description
+      imageURL
+    }
+    price
+    profileId
+    preferredProfile {
+      id
+      bannerURL
+      createdAt
+      chainId
+      description
+      displayType
+      layoutType
+      followersCount
+      isFollowedByMe
+      isOwnedByMe
+      isLikedByUser
+      gkIconVisible
+      nftsDescriptionsVisible
+      deployedContractsVisible
+      tokenId
+      photoURL
+      status
+      url
+      profileView
+    }
+    type
+    wallet {
+      id
+      address
+      chainId
+      chainName
+      network
+      profileId
+      createdAt
+    }
+    createdAt
+    memo
+    
+  }
+}

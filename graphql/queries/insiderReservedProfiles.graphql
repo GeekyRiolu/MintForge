@@ -1,0 +1,3 @@
+query InsiderReservedProfiles($input: InsiderReservedProfilesInput!) {
+  insiderReservedProfiles(input: $input)
+}

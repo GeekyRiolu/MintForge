@@ -1,0 +1,237 @@
+mutation ProfileNFTs($input: UpdateNFTsForProfileInput, $likedById: ID!) {
+  updateNFTsForProfile(input: $input) {
+    pageInfo {
+      firstCursor
+      lastCursor
+    }
+    totalItems
+    items {
+      isOwnedByMe
+      previewLink
+      contract
+      id
+      tokenId
+      isGKMinted
+      likeCount
+      isLikedByUser
+      isLikedBy(likedById: $likedById)
+      type
+      collection {
+          contract
+          name
+      }
+      listings {
+        totalItems
+        pageInfo {
+            firstCursor
+            lastCursor
+        }
+        items {
+            id
+            chainId
+            activityType
+            activityTypeId
+            timestamp
+            walletAddress
+            nftContract
+            nftId
+            status
+            order {
+                chainId
+                exchange
+                orderHash
+                orderType
+                makerAddress
+                takerAddress
+                protocol
+                nonce
+                protocolData {
+                    ... on LooksrareProtocolData {
+                        isOrderAsk
+                        signer
+                        collectionAddress
+                        price
+                        tokenId
+                        amount
+                        strategy
+                        currencyAddress
+                        nonce
+                        startTime
+                        endTime
+                        minPercentageToAsk
+                        params
+                        v
+                        r
+                        s
+                    }
+                    ... on X2Y2ProtocolData {
+                        side
+                        type
+                        erc_type
+                        status
+                        maker
+                        contract
+                        price
+                        X2Y2Amount: amount
+                        tokenId
+                        currencyAddress
+                        id
+                        created_at
+                        updated_at
+                        end_at
+                        royalty_fee
+                        is_collection_offer
+                        is_bundle
+                        is_private
+                    }
+                    ... on NFTCOMProtocolData {
+                        makeAsset {
+                        standard {
+                            assetClass
+                            bytes
+                            contractAddress
+                            tokenId
+                            allowAll
+                        }
+                        nftId
+                        bytes
+                        value
+                        minimumBid
+                        }
+                        takeAsset {
+                        standard {
+                            assetClass
+                            bytes
+                            contractAddress
+                            tokenId
+                            allowAll
+                        }
+                        nftId
+                        bytes
+                        value
+                        minimumBid
+                        }
+                        swapTransactionId
+                        acceptedAt
+                        rejectedAt
+                        listingId
+                        buyNowTaker
+                        orderSignature: signature {
+                            v
+                            r
+                            s
+                        }
+                        auctionType
+                        salt
+                        start
+                        end
+                    }
+                    ... on SeaportProtocolData {
+                        signature
+                        parameters {
+                            offerer
+                            offer {
+                                itemType
+                                token
+                                identifierOrCriteria
+                                startAmount
+                                endAmount
+                            }
+                            consideration {
+                                itemType
+                                token
+                                identifierOrCriteria
+                                startAmount
+                                endAmount
+                                recipient
+                            }
+                            startTime
+                            endTime
+                            orderType
+                            zone
+                            zoneHash
+                            salt
+                            conduitKey
+                            totalOriginalConsiderationItems
+                            counter
+                        }
+                    }
+                }
+            }
+            cancel {
+                id
+                exchange
+                foreignType
+                foreignKeyId
+                transactionHash
+                blockNumber
+            }
+            transaction {
+                id
+                chainId
+                transactionHash
+                blockNumber
+                nftContractAddress
+                nftContractTokenId
+                maker
+                taker
+                protocol
+                exchange
+                protocolData {
+                ... on TxLooksrareProtocolData {
+                    isOrderAsk
+                    signer
+                    collectionAddress
+                    price
+                    tokenId
+                    amount
+                    strategy
+                    currencyAddress
+                    nonce
+                    startTime
+                    endTime
+                    minPercentageToAsk
+                    params
+                    v
+                    r
+                    s
+                }
+                ... on TxX2Y2ProtocolData {
+                    amount
+                    currency
+                    data
+                    deadline
+                    delegateType
+                    intent
+                    orderSalt
+                    settleSalt
+                }
+                ... on TxSeaportProtocolData {
+                    offer {
+                    itemType
+                    token
+                    identifierOrCriteria
+                    startAmount
+                    endAmount
+                    }
+                    consideration {
+                    itemType
+                    token
+                    identifierOrCriteria
+                    startAmount
+                    endAmount
+                    recipient
+                    }
+                }
+                }
+            }   
+        }
+      }
+      metadata {
+        imageURL
+        description
+        name
+      }
+    }
+  }
+}

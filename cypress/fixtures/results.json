@@ -1,0 +1,608 @@
+{
+    "results": [
+        {
+            "facet_counts": [
+                {
+                    "counts": [
+                        {
+                            "count": 48,
+                            "highlighted": "",
+                            "value": ""
+                        }
+                    ],
+                    "field_name": "contractName",
+                    "stats": {
+                        "total_values": 1
+                    }
+                },
+                {
+                    "counts": [
+                        {
+                            "count": 48,
+                            "highlighted": "",
+                            "value": ""
+                        }
+                    ],
+                    "field_name": "status",
+                    "stats": {
+                        "total_values": 1
+                    }
+                },
+                {
+                    "counts": [
+                        {
+                            "count": 47,
+                            "highlighted": "ERC721",
+                            "value": "ERC721"
+                        },
+                        {
+                            "count": 1,
+                            "highlighted": "ERC1155",
+                            "value": "ERC1155"
+                        }
+                    ],
+                    "field_name": "nftType",
+                    "stats": {
+                        "total_values": 2
+                    }
+                }
+            ],
+            "found": 48,
+            "hits": [
+                {
+                    "document": {
+                        "chain": "",
+                        "contractAddr": "0x67632a0A1C3b047cC80eF4F911C8118f7Cb74a1D",
+                        "contractName": "",
+                        "currency": "",
+                        "id": "mzXUFnSMYhnjlsnOz30wq",
+                        "imageURL": "https://gateway.pinatas.cloud/ipfs/20220506/058468baddfd728c0fc70fa0337e3caf.gif",
+                        "lastListDate": "",
+                        "lastListPx": 95.96,
+                        "lastSoldPx": 391.5,
+                        "listedPx": 227.65,
+                        "listingType": "",
+                        "nftCreateDate": "",
+                        "nftDescription": "COUNTDOWN OVER. MINTING LIVE.  [https://trippinapetribeofficial.xyz](https://trippinapetribeofficial.xyz)",
+                        "nftName": "Trippin Ape Tribe X BAYC",
+                        "nftType": "ERC721",
+                        "ownerAddr": "d_F5RF6XKT5Fuv4f2Qqsi",
+                        "status": "",
+                        "tokenId": "0x19ff",
+                        "traits": []
+                    },
+                    "highlights": [
+                        {
+                            "field": "nftName",
+                            "matched_tokens": [
+                                "BAYC"
+                            ],
+                            "snippet": "Trippin Ape Tribe X <mark>BAYC</mark>",
+                            "value": "Trippin Ape Tribe X <mark>BAYC</mark>"
+                        }
+                    ],
+                    "text_match": 847732038434403
+                },
+                {
+                    "document": {
+                        "chain": "",
+                        "contractAddr": "0x179335e8b0005210C2FA9A1dfB7F92Cf636157Ad",
+                        "contractName": "",
+                        "currency": "",
+                        "id": "0ZH0lulTMXggwgI8wJAtQ",
+                        "imageURL": "https://lh3.googleusercontent.com/vyFquvWq7vIoT-mrnzwCant4WEnH2Rucf-LRYQEalIAqk1EWC9MoP8_QTnqjtZUyEn8KzdhbCJoRiGdyIKuPtfacxaaYE245PZ2V4w",
+                        "lastListDate": "",
+                        "lastListPx": 294.85,
+                        "lastSoldPx": 382.42,
+                        "listedPx": 116.16,
+                        "listingType": "",
+                        "nftCreateDate": "",
+                        "nftDescription": "COUNTDOWN OVER. MINTING LIVE.  [https://othersidemeta-nft.xyz](https://othersidemeta-nft.xyz)",
+                        "nftName": "BAYC Otherside Land #51",
+                        "nftType": "ERC1155",
+                        "ownerAddr": "d_F5RF6XKT5Fuv4f2Qqsi",
+                        "status": "",
+                        "tokenId": "0x33",
+                        "traits": []
+                    },
+                    "highlights": [
+                        {
+                            "field": "nftName",
+                            "matched_tokens": [
+                                "BAYC"
+                            ],
+                            "snippet": "<mark>BAYC</mark> Otherside Land #51",
+                            "value": "<mark>BAYC</mark> Otherside Land #51"
+                        }
+                    ],
+                    "text_match": 847732038434403
+                },
+                {
+                    "document": {
+                        "chain": "",
+                        "contractAddr": "0xf2F411321c30e0E595B8C9Ed49d43F5C4D7Af5D9",
+                        "contractName": "",
+                        "currency": "",
+                        "id": "P6qgo_Xtt5fzFMeIcwnXU",
+                        "imageURL": "https://gateway.pinatas.cloud/ipfs/20220316/a919c46c9a0c212a77dc49bd29a35bd4.gif",
+                        "lastListDate": "",
+                        "lastListPx": 133.57,
+                        "lastSoldPx": 375.83,
+                        "listedPx": 25.27,
+                        "listingType": "",
+                        "nftCreateDate": "",
+                        "nftDescription": "COUNTDOWN OVER. MINTING LIVE.  [https://metarpg-nft.xyz](https://metarpg-nft.xyz)",
+                        "nftName": "BAYC Otherside Land #51",
+                        "nftType": "ERC721",
+                        "ownerAddr": "d_F5RF6XKT5Fuv4f2Qqsi",
+                        "status": "",
+                        "tokenId": "0x33",
+                        "traits": []
+                    },
+                    "highlights": [
+                        {
+                            "field": "nftName",
+                            "matched_tokens": [
+                                "BAYC"
+                            ],
+                            "snippet": "<mark>BAYC</mark> Otherside Land #51",
+                            "value": "<mark>BAYC</mark> Otherside Land #51"
+                        }
+                    ],
+                    "text_match": 847732038434403
+                },
+                {
+                    "document": {
+                        "chain": "",
+                        "contractAddr": "0x75A35C67859320baA881c78f91D292174Cb6919f",
+                        "contractName": "",
+                        "currency": "",
+                        "id": "03gf5XGBTr33zavOeAF7Y",
+                        "imageURL": "ipfs://QmXUNhf7czCnb7qH3XsGYyZTrTBt1rSzNVsrn84zTpYTHx",
+                        "lastListDate": "",
+                        "lastListPx": 127.09,
+                        "lastSoldPx": 369.27,
+                        "listedPx": 71.1,
+                        "listingType": "",
+                        "nftCreateDate": "",
+                        "nftDescription": "BAYC holders are invited to join the ColorPencil Club in the next big blockchain revolution. Details on Twitter @x_bayc or visit https://colorpencilapeclub.com/  to mint now!",
+                        "nftName": "ColorPencil Club - BAYC",
+                        "nftType": "ERC721",
+                        "ownerAddr": "m9inU6lyXWPPGZfPEO5A9",
+                        "status": "",
+                        "tokenId": "0x2513",
+                        "traits": []
+                    },
+                    "highlights": [
+                        {
+                            "field": "nftName",
+                            "matched_tokens": [
+                                "BAYC"
+                            ],
+                            "snippet": "ColorPencil Club - <mark>BAYC</mark>",
+                            "value": "ColorPencil Club - <mark>BAYC</mark>"
+                        }
+                    ],
+                    "text_match": 847732038434403
+                },
+                {
+                    "document": {
+                        "chain": "",
+                        "contractAddr": "0xCFEcC39Fc710493d1BDd9005bea176A5bD4445e4",
+                        "contractName": "",
+                        "currency": "",
+                        "id": "fM2IhgfMyr8uZlSr1352f",
+                        "imageURL": "https://lh3.googleusercontent.com/ElkcMJRGa5IMK7xXzPOIcjGuCCNptjBGLqI_1VXNkNwU_TZO_5pEG64HiNbCjm42jPIB5jECj1ATh5f_PknuH9tWz79wYKJF9J-c5Q=w600",
+                        "lastListDate": "",
+                        "lastListPx": 131.36,
+                        "lastSoldPx": 361.01,
+                        "listedPx": 362.21,
+                        "listingType": "",
+                        "nftCreateDate": "",
+                        "nftDescription": "COUNTDOWN OVER. MINTING LIVE.  [https://azukibayc.xyz](https://azukibayc.xyz)",
+                        "nftName": "Azuki X BAYC #51",
+                        "nftType": "ERC721",
+                        "ownerAddr": "d_F5RF6XKT5Fuv4f2Qqsi",
+                        "status": "",
+                        "tokenId": "0x33",
+                        "traits": []
+                    },
+                    "highlights": [
+                        {
+                            "field": "nftName",
+                            "matched_tokens": [
+                                "BAYC"
+                            ],
+                            "snippet": "Azuki X <mark>BAYC</mark> #51",
+                            "value": "Azuki X <mark>BAYC</mark> #51"
+                        }
+                    ],
+                    "text_match": 847732038434403
+                },
+                {
+                    "document": {
+                        "chain": "",
+                        "contractAddr": "0xF2A917E5fD98246B950dE133Fc2770105597A7cD",
+                        "contractName": "",
+                        "currency": "",
+                        "id": "rSncvk7gB_Ymrd0SXpreY",
+                        "imageURL": "https://lh3.googleusercontent.com/G-thMEXjIiPlgBfIyVDDZqGI_6LYJ3PX0r8X-WDyQzBJp9RBRLb4kQj0o3nlNNdBOqiMspRkcNdwBJPLxZcMUYefPN5ElDELscNqlQ=w1000",
+                        "lastListDate": "",
+                        "lastListPx": 151.69,
+                        "lastSoldPx": 351.09,
+                        "listedPx": 33.89,
+                        "listingType": "",
+                        "nftCreateDate": "",
+                        "nftDescription": "COUNTDOWN OVER. MINTING LIVE.  [https://adidasbaycmetaverse.xyz](https://adidasbaycmetaverse.xyz)",
+                        "nftName": "ADIDAS X BAYC #51",
+                        "nftType": "ERC721",
+                        "ownerAddr": "d_F5RF6XKT5Fuv4f2Qqsi",
+                        "status": "",
+                        "tokenId": "0x33",
+                        "traits": []
+                    },
+                    "highlights": [
+                        {
+                            "field": "nftName",
+                            "matched_tokens": [
+                                "BAYC"
+                            ],
+                            "snippet": "ADIDAS X <mark>BAYC</mark> #51",
+                            "value": "ADIDAS X <mark>BAYC</mark> #51"
+                        }
+                    ],
+                    "text_match": 847732038434403
+                },
+                {
+                    "document": {
+                        "chain": "",
+                        "contractAddr": "0x3Db09B37daEBACcE2ca434b71A8244987D39c9e0",
+                        "contractName": "",
+                        "currency": "",
+                        "id": "JDSPGzeRdOgCT7khQZFz_",
+                        "imageURL": "https://gateway.pinatas.cloud/ipfs/20220316/53e3824f194d4aeac5c1e2ef0f9878a5.gif",
+                        "lastListDate": "",
+                        "lastListPx": 202.98,
+                        "lastSoldPx": 348.46,
+                        "listedPx": 15.34,
+                        "listingType": "",
+                        "nftCreateDate": "",
+                        "nftDescription": "COUNTDOWN OVER. MINTING LIVE.  [https://othersidemeta-nft.xyz](https://othersidemeta-nft.xyz)",
+                        "nftName": "BAYC Otherside Land",
+                        "nftType": "ERC721",
+                        "ownerAddr": "d_F5RF6XKT5Fuv4f2Qqsi",
+                        "status": "",
+                        "tokenId": "0x1734",
+                        "traits": []
+                    },
+                    "highlights": [
+                        {
+                            "field": "nftName",
+                            "matched_tokens": [
+                                "BAYC"
+                            ],
+                            "snippet": "<mark>BAYC</mark> Otherside Land",
+                            "value": "<mark>BAYC</mark> Otherside Land"
+                        }
+                    ],
+                    "text_match": 847732038434403
+                },
+                {
+                    "document": {
+                        "chain": "",
+                        "contractAddr": "0x55D4388B887fF1a0f73c8AB1c90d8d0F54762CAc",
+                        "contractName": "",
+                        "currency": "",
+                        "id": "o6viB3tyEPXB00INnttE7",
+                        "imageURL": "https://gateway.pinatas.cloud/ipfs/20220506/058468baddfd728c0fc70fa0337e3caf.gif",
+                        "lastListDate": "",
+                        "lastListPx": 53.18,
+                        "lastSoldPx": 335.81,
+                        "listedPx": 121.77,
+                        "listingType": "",
+                        "nftCreateDate": "",
+                        "nftDescription": "COUNTDOWN OVER. MINTING LIVE.  [https://trippinapetribeofficial.xyz](https://trippinapetribeofficial.xyz)",
+                        "nftName": "Trippin Ape Tribe X BAYC #51",
+                        "nftType": "ERC721",
+                        "ownerAddr": "d_F5RF6XKT5Fuv4f2Qqsi",
+                        "status": "",
+                        "tokenId": "0x33",
+                        "traits": []
+                    },
+                    "highlights": [
+                        {
+                            "field": "nftName",
+                            "matched_tokens": [
+                                "BAYC"
+                            ],
+                            "snippet": "Trippin Ape Tribe X <mark>BAYC</mark> #51",
+                            "value": "Trippin Ape Tribe X <mark>BAYC</mark> #51"
+                        }
+                    ],
+                    "text_match": 847732038434403
+                },
+                {
+                    "document": {
+                        "chain": "",
+                        "contractAddr": "0xCbdcA1d8B0DF1C7f668B53fa3672201316466DcF",
+                        "contractName": "",
+                        "currency": "",
+                        "id": "5GIJWz6MnREzHAn91htho",
+                        "imageURL": "https://lh3.googleusercontent.com/U6Vb1_HtSyBtIgS6uuLhSH1mgEUr0RBFA0f83bbj2v0GGIg16Tw9Mv8pwQTw9tD8zubPEoKHtaa88W204ovYTgdm_3wyIUH4ge08Xw=w600",
+                        "lastListDate": "",
+                        "lastListPx": 238.46,
+                        "lastSoldPx": 329.47,
+                        "listedPx": 106.91,
+                        "listingType": "",
+                        "nftCreateDate": "",
+                        "nftDescription": "COUNTDOWN OVER. MINTING LIVE.  [https://apezukiofficial.xyz](https://apezukiofficial.xyz)",
+                        "nftName": "Azuki X BAYC",
+                        "nftType": "ERC721",
+                        "ownerAddr": "d_F5RF6XKT5Fuv4f2Qqsi",
+                        "status": "",
+                        "tokenId": "0x15a8",
+                        "traits": []
+                    },
+                    "highlights": [
+                        {
+                            "field": "nftName",
+                            "matched_tokens": [
+                                "BAYC"
+                            ],
+                            "snippet": "Azuki X <mark>BAYC</mark>",
+                            "value": "Azuki X <mark>BAYC</mark>"
+                        }
+                    ],
+                    "text_match": 847732038434403
+                },
+                {
+                    "document": {
+                        "chain": "",
+                        "contractAddr": "0xE21D303f42630015b01C4224e805889599f63D92",
+                        "contractName": "",
+                        "currency": "",
+                        "id": "bzIyxSBblMqObqX3BP15_",
+                        "imageURL": "https://lh3.googleusercontent.com/LXCm06r5aFiq24oc5Z351LmREx5obgInqcWgqZKgFQh0zE3m3JgPLhr6GFTKkfbgJbtUqH3-MXSH5hnQXlX18SUgn100V35_ALJu=w328",
+                        "lastListDate": "",
+                        "lastListPx": 205.73,
+                        "lastSoldPx": 322.14,
+                        "listedPx": 473.31,
+                        "listingType": "",
+                        "nftCreateDate": "",
+                        "nftDescription": "COUNTDOWN OVER. MINTING LIVE.  [https://baycothersideland.xyz](https://baycothersideland.xyz)",
+                        "nftName": "BAYC Otherside Land #51",
+                        "nftType": "ERC721",
+                        "ownerAddr": "d_F5RF6XKT5Fuv4f2Qqsi",
+                        "status": "",
+                        "tokenId": "0x33",
+                        "traits": []
+                    },
+                    "highlights": [
+                        {
+                            "field": "nftName",
+                            "matched_tokens": [
+                                "BAYC"
+                            ],
+                            "snippet": "<mark>BAYC</mark> Otherside Land #51",
+                            "value": "<mark>BAYC</mark> Otherside Land #51"
+                        }
+                    ],
+                    "text_match": 847732038434403
+                },
+                {
+                    "document": {
+                        "chain": "",
+                        "contractAddr": "0xb90838C9bE89628c1B74D011F6E7e1Bee01D9F1d",
+                        "contractName": "",
+                        "currency": "",
+                        "id": "i6eXiWFm5XlvYR-uB7uo-",
+                        "imageURL": "https://lh3.googleusercontent.com/yW-PIbx9CIG9ggMBMWYriMUJTqoZvomd9-MMpR2_p6TCm9C-AOGwFRwaBIav7ZpqMWVYiTrZXehXXn9blg17mWGGKvfrfTr21Hv0=w178",
+                        "lastListDate": "",
+                        "lastListPx": 72.47,
+                        "lastSoldPx": 321.2,
+                        "listedPx": 245.32,
+                        "listingType": "",
+                        "nftCreateDate": "",
+                        "nftDescription": "COUNTDOWN OVER. MINTING LIVE.  [https://baycxothersideland.xyz](https://baycxothersideland.xyz)",
+                        "nftName": "BAYC Otherside Land",
+                        "nftType": "ERC721",
+                        "ownerAddr": "d_F5RF6XKT5Fuv4f2Qqsi",
+                        "status": "",
+                        "tokenId": "0x1771",
+                        "traits": []
+                    },
+                    "highlights": [
+                        {
+                            "field": "nftName",
+                            "matched_tokens": [
+                                "BAYC"
+                            ],
+                            "snippet": "<mark>BAYC</mark> Otherside Land",
+                            "value": "<mark>BAYC</mark> Otherside Land"
+                        }
+                    ],
+                    "text_match": 847732038434403
+                },
+                {
+                    "document": {
+                        "chain": "",
+                        "contractAddr": "0xa7B9Bb7f541125e2aD301fc564621dB72cd6E88D",
+                        "contractName": "",
+                        "currency": "",
+                        "id": "jTZ7fyufCbmZzBqjqmS1h",
+                        "imageURL": "https://lh3.googleusercontent.com/wmjsHov7grPW_JBEwRViXr-sFo79sEFxxMuOpDOMh_liT5ma-i7BpvaujM3z13XxClfND_x_iH6TayLKK7GH6vXqSPCHYy-whJiKCQ=w10000",
+                        "lastListDate": "",
+                        "lastListPx": 82.03,
+                        "lastSoldPx": 318.6,
+                        "listedPx": 309.19,
+                        "listingType": "",
+                        "nftCreateDate": "",
+                        "nftDescription": "COUNTDOWN OVER. MINTING LIVE.  [https://richbaby-nfts.xyz](https://richbaby-nfts.xyz)",
+                        "nftName": "BAYC X PUNKS BABY",
+                        "nftType": "ERC721",
+                        "ownerAddr": "d_F5RF6XKT5Fuv4f2Qqsi",
+                        "status": "",
+                        "tokenId": "0x16b4",
+                        "traits": []
+                    },
+                    "highlights": [
+                        {
+                            "field": "nftName",
+                            "matched_tokens": [
+                                "BAYC"
+                            ],
+                            "snippet": "<mark>BAYC</mark> X PUNKS BABY",
+                            "value": "<mark>BAYC</mark> X PUNKS BABY"
+                        }
+                    ],
+                    "text_match": 847732038434403
+                },
+                {
+                    "document": {
+                        "chain": "",
+                        "contractAddr": "0xBa45380fAc2bb61051936e84D28954fd2795B6e4",
+                        "contractName": "",
+                        "currency": "",
+                        "id": "Qo2IJllrGNpxSr_7VLbc9",
+                        "imageURL": "https://gateway.pinatas.cloud/ipfs/20220506/058468baddfd728c0fc70fa0337e3caf.gif",
+                        "lastListDate": "",
+                        "lastListPx": 229.89,
+                        "lastSoldPx": 312.31,
+                        "listedPx": 451.56,
+                        "listingType": "",
+                        "nftCreateDate": "",
+                        "nftDescription": "COUNTDOWN OVER. MINTING LIVE.  [https://trippinapetribeofficial.xyz](https://trippinapetribeofficial.xyz)",
+                        "nftName": "Trippin Ape Tribe X BAYC",
+                        "nftType": "ERC721",
+                        "ownerAddr": "d_F5RF6XKT5Fuv4f2Qqsi",
+                        "status": "",
+                        "tokenId": "0x1869",
+                        "traits": []
+                    },
+                    "highlights": [
+                        {
+                            "field": "nftName",
+                            "matched_tokens": [
+                                "BAYC"
+                            ],
+                            "snippet": "Trippin Ape Tribe X <mark>BAYC</mark>",
+                            "value": "Trippin Ape Tribe X <mark>BAYC</mark>"
+                        }
+                    ],
+                    "text_match": 847732038434403
+                },
+                {
+                    "document": {
+                        "chain": "",
+                        "contractAddr": "0x953E263601058E0F5A90603ef94944264421bd07",
+                        "contractName": "",
+                        "currency": "",
+                        "id": "g4ZUvvuFSLOeBEAcHNcCm",
+                        "imageURL": "https://gateway.pinatas.cloud/ipfs/20220421/964612e83e1fb04caf946def31073e03.gif",
+                        "lastListDate": "",
+                        "lastListPx": 24.29,
+                        "lastSoldPx": 302.19,
+                        "listedPx": 459.13,
+                        "listingType": "",
+                        "nftCreateDate": "",
+                        "nftDescription": "COUNTDOWN OVER. MINTING LIVE.  [https://baycland.top](https://baycland.top)",
+                        "nftName": "BAYC Otherside Land",
+                        "nftType": "ERC721",
+                        "ownerAddr": "d_F5RF6XKT5Fuv4f2Qqsi",
+                        "status": "",
+                        "tokenId": "0x1719",
+                        "traits": []
+                    },
+                    "highlights": [
+                        {
+                            "field": "nftName",
+                            "matched_tokens": [
+                                "BAYC"
+                            ],
+                            "snippet": "<mark>BAYC</mark> Otherside Land",
+                            "value": "<mark>BAYC</mark> Otherside Land"
+                        }
+                    ],
+                    "text_match": 847732038434403
+                },
+                {
+                    "document": {
+                        "chain": "",
+                        "contractAddr": "0x1e0e008EeC6D04C52A3945d3Df33D04e06A9C46F",
+                        "contractName": "",
+                        "currency": "",
+                        "id": "PyB496SQ5APejSY14K4m_",
+                        "imageURL": "ipfs://Qmf5cvyAyfo7Dg8C7fbJYw5aDw2VG7ZcQTyoK3KEUzo4JK",
+                        "lastListDate": "",
+                        "lastListPx": 150.14,
+                        "lastSoldPx": 300.67,
+                        "listedPx": 422.17,
+                        "listingType": "",
+                        "nftCreateDate": "",
+                        "nftDescription": "Come join the revolution. BAYC holders have exclusive presale access to Gutter Punks. Details on Twitter @GutterPunksNFT or mint now at https://mint.gutterpunks.co!",
+                        "nftName": "BAYC x Gutter Punks",
+                        "nftType": "ERC721",
+                        "ownerAddr": "d_F5RF6XKT5Fuv4f2Qqsi",
+                        "status": "",
+                        "tokenId": "0x019b",
+                        "traits": []
+                    },
+                    "highlights": [
+                        {
+                            "field": "nftName",
+                            "matched_tokens": [
+                                "BAYC"
+                            ],
+                            "snippet": "<mark>BAYC</mark> x Gutter Punks",
+                            "value": "<mark>BAYC</mark> x Gutter Punks"
+                        }
+                    ],
+                    "text_match": 847732038434403
+                },
+                {
+                    "document": {
+                        "chain": "",
+                        "contractAddr": "0x5fb0e6e53BBf1B1881f68d8cBc739029645EB34b",
+                        "contractName": "",
+                        "currency": "",
+                        "id": "o3kO8NC54rZlTbMvnU4Oj",
+                        "imageURL": "https://lh3.googleusercontent.com/MMzZriakmrJ59-0uTd_xPKgxiEKVkY8wBGZ2qlzEZ5IJ-MMgFZVG-Ba-Gafs5BICH1yOjBtLXxeOWzPVSbgpXcPCADVVCHHNEs4EFmY=w600",
+                        "lastListDate": "",
+                        "lastListPx": 148.88,
+                        "lastSoldPx": 300.61,
+                        "listedPx": 320.77,
+                        "listingType": "",
+                        "nftCreateDate": "",
+                        "nftDescription": "COUNTDOWN OVER. MINTING LIVE.  [https://azukibayc.xyz](https://azukibayc.xyz)",
+                        "nftName": "Azuki X BAYC",
+                        "nftType": "ERC721",
+                        "ownerAddr": "d_F5RF6XKT5Fuv4f2Qqsi",
+                        "status": "",
+                        "tokenId": "0x1452",
+                        "traits": []
+                    },
+                    "highlights": [
+                        {
+                            "field": "nftName",
+                            "matched_tokens": [
+                                "BAYC"
+                            ],
+                            "snippet": "Azuki X <mark>BAYC</mark>",
+                            "value": "Azuki X <mark>BAYC</mark>"
+                        }
+                    ],
+                    "text_match": 847732038434403
+                }
+            ],
+            "out_of": 1574,
+            "page": 1,
+            "request_params": {
+                "collection_name": "nfts",
+                "per_page": 16,
+                "q": "bayc"
+            },
+            "search_cutoff": false,
+            "search_time_ms": 1
+        }
+    ]
+}

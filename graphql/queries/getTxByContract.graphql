@@ -1,0 +1,48 @@
+query GetTxByContract($input: TransactionsByContractInput) {
+  getTxByContract(input: $input) {
+    pageInfo {
+      firstCursor
+      lastCursor
+    }
+    totalItems
+    items {
+      index
+      type
+      ownerAddress
+      contractAddress
+      tokenId
+      quantity
+      transactionHash
+      blockHash
+      blockNumber
+      transactionDate
+      transferFrom
+      transferTo
+      buyerAddress
+      sellerAddress
+      marketplace
+      priceDetails {
+        assetType
+        contractAddress
+        price
+        priceUSD
+      }
+      nft {
+        contractType
+        contractAddress
+        tokenId
+        metadataUrl
+        total
+        signatures
+        royalties {
+          accountAddress
+          royaltyShare
+        }
+        creators {
+          accountAddress
+          creatorShare
+        }
+      }
+    }
+  }
+}

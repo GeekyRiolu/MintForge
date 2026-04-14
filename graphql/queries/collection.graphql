@@ -1,0 +1,27 @@
+query Collection($input: CollectionInput!, $likedById: ID!) {
+  collection(input: $input) {
+    collection {
+      id
+      contract
+      name
+      chainId
+      deployer
+      bannerUrl
+      logoUrl
+      description
+      isCurated
+      isSpam
+      likeCount
+      isLikedByUser
+      isLikedBy(likedById: $likedById)
+      isOfficial
+    }
+    nftPortResults {
+      name
+      symbol
+      bannerUrl
+      logoUrl
+      description
+    }
+  }
+}

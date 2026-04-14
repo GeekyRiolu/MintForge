@@ -1,0 +1,13 @@
+query Me {
+  me {
+    id
+    avatarURL
+    email
+    username
+    isEmailConfirmed
+    referralId
+    myAddresses {
+      address
+    }
+  }
+}

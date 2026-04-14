@@ -1,0 +1,23 @@
+query NftById($id: ID!) {
+  nftById(id: $id) {
+    id
+    isOwnedByMe
+    price
+    contract
+    tokenId
+    type
+    previewLink
+    wallet {
+      address
+    }
+    metadata {
+      name
+      imageURL
+      description
+      traits {
+        type
+        value
+      }
+    }
+  }
+}

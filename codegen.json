@@ -1,0 +1,17 @@
+{
+  "overwrite": true,
+  "schema": "http://localhost:10010/graphql",
+  "documents": [
+    "graphql/queries/*.graphql",
+    "graphql/mutations/*.graphql"
+  ],
+  "generates": {
+    "graphql/generated/types.ts": {
+      "plugins": [
+        "typescript",
+        "typescript-operations",
+        "typescript-graphql-request"
+      ]
+    }
+  }
+}

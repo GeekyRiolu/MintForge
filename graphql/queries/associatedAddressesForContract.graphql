@@ -1,0 +1,7 @@
+query AssociatedAddressesForContract($contract: Address!) {
+  associatedAddressesForContract(contract: $contract) {
+    deployerAddress
+    associatedAddresses
+    deployerIsAssociated
+  }
+}
