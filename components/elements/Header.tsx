@@ -192,6 +192,12 @@ export const Header = ({ removeBg, homepageHeader }: HeaderProps) => {
                     <CaretDown size={20} color="black" weight="bold" className='ml-2' />
                   </a>
                 </DropdownPickerModal>
+
+                <Link href="/generate-with-ai" passHref>
+                  <a className='text-black text-[2.5rem] minlg:text-lg hover:text-[#6A6A6A] flex items-center relative'>
+                    ✨ Create with AI
+                  </a>
+                </Link>
               </nav>
             </div>
 
@@ -431,6 +437,12 @@ export const Header = ({ removeBg, homepageHeader }: HeaderProps) => {
                   <CaretDown size={20} color="black" weight="bold" className='ml-2' />
                 </a>
               </DropdownPickerModal>
+
+              <Link href="/generate-with-ai" passHref>
+                <a className='text-black text-[2.5rem] minlg:text-lg hover:text-[#6A6A6A] flex items-center relative'>
+                  ✨ Create with AI
+                </a>
+              </Link>
             </nav>
           </div>
 

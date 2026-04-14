@@ -159,12 +159,24 @@ module.exports = {
           '0%': { backgroundPosition: 'left' },
           '50%': { backgroundPosition: 'right' },
           '100%': { backgroundPosition: 'left' }
+        },
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' }
         }
       },
       animation: {
         'spin-slow': 'spin 2s linear infinite',
         'pulse-border': 'pulseBorder 2s linear infinite',
         'text-gradient': 'textGradient 2s ease-in-out infinite',
+        'fadeIn': 'fadeIn 0.3s ease-in-out',
+      },
+      transitionDelay: {
+        '0': '0ms',
+        '50': '50ms',
+        '100': '100ms',
+        '150': '150ms',
+        '200': '200ms',
       },
       padding: {
         '30px': '30px',
@@ -209,6 +221,10 @@ module.exports = {
       },
       maxWidth: {
         'nftcom': '1200px',
+      },
+      animation: {
+        'bounce-delay-100': 'bounce 1s infinite 100ms',
+        'bounce-delay-200': 'bounce 1s infinite 200ms',
       }
     },
   },
