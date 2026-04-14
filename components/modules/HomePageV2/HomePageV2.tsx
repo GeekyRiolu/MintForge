@@ -24,7 +24,10 @@ import { usePageVisibility } from 'react-page-visibility';
 
 const BlurImage = dynamic(import('components/elements/BlurImage'));
 const HomeLayout = dynamic(import('components/layouts/HomeLayout'));
-const Player = dynamic(() => import('@lottiefiles/react-lottie-player').then(mod => mod.Player));
+const Player = dynamic(
+  () => import('@lottiefiles/react-lottie-player').then(mod => mod.Player),
+  { ssr: false }
+);
 const DynamicLeaderBoard = dynamic(import('components/modules/Profile/LeaderBoard'));
 const DynamicPreviewBanner = dynamic(import('components/elements/PreviewBanner'));
 

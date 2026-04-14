@@ -3,9 +3,14 @@ import { useSetLikeMutation } from 'graphql/hooks/useLikeMutations';
 import { useUser } from 'hooks/state/useUser';
 import { tw } from 'utils/tw';
 
-import { Player } from '@lottiefiles/react-lottie-player';
 import Heart from 'public/icons/heart.svg?svgr';
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+
+const Player = dynamic(
+  () => import('@lottiefiles/react-lottie-player').then(mod => mod.Player),
+  { ssr: false }
+);
 
 type LikeData = {
   type: LikeableType

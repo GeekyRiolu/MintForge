@@ -4,8 +4,9 @@ import { tw } from 'utils/tw';
 
 import dynamic from 'next/dynamic';
 
-const Player = dynamic(() =>
-  import('@lottiefiles/react-lottie-player').then(mod => mod.Player)
+const Player = dynamic(
+  () => import('@lottiefiles/react-lottie-player').then(mod => mod.Player),
+  { ssr: false }
 );
 import { Button, ButtonType } from 'components/elements/Button';
 
