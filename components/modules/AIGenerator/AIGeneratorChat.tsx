@@ -22,14 +22,16 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
     {
       id: '1',
       type: 'assistant',
-      content: 'Welcome to AI NFT Creator! 🎨\n\nDescribe the NFT you want to create in detail. Include style, elements, colors, mood, and any artistic references.',
+      content: 'Welcome to AI NFT Creator! 🎨\n\nDescribe the NFT you want to create in detail. Include style, elements, colors, mood, and any artistic references. Our advanced AI will generate 3 unique variations for you.',
       timestamp: new Date(),
     }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [useFreepik, setUseFreepik] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -38,6 +40,58 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Cleanup poll interval on unmount
+  useEffect(() => {
+    return () => {
+      if (pollIntervalRef.current) {
+        clearInterval(pollIntervalRef.current);
+      }
+    };
+  }, []);
+
+  const pollFreepikTask = (taskId: string, assistantMessageId: string) => {
+    console.log('[AIGeneratorChat] Starting to poll task:', taskId);
+
+    pollIntervalRef.current = setInterval(async () => {
+      try {
+        const response = await fetch(`/api/check-freepik-task?taskId=${taskId}`);
+        const data = await response.json();
+
+        console.log('[AIGeneratorChat] Poll status:', data.status);
+
+        if (response.ok && data.success && data.images?.length) {
+          // Task completed, update messages
+          clearInterval(pollIntervalRef.current!);
+          pollIntervalRef.current = null;
+
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === assistantMessageId ? { ...msg, images: data.images, isLoading: false } : msg
+            )
+          );
+          setIsLoading(false);
+          inputRef.current?.focus();
+        } else if (data.status === 'FAILED') {
+          clearInterval(pollIntervalRef.current!);
+          pollIntervalRef.current = null;
+
+          const errorMessage: Message = {
+            id: (Date.now() + 3).toString(),
+            type: 'assistant',
+            content: '❌ Freepik image generation failed. Try again or use the standard generator.',
+            timestamp: new Date(),
+          };
+          setMessages((prev) => prev.map((msg) => msg.id === assistantMessageId ? { ...msg, isLoading: false } : msg));
+          setMessages((prev) => [...prev, errorMessage]);
+          setIsLoading(false);
+        }
+        // Continue polling for CREATED, QUEUED, PROCESSING
+      } catch (error) {
+        console.error('[AIGeneratorChat] Poll error:', error);
+      }
+    }, 2000); // Poll every 2 seconds
+  };
 
   const handleGenerateImages = async (prompt: string) => {
     if (!prompt.trim()) return;
@@ -55,21 +109,36 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
     setIsLoading(true);
 
     try {
-      console.log('[AIGeneratorChat] Sending prompt:', prompt);
+      console.log('[AIGeneratorChat] Sending prompt:', prompt, 'useFreepik:', useFreepik);
       const response = await fetch('/api/generate-nft-image', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ prompt, useFreepik }),
       });
 
       const data = await response.json();
 
-      if (!response.ok) {
+      if (!response.ok && response.status !== 202) {
         console.error('[AIGeneratorChat] API error:', response.status, data);
         throw new Error(data.error || `HTTP ${response.status}`);
       }
 
-      if (data.success) {
+      // Handle async Freepik generation (202 Accepted)
+      if (response.status === 202 && data.taskId) {
+        console.log('[AIGeneratorChat] Freepik task created:', data.taskId);
+
+        const assistantMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          type: 'assistant',
+          content: '⏳ Generating your ultra-realistic NFT designs with Freepik Mystic AI... (this may take 30-60 seconds)',
+          images: [],
+          timestamp: new Date(),
+          isLoading: true,
+        };
+
+        setMessages((prev) => [...prev, assistantMessage]);
+        pollFreepikTask(data.taskId, assistantMessage.id);
+      } else if (data.success && data.images?.length) {
         console.log('[AIGeneratorChat] Images generated successfully, count:', data.images?.length);
         const assistantMessage: Message = {
           id: (Date.now() + 1).toString(),
@@ -80,6 +149,7 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
         };
         setMessages((prev) => [...prev, assistantMessage]);
         onGenerateImages?.(prompt);
+        setIsLoading(false);
       } else {
         console.error('[AIGeneratorChat] Generation failed:', data.error);
         throw new Error(data.error || 'Failed to generate');
@@ -93,8 +163,8 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
-    } finally {
       setIsLoading(false);
+    } finally {
       inputRef.current?.focus();
     }
   };
@@ -106,11 +176,31 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-lg font-bold text-white">AI NFT Creator</h2>
-            <p className="text-xs text-gray-400 mt-1">Powered by Stable Diffusion</p>
+            <p className="text-xs text-gray-400 mt-1">
+              Powered by {useFreepik ? 'Freepik Mystic (Ultra-Realistic)' : 'Stable Diffusion'}
+            </p>
           </div>
-          <div className="flex gap-2">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-xs text-gray-400">Ready</span>
+          <div className="flex items-center gap-3">
+            {/* AI Toggle */}
+            <button
+              onClick={() => setUseFreepik(!useFreepik)}
+              disabled={isLoading}
+              className={clsx(
+                'px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200',
+                useFreepik
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+                  : 'bg-cyan-600/60 hover:bg-cyan-600 text-white',
+                'disabled:opacity-50 disabled:cursor-not-allowed'
+              )}
+              title={useFreepik ? 'Using Freepik Mystic (slower, higher quality)' : 'Using Stable Diffusion (faster)'}
+            >
+              {useFreepik ? '✨ Mystic' : '⚡ SD'}
+            </button>
+
+            <div className="flex gap-2">
+              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="text-xs text-gray-400">Ready</span>
+            </div>
           </div>
         </div>
       </div>
