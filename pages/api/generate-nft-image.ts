@@ -25,7 +25,11 @@ export default async function handler(
     // Model: Stable Diffusion v2.1 (free tier available)
     const HF_API_KEY = process.env.HUGGINGFACE_API_KEY;
 
+    console.log('[NFT Generator] API Key present:', !!HF_API_KEY);
+    console.log('[NFT Generator] Prompt:', prompt);
+
     if (!HF_API_KEY) {
+      console.log('[NFT Generator] No API key, using placeholders');
       // Fallback: Generate placeholder images for demo
       const images = generatePlaceholderImages(prompt);
       return res.status(200).json({ success: true, images });
@@ -36,31 +40,46 @@ export default async function handler(
     // Generate 3 images with different parameters
     for (let i = 0; i < 3; i++) {
       try {
+        const enhancedPrompt = `${prompt}, NFT art style, digital art, high quality, 4k${i > 0 ? `, variation ${i + 1}` : ''}`;
+        
+        console.log(`[NFT Generator] Generating image ${i + 1}/3...`);
+        
         const response = await fetch(
-          'https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1',
+          'https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5',
           {
-            headers: { Authorization: `Bearer ${HF_API_KEY}` },
+            headers: { 
+              Authorization: `Bearer ${HF_API_KEY}`,
+              'Content-Type': 'application/json',
+            },
             method: 'POST',
             body: JSON.stringify({
-              inputs: `${prompt}, NFT art style, digital art, high quality, 4k`,
+              inputs: enhancedPrompt,
             }),
           }
         );
 
+        console.log(`[NFT Generator] Response status: ${response.status}`);
+
         if (!response.ok) {
+          const errorText = await response.text();
+          console.error(`[NFT Generator] HF API Error:`, response.status, errorText);
           throw new Error(`HF API error: ${response.statusText}`);
         }
 
-        const blob = await response.blob();
-        const base64 = await blob.text();
+        // Response is binary image data (PNG)
+        const arrayBuffer = await response.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        const base64 = buffer.toString('base64');
+        console.log(`[NFT Generator] Image ${i + 1} generated, size: ${base64.length} bytes`);
         images.push(`data:image/png;base64,${base64}`);
       } catch (error) {
-        console.error('Error generating image', error);
+        console.error(`[NFT Generator] Error generating image ${i + 1}:`, error);
         // Add placeholder on error
         images.push(generatePlaceholderImage(prompt, i));
       }
     }
 
+    console.log('[NFT Generator] All images generated successfully');
     res.status(200).json({ success: true, images });
   } catch (error) {
     console.error('Generation error:', error);

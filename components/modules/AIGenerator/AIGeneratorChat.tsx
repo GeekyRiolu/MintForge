@@ -53,17 +53,22 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
     setIsLoading(true);
 
     try {
+      console.log('[AIGeneratorChat] Sending prompt:', prompt);
       const response = await fetch('/api/generate-nft-image', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt }),
       });
 
-      if (!response.ok) throw new Error('Failed to generate images');
-
       const data = await response.json();
 
+      if (!response.ok) {
+        console.error('[AIGeneratorChat] API error:', response.status, data);
+        throw new Error(data.error || `HTTP ${response.status}`);
+      }
+
       if (data.success) {
+        console.log('[AIGeneratorChat] Images generated successfully, count:', data.images?.length);
         const assistantMessage: Message = {
           id: (Date.now() + 1).toString(),
           type: 'assistant',
@@ -74,9 +79,11 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
         setMessages((prev) => [...prev, assistantMessage]);
         onGenerateImages?.(prompt);
       } else {
+        console.error('[AIGeneratorChat] Generation failed:', data.error);
         throw new Error(data.error || 'Failed to generate');
       }
     } catch (error) {
+      console.error('[AIGeneratorChat] Error caught:', error);
       const errorMessage: Message = {
         id: (Date.now() + 2).toString(),
         type: 'assistant',
