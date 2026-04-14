@@ -225,23 +225,29 @@ Index.getLayout = function getLayout(page) {
 };
 
 export async function getStaticProps({ preview = false }) {
-  const homeDataV2 = await getCollection(
-    false,
-    10,
-    'homepageV2Collection',
-    HOME_PAGE_FIELDS_V2
-  );
-  const homeDataV3 = await getCollection(
-    false,
-    10,
-    'homePageV3ProdCollection',
-    HOME_PAGE_FIELDS_V3
-  );
+  let homeDataV2 = null;
+  let homeDataV3 = null;
+  try {
+    homeDataV2 = await getCollection(
+      false,
+      10,
+      'homepageV2Collection',
+      HOME_PAGE_FIELDS_V2
+    );
+    homeDataV3 = await getCollection(
+      false,
+      10,
+      'homePageV3ProdCollection',
+      HOME_PAGE_FIELDS_V3
+    );
+  } catch (e) {
+    console.error('Failed to fetch Contentful data:', e);
+  }
   return {
     props: {
       preview,
-      data_v2: homeDataV2[0] ?? contentfulBackupData[0],
-      homePageDataV3: homeDataV3 && homeDataV3[0]
+      data_v2: homeDataV2?.[0] ?? contentfulBackupData[0] ?? null,
+      homePageDataV3: homeDataV3?.[0] ?? null,
     }
   };
 }
