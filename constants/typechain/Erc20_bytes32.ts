@@ -17,7 +17,6 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
-  PromiseOrValue,
 } from "./common";
 
 export interface Erc20_bytes32Interface extends utils.Interface {

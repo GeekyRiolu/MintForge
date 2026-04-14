@@ -35,8 +35,8 @@ export { FeeSharingSystem__factory } from "./factories/FeeSharingSystem__factory
 export { IExecutionStrategy__factory } from "./factories/IExecutionStrategy__factory";
 export { LooksRareAirdrop__factory } from "./factories/LooksRareAirdrop__factory";
 export { LooksRareExchange__factory } from "./factories/LooksRareExchange__factory";
-export { Multicall2__factory } from "./factories/Multicall2__factory";
 export { MultiRewardsDistributor__factory } from "./factories/MultiRewardsDistributor__factory";
+export { Multicall2__factory } from "./factories/Multicall2__factory";
 export { OrderValidatorV1__factory } from "./factories/OrderValidatorV1__factory";
 export { PrivateSaleWithFeeSharing__factory } from "./factories/PrivateSaleWithFeeSharing__factory";
 export { ReverseRecords__factory } from "./factories/ReverseRecords__factory";
