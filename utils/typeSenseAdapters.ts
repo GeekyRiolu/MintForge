@@ -1,5 +1,3 @@
-import Typesense from 'typesense';
-import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
 import { Doppler, getEnv, getEnvBool } from 'utils/env';
 
 export enum SearchableFields {
@@ -24,52 +22,84 @@ export interface TypesenseSearchResponse {
   search_time_ms: number
 }
 
-const typeSenseServerData = {
-  apiKey: getEnv(Doppler.NEXT_PUBLIC_TYPESENSE_APIKEY),
+const getTypeSenseServerData = () => ({
+  apiKey: getEnv(Doppler.NEXT_PUBLIC_TYPESENSE_APIKEY) || 'placeholder',
   nodes: [
     {
-      host: getEnv(Doppler.NEXT_PUBLIC_TYPESENSE_HOST),
+      host: getEnv(Doppler.NEXT_PUBLIC_TYPESENSE_HOST) || 'localhost',
       port: 443,
-      protocol: 'https',
+      protocol: 'https' as const,
     },
   ],
   sendApiKeyAsQueryParam: false,
-  cacheSearchResultsForSeconds: 2 * 60, // Cache search results from server. Defaults to 2 minutes. Set to 0 to disable caching.
+  cacheSearchResultsForSeconds: 2 * 60,
+});
+
+let _multiIndexAdapter: any = null;
+export const getMultiIndexTypesenseInstantSearchAdapter = () => {
+  if (!_multiIndexAdapter) {
+    try {
+      const TypesenseInstantSearchAdapter = require('typesense-instantsearch-adapter');
+      _multiIndexAdapter = new TypesenseInstantSearchAdapter({
+        server: getTypeSenseServerData(),
+        additionalSearchParameters: {
+          query_by: SearchableFields.NFTS_INDEX_FIELDS + (getEnvBool(Doppler.NEXT_PUBLIC_TYPESENSE_SETUP_ENABLED) ? ',listings.type,listings.currency,listings.marketplace' : 'marketplace,listingType,currency'),
+        },
+        collectionSpecificSearchParameters: {
+          ntfs: {
+            query_by: SearchableFields.NFTS_INDEX_FIELDS + (getEnvBool(Doppler.NEXT_PUBLIC_TYPESENSE_SETUP_ENABLED) ? ',listings.type,listings.currency,listings.marketplace' : 'marketplace,listingType,currency'),
+          },
+          collections: {
+            query_by: SearchableFields.COLLECTIONS_INDEX_FIELDS,
+          },
+          profiles: {
+            query_by: SearchableFields.PROFILES_INDEX_FIELDS,
+          },
+        },
+      });
+    } catch {
+      _multiIndexAdapter = { searchClient: null };
+    }
+  }
+  return _multiIndexAdapter;
 };
 
-export const MultiIndexTypesenseInstantSearchAdapter = new TypesenseInstantSearchAdapter({
-  server: typeSenseServerData,
-  additionalSearchParameters: {
-    query_by: SearchableFields.NFTS_INDEX_FIELDS + (getEnvBool(Doppler.NEXT_PUBLIC_TYPESENSE_SETUP_ENABLED) ? ',listings.type,listings.currency,listings.marketplace' : 'marketplace,listingType,currency'),
-  },
-  collectionSpecificSearchParameters: {
-    ntfs: {
-      query_by: SearchableFields.NFTS_INDEX_FIELDS + (getEnvBool(Doppler.NEXT_PUBLIC_TYPESENSE_SETUP_ENABLED) ? ',listings.type,listings.currency,listings.marketplace' : 'marketplace,listingType,currency'),
-    },
-    collections: {
-      query_by: SearchableFields.COLLECTIONS_INDEX_FIELDS,
-    },
-    profiles: {
-      query_by: SearchableFields.PROFILES_INDEX_FIELDS,
-    },
-  },
+// Keep backward compat as a lazy getter
+export const MultiIndexTypesenseInstantSearchAdapter = new Proxy({} as any, {
+  get(_, prop) {
+    return getMultiIndexTypesenseInstantSearchAdapter()?.[prop];
+  }
 });
 
 export const getTypesenseInstantsearchAdapter = (QUERY_BY: SearchableFields) => {
-  const typesenseInstantSearchAdapter = new TypesenseInstantSearchAdapter({
-    server: typeSenseServerData,
-    additionalSearchParameters: { query_by: QUERY_BY },
-  });
-  return typesenseInstantSearchAdapter.searchClient;
+  try {
+    const TypesenseInstantSearchAdapter = require('typesense-instantsearch-adapter');
+    const adapter = new TypesenseInstantSearchAdapter({
+      server: getTypeSenseServerData(),
+      additionalSearchParameters: { query_by: QUERY_BY },
+    });
+    return adapter.searchClient;
+  } catch {
+    return null;
+  }
 };
 
-export const getTypesenseInstantsearchAdapterRaw = new Typesense.Client({
-  'nodes': [{
-    'host': getEnv(Doppler.NEXT_PUBLIC_TYPESENSE_HOST), // For Typesense Cloud use xxx.a1.typesense.net
-    'port': 443, // For Typesense Cloud use 443
-    'protocol': 'https', // For Typesense Cloud use https
-  }],
-  sendApiKeyAsQueryParam: false,
-  'apiKey': getEnv(Doppler.NEXT_PUBLIC_TYPESENSE_APIKEY),
-  //'connectionTimeoutSeconds': 2
+export const getTypesenseInstantsearchAdapterRaw = new Proxy({} as any, {
+  get(_, prop) {
+    try {
+      const Typesense = require('typesense');
+      const client = new Typesense.Client({
+        'nodes': [{
+          'host': getEnv(Doppler.NEXT_PUBLIC_TYPESENSE_HOST) || 'localhost',
+          'port': 443,
+          'protocol': 'https',
+        }],
+        sendApiKeyAsQueryParam: false,
+        'apiKey': getEnv(Doppler.NEXT_PUBLIC_TYPESENSE_APIKEY) || 'placeholder',
+      });
+      return client[prop];
+    } catch {
+      return undefined;
+    }
+  }
 });

@@ -8,9 +8,10 @@
   "scripts": {
     "style:build": "tailwind -c ./tailwind.config.js build -i styles/globals.css -o styles/tailwind.css",
     "style:watch": "yarn run style:build --watch",
-    "dev": "yarn typechain:gen & doppler run -- next dev",
-    "dev:local": "yarn typechain:gen & next dev",
-    "build": "yarn typechain:gen && doppler run -- next build",
+    "dev": "next dev --port 8080",
+    "dev:local": "next dev",
+    "build": "next build",
+    "build:dev": "next build",
     "postbuild": "next-sitemap",
     "build:vercel": "yarn typechain:gen && next build && yarn postbuild",
     "start": "doppler run -- next start",
