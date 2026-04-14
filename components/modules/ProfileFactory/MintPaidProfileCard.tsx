@@ -249,7 +249,7 @@ export default function MintPaidProfileCard({ type, profile } : MintPaidProfileC
           {hasListings ?
             <Link href={`/app/nft/0x98ca78e89Dd1aBE48A53dEe5799F24cC1A462F2D/${profileTokenId?.toNumber()}`}>
               <Button
-                label='View NFT.com listing'
+                label='View Mintly.com listing'
                 type={ButtonType.PRIMARY}
                 size={ButtonSize.XLARGE}
                 stretch

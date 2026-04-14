@@ -81,7 +81,7 @@ const CryptoWalletProvider = ({ children }: { children: ReactNode }) => {
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider
           appInfo={{
-            appName: 'NFT.com',
+            appName: 'Mintly.com',
             learnMoreUrl: 'https://docs.nft.com/what-is-a-wallet',
             disclaimer: Disclaimer,
           }}

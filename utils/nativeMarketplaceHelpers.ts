@@ -379,7 +379,7 @@ export const getMarketAskSignatureData = (
       ]
     },
     domain: {
-      name: 'NFT.com Marketplace',
+      name: 'Mintly.com Marketplace',
       version: '1',
       chainId,
       verifyingContract: verifyingContract as `0x${string}`,
@@ -441,7 +441,7 @@ export const getMarketBidSignatureData = (
       ]
     },
     domain: {
-      name: 'NFT.com Marketplace',
+      name: 'Mintly.com Marketplace',
       version: '1',
       chainId,
       verifyingContract: verifyingContract as `0x${string}`,

@@ -128,7 +128,7 @@ export default function HeroSection({ data }: HomePageData) {
             >
               {/* Placeholder the broadest word */}
               <div className='flex text-transparent'>
-                NFT.COM
+                Mintly.COM
                 <div
                   role='presentation'
                   className={tw(
@@ -151,7 +151,7 @@ export default function HeroSection({ data }: HomePageData) {
                     href={'/app/mint-profiles'}
                     className='anim-profile-link flex items-center justify-center text-center'
                   >
-                    <span className='text-white/40'>NFT.COM</span>
+                    <span className='text-white/40'>Mintly.COM</span>
                     <span
                       role='presentation'
                       className={tw(

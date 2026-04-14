@@ -118,7 +118,7 @@ export function InsiderProfileClaim() {
             You officially own the Profile:
           </span>
           <span className="text-4xl deprecated_md:text-2xl deprecated_sm:text-lg mb-16 text-primary-txt-dk">
-            NFT.com/{selectedReservedProfile}
+            Mintly.com/{selectedReservedProfile}
           </span>
           <Button
             label={'NEXT'}

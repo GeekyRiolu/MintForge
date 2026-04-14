@@ -121,7 +121,7 @@ export const FooterSmall = () => {
                   <BlurImage
                     localImage
                     src='/icons/LogoFooterWhite.svg'
-                    alt='NFT.com white footer logo' className='w-[3.8rem] h-[3.8rem] justify-start'
+                    alt='Mintly.com white footer logo' className='w-[3.8rem] h-[3.8rem] justify-start'
                     width={60}
                     height={60}
                   />
@@ -230,7 +230,7 @@ export const FooterSmall = () => {
             'w-full text-sm minxxl:text-lg text-[#6A6A6A] minlg:pl-14',
             'order-1 minlg:-order-1 minmd:flex'
           )}>
-            <p>© {new Date().getFullYear()} NFT.com. <br className='minlg:hidden' /> All rights reserved</p>
+            <p>© {new Date().getFullYear()} Mintly.com. <br className='minlg:hidden' /> All rights reserved</p>
             <span className={tw(
               'absolute minlg:relative bottom-0 right-10',
               '-skew-x-[20deg] w-[125px] h-[175px] minlg:h-[100px] bg-[#F9D54C] block',

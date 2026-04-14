@@ -52,9 +52,9 @@ export default function ProfilePage(props: ProfilePageProps) {
       return <div className="flex flex-col h-full w-full items-center justify-center bg-pagebg">
         <NullState
           showImage={true}
-          primaryMessage='Looking for a NFT.com profile?'
-          secondaryMessage={'Return to NFT.com'}
-          buttonLabel={'Go to NFT.com'}
+          primaryMessage='Looking for a Mintly.com profile?'
+          secondaryMessage={'Return to Mintly.com'}
+          buttonLabel={'Go to Mintly.com'}
           href='/'
         />
       </div>;

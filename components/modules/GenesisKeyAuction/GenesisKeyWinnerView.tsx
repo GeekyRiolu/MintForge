@@ -112,7 +112,7 @@ export function GenesisKeyWinnerView(props: GenesisKeyWinnerViewProps) {
                       // '&'+
                       'text=' +
                       encodeURIComponent(
-                        'I just claimed a genesis key from NFT.com! Check it out: ' +
+                        'I just claimed a genesis key from Mintly.com! Check it out: ' +
                         'https://' + window.location.host + '/app/gallery/' + props.ownedTokenID
                       ),
                       '_blank'
@@ -200,7 +200,7 @@ export function GenesisKeyWinnerView(props: GenesisKeyWinnerViewProps) {
                     <div className='mb-12'>
                       <HeroTitle color="black" items={['Thank you for ']} />
                       <HeroTitle color="black" items={['supporting']} />
-                      <HeroTitle color="black" items={['nft.com']} />
+                      <HeroTitle color="black" items={['mintly.com']} />
                     </div>
                     <span className={tw(
                       'text-lg mb-10 normal-case font-rubik',

@@ -141,7 +141,7 @@ export function ListingCheckoutNftTableRow(props: ListingCheckoutNftTableRowProp
         disabled: X2Y2Enabled
       },
       {
-        label: 'NFT.com',
+        label: 'Mintly.com',
         icon: NFTCOMIcon,
         imageSize: 18,
         onSelect: () => {
@@ -578,7 +578,7 @@ export function ListingCheckoutNftTableRow(props: ListingCheckoutNftTableRowProp
                   <div
                     className="rounded-xl max-w-[200px] w-max"
                   >
-                    <p>Nft.com only allows adjusting the price to a lower value. Please lower the value, or cancel the previous listing in order to create a new listing at a higher price.</p>
+                    <p>Mintly.com only allows adjusting the price to a lower value. Please lower the value, or cancel the previous listing in order to create a new listing at a higher price.</p>
                   </div>
                 }
               >

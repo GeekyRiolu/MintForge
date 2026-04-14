@@ -223,7 +223,7 @@ export function NFTListingsCartSummaryModal(props: NFTListingsCartSummaryModalPr
                           target.protocol === ExternalProtocol.NFTCOM ?
                             <NFTLogo
                               className={'h-8 w-8 shrink-0 grow-0 aspect-square'}
-                              alt="NFT.com logo"
+                              alt="Mintly.com logo"
                               layout="fill"
                             /> :
                             <X2Y2Icon

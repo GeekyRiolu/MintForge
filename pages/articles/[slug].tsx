@@ -46,7 +46,7 @@ export default function Post({ post, preview }: PostProps) {
           alt: post?.heroImage?.description,
         },
       ],
-      site_name: 'NFT.com',
+      site_name: 'Mintly.com',
     },
   };
 

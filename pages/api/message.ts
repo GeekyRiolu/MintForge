@@ -28,7 +28,7 @@ const message = async (req: NextApiRequest, res: NextApiResponse) => {
       body: JSON.stringify({
         channel: 'sub-nftdotcom-analytics',
         text: req.query.text,
-        username: 'NFT.com Bot',
+        username: 'Mintly.com Bot',
         pretty: 1,
         mrkdwn: true,
       }),

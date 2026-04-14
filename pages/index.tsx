@@ -165,14 +165,14 @@ const Index: NextPageWithLayout = ({
       <>
         <NextSeo
           {...DefaultSEO}
-          title='NFT.com | The Social NFT Marketplace'
-          description='Join NFT.com to display, trade, and engage with your NFTs.'
+          title='Mintly.com | The Social NFT Marketplace'
+          description='Join Mintly.com to display, trade, and engage with your NFTs.'
           openGraph={{
             url: 'https://www.nft.com',
-            title: 'NFT.com | The Social NFT Marketplace',
+            title: 'Mintly.com | The Social NFT Marketplace',
             description:
-              'Join NFT.com to display, trade, and engage with your NFTs.',
-            site_name: 'NFT.com'
+              'Join Mintly.com to display, trade, and engage with your NFTs.',
+            site_name: 'Mintly.com'
           }}
         />
         <main id='anim-main-trigger' className='font-noi-grotesk not-italic HomePageContainer'>

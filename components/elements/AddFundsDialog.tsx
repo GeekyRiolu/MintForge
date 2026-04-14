@@ -61,7 +61,7 @@ export default function AddFundsDialog(props: AddFundsDialogProps) {
                 your wallet a different way. {'\n'}
               </div>
               <div className='w-full text-center text-base break-words max-w-xl'>
-                  Please note: NFT.com is not affiliated with sendwyre.com in any way, and are
+                  Please note: Mintly.com is not affiliated with sendwyre.com in any way, and are
                   providing a link to this service for convenience purposes only.
               </div>
             </> :

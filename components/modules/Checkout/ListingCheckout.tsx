@@ -230,11 +230,11 @@ export function ListingCheckout() {
                 {NFTCOMAtLeastOneEnabled
                   ? <NFTLogo
                     className='h-[26px] relative shrink-0 -my-[4px] mb-[3px]'
-                    alt="NFT.com logo"
+                    alt="Mintly.com logo"
                     layout="fill"
                   />
                   : <NFTLogo className='h-[26px] relative shrink-0 -my-[4px] mb-[3px]' />}
-                <span className='font-semibold text-base'>NFT.com</span>
+                <span className='font-semibold text-base'>Mintly.com</span>
                 <span className='ml-2 font-medium text-sm text-[#6F6F6F]'>({hasGk ? Number(NFTCOMGKFee) / 100 : myOwnedProfileTokens?.length ? Number(NFTCOMProfileFee) / 100 : Number(NFTCOMProtocolFee) / 100}% fee)</span>
               </div>
               <div className='text-[0.75rem] text-center py-1'><span className='text-primary-yellow'>{NFTCOMGKFee / 100}%</span> fee with GK</div>

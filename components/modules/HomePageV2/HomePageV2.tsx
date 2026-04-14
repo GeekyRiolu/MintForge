@@ -344,13 +344,13 @@ const HomePageV2Layout = ({ data_v2, preview }: HomePageData) => {
     <>
       <NextSeo
         {...DefaultSEO}
-        title='NFT.com | The Social NFT Marketplace'
-        description='Join NFT.com to display, trade, and engage with your NFTs.'
+        title='Mintly.com | The Social NFT Marketplace'
+        description='Join Mintly.com to display, trade, and engage with your NFTs.'
         openGraph={{
           url: 'https://www.nft.com',
-          title: 'NFT.com | The Social NFT Marketplace',
-          description: 'Join NFT.com to display, trade, and engage with your NFTs.',
-          site_name: 'NFT.com',
+          title: 'Mintly.com | The Social NFT Marketplace',
+          description: 'Join Mintly.com to display, trade, and engage with your NFTs.',
+          site_name: 'Mintly.com',
         }}
       />
       <main id='anim-main-trigger' className='font-noi-grotesk not-italic HomePageContainer'>
@@ -399,7 +399,7 @@ const HomePageV2Layout = ({ data_v2, preview }: HomePageData) => {
                 on{' '}
                 <span data-aos="fade-left" data-aos-delay="200"
                   className='bg-clip-text text-transparent bg-gradient-to-r from-[#FBC214] to-[#FF9C38]'>
-                    NFT.com
+                    Mintly.com
                 </span>
               </h2>
 
@@ -446,7 +446,7 @@ const HomePageV2Layout = ({ data_v2, preview }: HomePageData) => {
                   'leading-none tracking-tight rounded-full'
                 )}>
                   {/* Placeholder the broadest word */}
-                  <div className='text-transparent flex'>NFT.COM
+                  <div className='text-transparent flex'>Mintly.COM
                     <div role='presentation' className={tw(
                       'mx-2 minlg:mx-4 minxxl:mx-8',
                       'h-[.68em] w-[.1081em] basis-[.1081em]'
@@ -460,7 +460,7 @@ const HomePageV2Layout = ({ data_v2, preview }: HomePageData) => {
                   )}>
                     {data_v2?.dynamicUrl['url'].map(word =>
                       <a key={word} href={'/app/mint-profiles'} className='anim-profile-link flex items-center justify-center text-center'>
-                        <span className='text-white/40'>NFT.COM</span>
+                        <span className='text-white/40'>Mintly.COM</span>
                         <span role='presentation' className={tw(
                           '-mb-[.1em] mx-2 minlg:mx-4 minxxl:mx-8 skew-x-[-20deg]',
                           'bg-gradient-to-b from-[#FECB02] to-[#FF9E39]',
@@ -556,7 +556,7 @@ const HomePageV2Layout = ({ data_v2, preview }: HomePageData) => {
                     'text-[1.875rem] minmd:text-[1.625rem] minlg:text-[2rem] leading-none tracking-tight',
                     'minxl:text-[calc(34px+29*(100vw-375px)/1545)]',
                   )}>
-                    <div className='text-transparent flex'>NFT.COM
+                    <div className='text-transparent flex'>Mintly.COM
                       <div role='presentation' className={tw(
                         'mx-1 minlg:mx-2 minxxl:mx-4',
                         'h-[.68em] w-[.1081em] basis-[.1081em]'
@@ -570,7 +570,7 @@ const HomePageV2Layout = ({ data_v2, preview }: HomePageData) => {
                     )}>
                       {data_v2?.dynamicUrl['url'].map(word =>
                         <a key={word} href={'/app/mint-profiles'} className='anim-profile-link flex items-center justify-center text-center'>
-                          <span className='text-white/40'>NFT.COM</span>
+                          <span className='text-white/40'>Mintly.COM</span>
                           <span className={tw(
                             'mt-[.075em] -mb-[.0625] mx-1 minlg:mx-2 minxxl:mx-4 skew-x-[-20deg]',
                             'bg-gradient-to-b from-[#FECB02] to-[#FF9E39]',

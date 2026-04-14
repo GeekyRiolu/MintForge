@@ -115,8 +115,8 @@ export default function DetailPageTableRow({ tx, index, isNftDetailPage }: Detai
       </div>;
     } else if (name == 'nftcom') {
       return <div className='flex items-center'>
-        <BlurImage localImage width={20} height={20} src='/nft_logo_yellow.webp' className='h-5 w-5 relative shrink-0 hover:opacity-70' alt="NFT.com logo" />
-        <div className='font-noi-grotesk text-[16px] text-[#6A6A6A] ml-2'>NFT.com</div>
+        <BlurImage localImage width={20} height={20} src='/nft_logo_yellow.webp' className='h-5 w-5 relative shrink-0 hover:opacity-70' alt="Mintly.com logo" />
+        <div className='font-noi-grotesk text-[16px] text-[#6A6A6A] ml-2'>Mintly.com</div>
       </div>;
     } else if (name == 'x2y2') {
       return <div className='flex items-center'>

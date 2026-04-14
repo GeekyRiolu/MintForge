@@ -26,7 +26,7 @@ export function SignatureModal(props: SignatureModalProps) {
           'text-center max-w-md text-primary-txt w-full text-base',
           'my-6'
         )}>
-          NFT.com uses this signature to verify that you{'\''}re the owner of this Ethereum address.
+          Mintly.com uses this signature to verify that you{'\''}re the owner of this Ethereum address.
         </div>
         <div className="font-noi-grotesk minmd:mx-[20%] minmd:mb-5 flex w-full">
           {props.showRetry &&

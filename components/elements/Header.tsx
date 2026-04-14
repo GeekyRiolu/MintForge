@@ -70,8 +70,8 @@ export const Header = ({ removeBg, homepageHeader }: HeaderProps) => {
   });
 
   const renderLogoMode = () => useDarkMode ?
-    <Image width={40} height={40} src='/icons/LogoLight.svg' alt='NFT.com Logo' className='justify-start' /> :
-    <Image width={40} height={40} src='/icons/Logo.svg' alt='NFT.com Logo' className='justify-start' />;
+    <Image width={40} height={40} src='/icons/LogoLight.svg' alt='Mintly.com Logo' className='justify-start' /> :
+    <Image width={40} height={40} src='/icons/Logo.svg' alt='Mintly.com Logo' className='justify-start' />;
 
   if (homepageHeader) {
     return (
@@ -117,7 +117,7 @@ export const Header = ({ removeBg, homepageHeader }: HeaderProps) => {
                       <path d="M54.6126 4.12529V17.125H51.028V4.12529H43.1409V0.875H62.4996V4.12529H54.6126Z" fill="black" />
                     </svg>
                     <div className='w-9 h-4 ml-2'>
-                      <BetaIcon alt="NFT.com Beta Icon" />
+                      <BetaIcon alt="Mintly.com Beta Icon" />
                     </div>
                   </div>
                 </Link>
@@ -354,7 +354,7 @@ export const Header = ({ removeBg, homepageHeader }: HeaderProps) => {
                     <path d="M54.6126 4.12529V17.125H51.028V4.12529H43.1409V0.875H62.4996V4.12529H54.6126Z" fill="black" />
                   </svg>
                   <div className='w-9 h-4 ml-2'>
-                    <BetaIcon alt='NFT.com Beta Icon' />
+                    <BetaIcon alt='Mintly.com Beta Icon' />
                   </div>
                 </div>
               </Link>

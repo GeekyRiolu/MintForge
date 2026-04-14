@@ -46,7 +46,7 @@ export default function MyApp({
           `}
       </style>
       <Head>
-        <title>NFT.com</title>
+        <title>Mintly.com</title>
         <script
           type="text/partytown"
           nonce='pb+/pfhRedphzqIYzlBxMA=='
@@ -84,20 +84,20 @@ export default function MyApp({
           fbq('init', ${fbq.FB_PIXEL_ID});
           ` }} />
       <DefaultSeo
-        title="NFT.com | The Social NFT Marketplace"
-        description="Join NFT.com to display, trade, and engage with your NFTs."
+        title="Mintly.com | The Social NFT Marketplace"
+        description="Join Mintly.com to display, trade, and engage with your NFTs."
         openGraph={{
           url: 'https://www.nft.com',
-          title: 'NFT.com | The Social NFT Marketplace',
+          title: 'Mintly.com | The Social NFT Marketplace',
           description:
-            'Join NFT.com to display, trade, and engage with your NFTs.',
-          site_name: 'NFT.com',
+            'Join Mintly.com to display, trade, and engage with your NFTs.',
+          site_name: 'Mintly.com',
           images: [
             {
               url: 'https://www.nft.com/site-meta-image.webp',
               width: 1200,
               height: 627,
-              alt: 'NFT.com | The Social NFT Marketplace',
+              alt: 'Mintly.com | The Social NFT Marketplace',
               type: 'image/png',
             },
           ],

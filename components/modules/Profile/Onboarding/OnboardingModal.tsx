@@ -45,7 +45,7 @@ export default function OnboardingModal({ profileURI, onClose } : OnboardingModa
       name: 'Refer Network',
       isCompleted: usersActions?.action.includes(ProfileActionType.ReferNetwork) && sufficientReferrals,
       coins: 10,
-      description: 'Refer friends to join you on NFT.com. Once your referral creates a profile, this step will be marked as completed.',
+      description: 'Refer friends to join you on Mintly.com. Once your referral creates a profile, this step will be marked as completed.',
       buttonText: 'Continue'
     },
     {

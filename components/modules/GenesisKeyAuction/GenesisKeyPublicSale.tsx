@@ -202,7 +202,7 @@ export function GenesisKeyPublicSale(props: GenesisKeyPublicSaleProps) {
                   <div className={tw('mt-14 mb-8 text-xl flex flex-col text-center', )}>
                     <span>Sold Out</span>
                     <span className="text-footer-txt text-base mt-2">
-                      Thank you all who participated. Learn more at NFT.com.
+                      Thank you all who participated. Learn more at Mintly.com.
                     </span>
                   </div>
                   <div className="font-hero-heading1">
@@ -210,7 +210,7 @@ export function GenesisKeyPublicSale(props: GenesisKeyPublicSaleProps) {
                       size={ButtonSize.LARGE}
                       type={ButtonType.PRIMARY}
                       stretch
-                      label={'VISIT NFT.COM'}
+                      label={'VISIT Mintly.COM'}
                       onClick={async () => null}
                     />
                   </div>

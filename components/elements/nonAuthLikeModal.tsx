@@ -46,7 +46,7 @@ export default function NonAuthLikeModal(){
       title={''}
       onClose={() => setLikeData(false)}>
       <div className="p-20 text-4xl flex items-center flex-col font-noi-grotesk">
-        <h2 className="mb-9 font-medium">Create your <span className="textColorGradient">NFT.com</span> Profile<br/> so you can like this {likedType}</h2>
+        <h2 className="mb-9 font-medium">Create your <span className="textColorGradient">Mintly.com</span> Profile<br/> so you can like this {likedType}</h2>
         <Image src={preview()} className={`${checkWidth()} mb-4`} alt={`${likedType} Preview Image`} />
         {likedType.toLowerCase() === 'profile'
           ? (

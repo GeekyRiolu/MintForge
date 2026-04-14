@@ -6,6 +6,6 @@ export function middleware(req: NextRequest) {
   const country = req.geo?.country || 'US';
 
   if (BLOCKED_COUNTRIES.includes(country)) {
-    return new Response('NFT.com is not available in your location', { status: 403 });
+    return new Response('Mintly.com is not available in your location', { status: 403 });
   }
 }

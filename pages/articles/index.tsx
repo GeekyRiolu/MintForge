@@ -48,13 +48,13 @@ export default function BlogListPage({ postData, preview, data, totalPosts }: Po
   return (
     <>
       <NextSeo
-        title='NFT.com Blog | NFT Insights, Updates, and Education'
+        title='Mintly.com Blog | NFT Insights, Updates, and Education'
         description='Learn about latest trends and updates in the NFT and crypto industry'
         openGraph={{
           url: 'https://www.nft.com/articles',
-          title: 'NFT.com Blog | NFT Insights, Updates, and Education',
+          title: 'Mintly.com Blog | NFT Insights, Updates, and Education',
           description: 'Learn about latest trends and updates in the NFT and crypto industry',
-          site_name: 'NFT.com',
+          site_name: 'Mintly.com',
         }}
         twitter={{
           cardType: 'summary_large_image',

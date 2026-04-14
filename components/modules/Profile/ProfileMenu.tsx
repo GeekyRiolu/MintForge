@@ -323,7 +323,7 @@ export function ProfileMenu({ profileURI }: ProfileMenuProps) {
               },
               {
                 label: 'Share via Twitter',
-                onSelect: () => window.open('https://twitter.com/share?url=' + `https://www.nft.com/${profileURI}` + `&text=NFT.com Profile for ${profileURI}`, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600'),
+                onSelect: () => window.open('https://twitter.com/share?url=' + `https://www.nft.com/${profileURI}` + `&text=Mintly.com Profile for ${profileURI}`, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600'),
                 icon: <TwitterLogo size={18} className='mr-3' color='#1DA1F2' weight="fill" />
               },
             ]

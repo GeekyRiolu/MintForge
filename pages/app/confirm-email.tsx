@@ -43,7 +43,7 @@ export default function ConfirmEmailPage() {
 
   return <div className="flex flex-col h-full w-full items-center md:justify-start justify-center">
     {success ?
-      <div>Success! Your email is successfully verified! Redirecting to NFT.com...</div> :
+      <div>Success! Your email is successfully verified! Redirecting to Mintly.com...</div> :
       loading ?
         <div>Loading...</div> :
         <div>Error: {message}</div>

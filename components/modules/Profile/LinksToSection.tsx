@@ -15,8 +15,8 @@ export function LinksToSection(props: LinksToSectionParams) {
     {
       image: '/link-to-nftcom.webp',
       section: 'DOCUMENT',
-      title: 'NFT.COM Summary',
-      description: 'Learn more about NFT.com at our docs page.',
+      title: 'Mintly.COM Summary',
+      description: 'Learn more about Mintly.com at our docs page.',
       linkTo: 'https://docs.nft.com'
     },
     // {
@@ -31,22 +31,22 @@ export function LinksToSection(props: LinksToSectionParams) {
     {
       image: '/link-to-you.webp',
       section: 'KNOWLEDGE BASE',
-      title: 'NFT.COM Support',
-      description: 'Learn about the different ways you can obtain your own NFT.com Profile.',
+      title: 'Mintly.COM Support',
+      description: 'Learn about the different ways you can obtain your own Mintly.com Profile.',
       linkTo: 'https://docs.nft.com'
     },
     {
       image: '/link-to-green-key.webp',
       section: 'GALLERY',
-      title: 'NFT.COM Gallery',
+      title: 'Mintly.COM Gallery',
       description: 'Explore all our Genesis Keys.',
       linkTo: '/app/collection/official/nftcom-genesis-key'
     },
     {
       image: '/link-to-nftcom-2.webp',
       section: 'MARKET PLACE',
-      title: 'NFT.com',
-      description: 'Start building your NFT collection by buying NFTs on the NFT.com Marketplace.',
+      title: 'Mintly.com',
+      description: 'Start building your NFT collection by buying NFTs on the Mintly.com Marketplace.',
       linkTo: 'https://www.nft.com/you'
     }
   ];
@@ -55,29 +55,29 @@ export function LinksToSection(props: LinksToSectionParams) {
     {
       image: '/link-to-key.webp',
       section: 'EVENTS',
-      title: 'NFT.COM Beta',
-      description: 'Get a Genesis Key to access the NFT.com Beta.',
+      title: 'Mintly.COM Beta',
+      description: 'Get a Genesis Key to access the Mintly.com Beta.',
       linkTo: `/app/collection/${getAddress('genesisKey', defaultChainId)}`
     },
     {
       image: '/link-to-you.webp',
       section: 'KNOWLEDGE BASE',
-      title: 'NFT.COM Support',
-      description: 'Learn about the different ways you can obtain your own NFT.com Profile.',
+      title: 'Mintly.COM Support',
+      description: 'Learn about the different ways you can obtain your own Mintly.com Profile.',
       linkTo: 'https://docs.nft.com'
     },
     {
       image: '/link-to-green-key.webp',
       section: 'GALLERY',
-      title: 'NFT.COM Gallery',
+      title: 'Mintly.COM Gallery',
       description: 'Explore all our Genesis Keys.',
       linkTo: '/app/collection/official/nftcom-genesis-key'
     },
     {
       image: '/link-to-nftcom-2.webp',
       section: 'MARKET PLACE',
-      title: 'NFT.com',
-      description: 'Start building your NFT collection by buying NFTs on the NFT.com Marketplace.',
+      title: 'Mintly.com',
+      description: 'Start building your Mintly collection by buying NFTs on the Mintly.com Marketplace.',
       linkTo: 'https://www.nft.com/you'
     }
   ];

@@ -61,7 +61,7 @@ export function PartialErrorItem({ listing, target } : PartialErrorItemProps) {
               />}
               {target.protocol === ExternalProtocol.NFTCOM && <NFTLogo
                 className='h-5 w-5 relative shrink-0 hover:opacity-70 '
-                alt="NFT.com logo"
+                alt="Mintly.com logo"
                 layout="fill"
               />}
               {target.protocol === ExternalProtocol.X2Y2 && <X2Y2Icon

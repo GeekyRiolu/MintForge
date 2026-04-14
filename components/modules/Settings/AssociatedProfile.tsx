@@ -331,7 +331,7 @@ export default function AssociatedProfile({ profile, pending, remove, isCollecti
                             You can change this association at any time in your account’s settings.
                           </p>
                           <Button
-                            label='Return to NFT.com'
+                            label='Return to Mintly.com'
                             type={ButtonType.PRIMARY}
                             size={ButtonSize.LARGE}
                             stretch
@@ -355,7 +355,7 @@ export default function AssociatedProfile({ profile, pending, remove, isCollecti
                         size={ButtonSize.LARGE}
                         type={ButtonType.PRIMARY}
                         stretch
-                        label='Return to NFT.com'
+                        label='Return to Mintly.com'
                       />
                     </div>
                   )

@@ -38,7 +38,7 @@ xdescribe('PriceInput', () => {
       <WagmiConfig client={client}>
         <RainbowKitProvider
           appInfo={{
-            appName: 'NFT.com',
+            appName: 'Mintly.com',
             learnMoreUrl: 'https://docs.nft.com/',
           }}
           theme={rainbowDark}
