@@ -170,6 +170,8 @@ module.exports = {
         'pulse-border': 'pulseBorder 2s linear infinite',
         'text-gradient': 'textGradient 2s ease-in-out infinite',
         'fadeIn': 'fadeIn 0.3s ease-in-out',
+        'bounce-delay-100': 'bounce 1s infinite 100ms',
+        'bounce-delay-200': 'bounce 1s infinite 200ms',
       },
       transitionDelay: {
         '0': '0ms',
@@ -221,10 +223,6 @@ module.exports = {
       },
       maxWidth: {
         'nftcom': '1200px',
-      },
-      animation: {
-        'bounce-delay-100': 'bounce 1s infinite 100ms',
-        'bounce-delay-200': 'bounce 1s infinite 200ms',
       }
     },
   },
