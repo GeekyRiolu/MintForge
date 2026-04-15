@@ -4,6 +4,8 @@ import 'styles/css/react-medium-image-zoom-styles.css';
 
 import fonts from 'config/fonts.config';
 import RootProvider from 'context';
+import { WagmiConfig } from 'wagmi';
+import { wagmiClient } from 'lib/wagmiClient';
 import useAnalyticsOnRouteChange from 'hooks/useAnalyticsOnRouteChange';
 
 import * as fbq from 'lib/fbq';
@@ -106,11 +108,13 @@ export default function MyApp({
           cardType: 'summary_large_image',
         }}
       />
-      <RootProvider>
-        {getLayout(
-          <Component {...pageProps} key={router.pathname} />
-        )}
-      </RootProvider>
+      <WagmiConfig client={wagmiClient}>
+        <RootProvider>
+          {getLayout(
+            <Component {...pageProps} key={router.pathname} />
+          )}
+        </RootProvider>
+      </WagmiConfig>
 
     </>
   );
