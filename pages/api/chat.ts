@@ -35,8 +35,8 @@ export default async function handler(
     execute: async ({ writer }) => {
       const textId = 'nft-generator-response';
       const intro = useFreepik
-        ? 'Generating your NFT concepts with Freepik Mystic. This can take up to a minute.'
-        : 'Generating three NFT concepts for you now.';
+        ? 'Generating your NFT design with Freepik Mystic. This can take up to a minute.'
+        : 'Generating your NFT design now.';
 
       writer.write({
         type: 'text-start',
@@ -54,7 +54,7 @@ export default async function handler(
         writer.write({
           type: 'text-delta',
           id: textId,
-          delta: `\n\nHere are 3 AI-generated NFT designs based on your prompt.`,
+          delta: `\n\nHere is your AI-generated NFT design based on your prompt.`,
         });
         writer.write({
           type: 'text-end',

@@ -28,11 +28,11 @@ export default function GenerateWithAI() {
     <>
       <NextSeo
         title="Create NFT with AI | AI NFT Generator"
-        description="Generate unique NFT art using AI. Describe your vision and let our AI create 3 different designs instantly."
+        description="Generate unique NFT art using AI. Describe your vision and let our AI create the perfect design instantly."
         openGraph={{
           title: 'Create NFT with AI',
           description:
-            'Generate unique NFT art using AI. Describe your vision and let our AI create 3 different designs instantly.',
+            'Generate unique NFT art using AI. Describe your vision and let our AI create the perfect design instantly.',
           type: 'website',
           url: 'https://nft.com/generate-with-ai',
         }}

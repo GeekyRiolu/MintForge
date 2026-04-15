@@ -159,11 +159,11 @@ async function generateWithHuggingFace(
 
   const images: string[] = [];
 
-  for (let index = 0; index < 3; index += 1) {
+  for (let index = 0; index < 1; index += 1) {
     try {
-      const enhancedPrompt = `${prompt}, NFT art style, digital art, high quality, 4k${index > 0 ? `, variation ${index + 1}` : ''}`;
+      const enhancedPrompt = `${prompt}, NFT art style, digital art, high quality, 4k`;
 
-      console.log(`[HuggingFace] Generating image ${index + 1}/3...`);
+      console.log(`[HuggingFace] Generating image ${index + 1}/1...`);
 
       const response = await fetch(
         'https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5',
@@ -213,7 +213,7 @@ async function generateWithHuggingFace(
 }
 
 function generatePlaceholderImages(prompt: string): string[] {
-  return Array.from({ length: 3 }, (_, index) =>
+  return Array.from({ length: 1 }, (_, index) =>
     generatePlaceholderImage(prompt, index),
   );
 }

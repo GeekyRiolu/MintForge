@@ -16,7 +16,7 @@ const INITIAL_MESSAGES: AIChatMessage[] = [
     parts: [
       {
         type: 'text',
-        text: 'Welcome to AI NFT Creator.\n\nDescribe the NFT you want to create in detail. Include style, elements, colors, mood, and any artistic references. I will generate 3 visual directions for you with the same image API you already use.',
+        text: 'Welcome to AI NFT Creator.\n\nDescribe the NFT you want to create in detail. Include style, elements, colors, mood, and any artistic references. I will generate one unique NFT design for you with the same image API you already use.',
       },
     ],
   },
