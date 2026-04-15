@@ -19,14 +19,14 @@ describe('AI generator chat API', () => {
             ],
           },
         ],
-        useFreepik: false,
       },
     }).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.headers['content-type']).to.include('text/event-stream');
       expect(response.body).to.include('"type":"data-generatedImages"');
+      expect(response.body).to.include('"provider":"cloudflare"');
       expect(response.body).to.include('data:image/');
-      expect(response.body).to.include('Here are 3 AI-generated NFT designs');
+      expect(response.body).to.include('Here is your AI-generated NFT design');
     });
   });
 
@@ -40,7 +40,6 @@ describe('AI generator chat API', () => {
       },
       body: {
         messages: [],
-        useFreepik: false,
       },
     }).then((response) => {
       expect(response.status).to.eq(400);

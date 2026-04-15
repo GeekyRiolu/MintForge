@@ -1,11 +1,6 @@
 import type { UIMessage } from 'ai';
 
-export type ImageGenerationProvider =
-  | 'cloudflare'
-  | 'freepik'
-  | 'huggingface'
-  | 'replicate'
-  | 'placeholder';
+export type ImageGenerationProvider = 'cloudflare';
 
 export type GeneratedImagesData = {
   images: string[];

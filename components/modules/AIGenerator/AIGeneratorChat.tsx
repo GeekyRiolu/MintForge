@@ -43,7 +43,6 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
     Boolean(contractAddress) &&
     contractAddress !== '0x0000000000000000000000000000000000000000';
   const [input, setInput] = useState('');
-  const [useFreepik, setUseFreepik] = useState(false);
   const [mintingStates, setMintingStates] = useState<Record<string, 'idle' | 'uploading' | 'minting' | 'success' | 'error'>>({});
   const [mintErrors, setMintErrors] = useState<Record<string, string>>({});
   const handledImageMessagesRef = useRef<Set<string>>(new Set());
@@ -86,16 +85,9 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
     setInput('');
 
     try {
-      await sendMessage(
-        {
-          text: prompt,
-        },
-        {
-          body: {
-            useFreepik,
-          },
-        },
-      );
+      await sendMessage({
+        text: prompt,
+      });
     } catch (_sendError) {
       setInput(prompt);
     } finally {
@@ -195,25 +187,9 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
             </p>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setUseFreepik(!useFreepik)}
-            disabled={isLoading}
-            className={clsx(
-              'relative shrink-0 rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition',
-              useFreepik
-                ? 'border-black bg-black text-white'
-                : 'border-black/10 bg-white text-black hover:border-black/25',
-              isLoading && 'cursor-not-allowed opacity-60',
-            )}
-            title={
-              useFreepik
-                ? 'Using Freepik Mystic for slower but more realistic results'
-                : 'Using Stable Diffusion for faster results'
-            }
-          >
-            {useFreepik ? 'Mystic Mode' : 'Fast Mode'}
-          </button>
+          <p className="shrink-0 rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-black">
+            Cloudflare
+          </p>
         </div>
       </div>
 

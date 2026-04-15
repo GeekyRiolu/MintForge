@@ -2,18 +2,13 @@ import { createUIMessageStream, pipeUIMessageStreamToResponse } from 'ai';
 import type { UIMessage } from 'ai';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { checkFreepikTask } from './check-freepik-task';
 import { generateNftImages } from './generate-nft-image';
 
 import type { AIChatMessage, ImageGenerationProvider } from 'types/ai-chat';
 
 type ChatRequestBody = {
   messages?: UIMessage[];
-  useFreepik?: boolean;
 };
-
-const FREEPIK_POLL_INTERVAL_MS = 2000;
-const FREEPIK_MAX_POLLS = 30;
 
 export default async function handler(
   req: NextApiRequest,
@@ -23,7 +18,7 @@ export default async function handler(
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { messages = [], useFreepik = false } = (req.body ?? {}) as ChatRequestBody;
+  const { messages = [] } = (req.body ?? {}) as ChatRequestBody;
   const prompt = getLatestUserPrompt(messages);
 
   if (!prompt) {
@@ -34,9 +29,6 @@ export default async function handler(
     originalMessages: messages as AIChatMessage[],
     execute: async ({ writer }) => {
       const textId = 'nft-generator-response';
-      const intro = useFreepik
-        ? 'Generating your NFT design with Freepik Mystic. This can take up to a minute.'
-        : 'Generating your NFT design now.';
 
       writer.write({
         type: 'text-start',
@@ -45,11 +37,11 @@ export default async function handler(
       writer.write({
         type: 'text-delta',
         id: textId,
-        delta: intro,
+        delta: 'Generating your NFT design now.',
       });
 
       try {
-        const result = await resolveImages(prompt, useFreepik);
+        const result = await resolveImages(prompt);
 
         writer.write({
           type: 'text-delta',
@@ -91,48 +83,17 @@ export default async function handler(
 
 async function resolveImages(
   prompt: string,
-  useFreepik: boolean,
 ): Promise<{ images: string[]; provider: ImageGenerationProvider }> {
-  const result = await generateNftImages(prompt, useFreepik);
+  const result = await generateNftImages(prompt);
 
   if (!result.success) {
     throw new Error(result.error);
-  }
-
-  if ('taskId' in result) {
-    return pollForFreepikImages(result.taskId, prompt);
   }
 
   return {
     images: result.images,
     provider: result.provider,
   };
-}
-
-async function pollForFreepikImages(
-  taskId: string,
-  prompt: string,
-): Promise<{ images: string[]; provider: ImageGenerationProvider }> {
-  for (let attempt = 0; attempt < FREEPIK_MAX_POLLS; attempt += 1) {
-    const result = await checkFreepikTask(taskId);
-
-    if (result.success && result.images?.length) {
-      return {
-        images: result.images,
-        provider: 'freepik',
-      };
-    }
-
-    if (result.status === 'FAILED') {
-      throw new Error(result.error ?? 'Image generation failed');
-    }
-
-    await sleep(FREEPIK_POLL_INTERVAL_MS);
-  }
-
-  throw new Error(
-    `Image generation timed out for "${prompt}". Please try again.`,
-  );
 }
 
 function getLatestUserPrompt(messages: UIMessage[]): string | null {
@@ -162,12 +123,6 @@ function isTextPart(
   part: UIMessage['parts'][number],
 ): part is Extract<UIMessage['parts'][number], { type: 'text' }> {
   return part.type === 'text';
-}
-
-function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
 }
 
 function getErrorMessage(error: unknown): string {

@@ -6,7 +6,7 @@ This guide walks through the complete AI-to-NFT minting flow that has been imple
 
 The minting integration consists of three main components:
 
-1. **Image Generation** (existing) - AIGeneratorChat with Stable Diffusion / Freepik
+1. **Image Generation** (existing) - AIGeneratorChat with Cloudflare Workers AI
 2. **IPFS Upload** (new) - `useIPFSUpload` hook for persistent storage
 3. **NFT Minting** (new) - `useNFTMint` hook for on-chain transactions
 
@@ -241,7 +241,7 @@ const metadata = {
   prompt: params.prompt,
   attributes: [
     { trait_type: 'Generator', value: 'Mintly AI' },
-    { trait_type: 'Model', value: 'Stable Diffusion v2.1' },
+    { trait_type: 'Model', value: 'Cloudflare Workers AI' },
     { trait_type: 'Prompt Length', value: params.prompt.length },
   ],
 };
