@@ -8,6 +8,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { SWRConfig } from 'swr';
 
 const CryptoWalletProvider = dynamic(import('./CryptoWalletContext'));
+const AuthProvider = dynamic(import('./AuthContext').then(mod => mod.AuthProvider));
 const DndProvider = dynamic(() => import('react-dnd').then(mod => mod.DndProvider));
 const GraphQLProvider = dynamic(import('graphql/client/GraphQLProvider'));
 const NFTListingsContextProvider = dynamic(import('components/modules/Checkout/NFTListingsContext'));
@@ -18,19 +19,21 @@ const RootProvider = ({ children }: { children: ReactNode }) => {
   return (
     <SWRConfig value={config}>
       <CryptoWalletProvider>
-        <AnimatePresence mode="wait">
-          <GraphQLProvider>
-            <DndProvider backend={HTML5Backend}>
-              <NotificationContextProvider>
-                <NFTPurchaseContextProvider>
-                  <NFTListingsContextProvider>
-                    {children}
-                  </NFTListingsContextProvider>
-                </NFTPurchaseContextProvider>
-              </NotificationContextProvider>
-            </DndProvider>
-          </GraphQLProvider>
-        </AnimatePresence>
+        <AuthProvider>
+          <AnimatePresence mode="wait">
+            <GraphQLProvider>
+              <DndProvider backend={HTML5Backend}>
+                <NotificationContextProvider>
+                  <NFTPurchaseContextProvider>
+                    <NFTListingsContextProvider>
+                      {children}
+                    </NFTListingsContextProvider>
+                  </NFTPurchaseContextProvider>
+                </NotificationContextProvider>
+              </DndProvider>
+            </GraphQLProvider>
+          </AnimatePresence>
+        </AuthProvider>
       </CryptoWalletProvider>
     </SWRConfig>
   );

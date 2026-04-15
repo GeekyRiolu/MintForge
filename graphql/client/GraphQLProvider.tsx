@@ -63,7 +63,7 @@ export default function GraphQLProvider(props: PropsWithChildren<typeof GraphQLP
       network: 'ethereum', // TODO: support new networks
     };
 
-    // Use SIWE if available
+    // Use SIWE if available (preferred)
     if (siweToken && siweAddress) {
       headers['authorization'] = `Bearer ${siweToken}`;
       headers['X-User-Address'] = siweAddress;
@@ -71,7 +71,7 @@ export default function GraphQLProvider(props: PropsWithChildren<typeof GraphQLP
         headers['chain-id'] = siweChainId.toString();
         headers['chainId'] = siweChainId.toString();
       }
-    } else {
+    } else if (signature && timestamp) {
       // Fall back to legacy signature method
       headers['authorization'] = signature;
       headers['chain-id'] = chain?.id == null ? null : String(chain?.id);
@@ -79,11 +79,18 @@ export default function GraphQLProvider(props: PropsWithChildren<typeof GraphQLP
       headers['timestamp'] = timestamp;
     }
 
-    const gqlClient = new GraphQLClient(getAPIURL() + '/api', {
-      cache: 'default',
-      headers,
-    });
-    setClient(gqlClient);
+    try {
+      const apiUrl = getAPIURL();
+      const gqlClient = new GraphQLClient(apiUrl.endsWith('/graphql') ? apiUrl : apiUrl + '/api', {
+        cache: 'default',
+        headers,
+      });
+      setClient(gqlClient);
+    } catch (error) {
+      console.warn('GraphQL client initialization warning:', error);
+      // Don't fail - continue with whatever we have
+      setClient(defaultClient);
+    }
   }, [chain?.id]);
 
   const trySignature = useCallback(async () => {
