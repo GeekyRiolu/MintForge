@@ -190,19 +190,19 @@ async function generateWithHuggingFace(
 
       console.log(`[HuggingFace] Generating image ${index + 1}/1...`);
 
-      const response = await fetchWithTimeout(
-        'https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5',
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${huggingFaceApiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            inputs: enhancedPrompt,
-          }),
+      const model = process.env.HUGGINGFACE_MODEL ?? 'mrfakename/Z-Image-Turbo';
+      const url = `https://api-inference.huggingface.co/models/${model}`;
+
+      const response = await fetchWithTimeout(url, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${huggingFaceApiKey}`,
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify({
+          inputs: enhancedPrompt,
+        }),
+      });
 
       console.log(`[HuggingFace] Response status: ${response.status}`);
 
@@ -214,20 +214,51 @@ async function generateWithHuggingFace(
         throw new Error('HuggingFace API error');
       }
 
-      if (!contentType.startsWith('image/')) {
-        const text = await response.text();
-        console.error('[HuggingFace] Unexpected non-image response:', contentType, text?.slice?.(0, 1000));
-        throw new Error('HuggingFace returned non-image response');
-      }
+      if (contentType.startsWith('image/')) {
+        const arrayBuffer = await response.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        const base64 = buffer.toString('base64');
+        console.log(
+          `[HuggingFace] Image ${index + 1} generated, size: ${base64.length} bytes`,
+        );
+        const mime = response.headers.get('content-type')?.split(';')[0] ?? 'image/png';
+        images.push(`data:${mime};base64,${base64}`);
+      } else if (contentType.includes('application/json')) {
+        const json = await response.json();
 
-      const arrayBuffer = await response.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-      const base64 = buffer.toString('base64');
-      console.log(
-        `[HuggingFace] Image ${index + 1} generated, size: ${base64.length} bytes`,
-      );
-      const mime = response.headers.get('content-type')?.split(';')[0] ?? 'image/png';
-      images.push(`data:${mime};base64,${base64}`);
+        const extracted = extractBase64FromHFJson(json);
+        if (extracted.length) {
+          images.push(...extracted.map((b64) => ensureDataUrl(b64)));
+        } else {
+          const urls = collectImageUrls(json);
+          for (const imageUrl of urls) {
+            try {
+              const imageResp = await fetchWithTimeout(imageUrl);
+              const imgCT = imageResp.headers.get('content-type') ?? '';
+              if (!imageResp.ok || !imgCT.startsWith('image/')) {
+                console.error('[HuggingFace] Image URL fetch failed or non-image:', imageUrl, imageResp.status);
+                continue;
+              }
+              const ab = await imageResp.arrayBuffer();
+              const buf = Buffer.from(ab);
+              const b64 = buf.toString('base64');
+              const mime = imgCT.split(';')[0] ?? 'image/png';
+              images.push(`data:${mime};base64,${b64}`);
+            } catch (err) {
+              console.error('[HuggingFace] Error fetching image URL from JSON:', err);
+            }
+          }
+
+          if (images.length === 0) {
+            console.error('[HuggingFace] No images found in JSON response:', JSON.stringify(json).slice(0, 1000));
+            throw new Error('HuggingFace returned JSON without images');
+          }
+        }
+      } else {
+        const text = await response.text();
+        console.error('[HuggingFace] Unexpected content-type:', contentType, text?.slice?.(0, 1000));
+        throw new Error('HuggingFace returned unexpected response');
+      }
     } catch (error) {
       console.error(
         `[HuggingFace] Error generating image ${index + 1}:`,
@@ -244,6 +275,82 @@ async function generateWithHuggingFace(
     images,
     provider: 'huggingface',
   };
+}
+
+function extractBase64FromHFJson(json: any): string[] {
+  const results: string[] = [];
+  const seen = new Set<any>();
+
+  function walk(node: any) {
+    if (!node || seen.has(node)) return;
+    seen.add(node);
+
+    if (typeof node === 'string') {
+      const s = node as string;
+      if (s.startsWith('data:') && s.includes('base64,')) {
+        const parts = s.split('base64,');
+        if (parts.length > 1) results.push(parts[1]);
+        return;
+      }
+
+      const base64Only = /^[A-Za-z0-9+/=]+$/.test(s);
+      if (s.length > 100 && base64Only) {
+        results.push(s);
+      }
+
+      return;
+    }
+
+    if (Array.isArray(node)) {
+      for (const item of node) walk(item);
+      return;
+    }
+
+    if (typeof node === 'object') {
+      for (const v of Object.values(node)) walk(v);
+      return;
+    }
+  }
+
+  walk(json);
+  return results;
+}
+
+function collectImageUrls(json: any): string[] {
+  const urls: string[] = [];
+  const seen = new Set<any>();
+
+  function walk(node: any) {
+    if (!node || seen.has(node)) return;
+    seen.add(node);
+
+    if (typeof node === 'string') {
+      const s = node as string;
+      if (s.startsWith('http://') || s.startsWith('https://')) {
+        urls.push(s);
+      }
+      return;
+    }
+
+    if (Array.isArray(node)) {
+      for (const item of node) walk(item);
+      return;
+    }
+
+    if (typeof node === 'object') {
+      for (const v of Object.values(node)) walk(v);
+      return;
+    }
+  }
+
+  walk(json);
+  return Array.from(new Set(urls));
+}
+
+function ensureDataUrl(b64OrData: string): string {
+  if (!b64OrData) return '';
+  if (b64OrData.startsWith('data:')) return b64OrData;
+  return `data:image/png;base64,${b64OrData}`;
 }
 
 function generatePlaceholderImages(prompt: string): string[] {
