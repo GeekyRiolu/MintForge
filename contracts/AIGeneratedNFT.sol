@@ -21,7 +21,7 @@ contract AIGeneratedNFT is ERC721URIStorage, Ownable {
   
   event NFTMinted(address indexed to, uint256 indexed tokenId, string metadataURI);
 
-  constructor() ERC721('AIGeneratedNFT', 'AINFT') {
+  constructor() ERC721('AIGeneratedNFT', 'AINFT') Ownable(msg.sender) {
     // Allow contract owner to mint initially
     allowedMinters[msg.sender] = true;
   }

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
-import { useAccount, useContract, useSigner } from 'wagmi';
-import { Contract } from 'ethers';
+import { useAccount, useSigner } from 'wagmi';
+import { Contract, ContractInterface } from 'ethers';
 
 interface MintParams {
   imageUri: string;
@@ -17,6 +17,17 @@ interface MintState {
   tokenId: string | null;
 }
 
+type NFTMetadata = {
+  name: string;
+  description: string;
+  image: string;
+  prompt: string;
+  attributes: {
+    trait_type: string;
+    value: string;
+  }[];
+};
+
 const INITIAL_STATE: MintState = {
   isLoading: false,
   isSuccess: false,
@@ -29,7 +40,10 @@ const INITIAL_STATE: MintState = {
  * Hook for minting AI-generated NFTs
  * Requires contract address in environment variables
  */
-export function useNFTMint(contractAddress?: string, contractABI?: any) {
+export function useNFTMint(
+  contractAddress?: string,
+  contractABI?: ContractInterface,
+) {
   const { address } = useAccount();
   const { data: signer } = useSigner();
   const [state, setState] = useState<MintState>(INITIAL_STATE);
@@ -99,9 +113,7 @@ export function useNFTMint(contractAddress?: string, contractABI?: any) {
         // Extract token ID from event (adjust based on your contract events)
         let tokenId: string | null = null;
         if (receipt?.events) {
-          const transferEvent = receipt.events.find(
-            (e: any) => e.event === 'Transfer',
-          );
+          const transferEvent = receipt.events.find(e => e.event === 'Transfer');
           if (transferEvent) {
             tokenId = transferEvent.args?.tokenId?.toString();
           }
@@ -147,70 +159,29 @@ export function useNFTMint(contractAddress?: string, contractABI?: any) {
 }
 
 /**
- * Upload metadata to IPFS via Pinata or NFT.storage
+ * Upload metadata to IPFS via the server-side IPFS API route
  */
-async function uploadToIPFS(metadata: any): Promise<string> {
-  const provider = process.env.NEXT_PUBLIC_IPFS_PROVIDER || 'nft-storage';
-
-  if (provider === 'pinata') {
-    return uploadToPinata(metadata);
-  }
-
-  return uploadToNFTStorage(metadata);
-}
-
-/**
- * Upload to NFT.storage (free, no API key required for basic usage)
- */
-async function uploadToNFTStorage(metadata: any): Promise<string> {
-  const apiKey = process.env.NEXT_PUBLIC_NFT_STORAGE_KEY;
-
-  if (!apiKey) {
-    throw new Error('NFT_STORAGE_KEY not configured');
-  }
-
-  const response = await fetch('https://api.nft.storage/upload', {
+async function uploadToIPFS(metadata: NFTMetadata): Promise<string> {
+  const response = await fetch('/api/ipfs', {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(metadata),
+    body: JSON.stringify({
+      type: 'metadata',
+      metadata,
+    }),
   });
 
-  if (!response.ok) {
-    throw new Error('Failed to upload to NFT.storage');
+  const result = (await response.json()) as {
+    success: boolean;
+    ipfsUrl?: string;
+    error?: string;
+  };
+
+  if (!response.ok || !result.success || !result.ipfsUrl) {
+    throw new Error(result.error || 'Failed to upload metadata to IPFS');
   }
 
-  const data = (await response.json()) as { ok: boolean; value: { cid: string } };
-  return `ipfs://${data.value.cid}`;
-}
-
-/**
- * Upload to Pinata
- */
-async function uploadToPinata(metadata: any): Promise<string> {
-  const apiKey = process.env.NEXT_PUBLIC_PINATA_API_KEY;
-  const apiSecret = process.env.PINATA_API_SECRET;
-
-  if (!apiKey || !apiSecret) {
-    throw new Error('Pinata credentials not configured');
-  }
-
-  const response = await fetch('https://api.pinata.cloud/pinning/pinJSONToIPFS', {
-    method: 'POST',
-    headers: {
-      pinata_api_key: apiKey,
-      pinata_secret_api_key: apiSecret,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(metadata),
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to upload to Pinata');
-  }
-
-  const data = (await response.json()) as { IpfsHash: string };
-  return `ipfs://${data.IpfsHash}`;
+  return result.ipfsUrl;
 }

@@ -39,6 +39,9 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
     contractAddress,
     contractABI,
   );
+  const isContractConfigured =
+    Boolean(contractAddress) &&
+    contractAddress !== '0x0000000000000000000000000000000000000000';
   const [input, setInput] = useState('');
   const [useFreepik, setUseFreepik] = useState(false);
   const [mintingStates, setMintingStates] = useState<Record<string, 'idle' | 'uploading' | 'minting' | 'success' | 'error'>>({});
@@ -116,7 +119,7 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
       return;
     }
 
-    if (!contractAddress) {
+    if (!isContractConfigured) {
       setMintErrors(prev => ({
         ...prev,
         [mintKey]: 'Contract not configured. Check NEXT_PUBLIC_NFT_CONTRACT_ADDRESS env var',

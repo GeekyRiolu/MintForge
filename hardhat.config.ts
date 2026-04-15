@@ -1,7 +1,9 @@
 import { HardhatUserConfig } from 'hardhat/config';
-import '@nomicfoundation/hardhat-toolbox';
-import '@nomicfoundation/hardhat-ethers';
-import 'dotenv/config';
+import '@nomiclabs/hardhat-ethers';
+import dotenv from 'dotenv';
+
+dotenv.config({ quiet: true });
+dotenv.config({ path: '.env.local', quiet: true });
 
 const config: HardhatUserConfig = {
   solidity: '0.8.20',

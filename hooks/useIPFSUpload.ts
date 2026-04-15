@@ -18,7 +18,7 @@ const INITIAL_STATE: UploadState = {
 
 /**
  * Hook for uploading AI-generated images to IPFS
- * Uses Pinata or NFT.storage (configurable via NEXT_PUBLIC_IPFS_PROVIDER)
+ * Uses the server-side IPFS API route so provider secrets stay off the client
  */
 export function useIPFSUpload() {
   const [state, setState] = useState<UploadState>(INITIAL_STATE);
@@ -32,42 +32,40 @@ export function useIPFSUpload() {
       }));
 
       try {
-        // Fetch the image
-        const imageResponse = await fetch(imageUrl);
-        if (!imageResponse.ok) {
-          throw new Error('Failed to fetch image');
+        const response = await fetch('/api/ipfs', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: 'image',
+            imageUrl,
+            filename: filename || `ai-nft-${Date.now()}.png`,
+          }),
+        });
+
+        const result = (await response.json()) as {
+          success: boolean;
+          hash?: string;
+          ipfsUrl?: string;
+          error?: string;
+        };
+
+        if (!response.ok || !result.success || !result.hash || !result.ipfsUrl) {
+          throw new Error(result.error || 'Failed to upload to IPFS');
         }
-
-        const blob = await imageResponse.blob();
-        const file = new File(
-          [blob],
-          filename || `ai-nft-${Date.now()}.png`,
-          { type: 'image/png' },
-        );
-
-        // Upload to IPFS
-        const provider = process.env.NEXT_PUBLIC_IPFS_PROVIDER || 'nft-storage';
-        let result;
-
-        if (provider === 'pinata') {
-          result = await uploadToPinata(file);
-        } else {
-          result = await uploadToNFTStorage(file);
-        }
-
-        const ipfsUrl = `ipfs://${result.hash}`;
 
         setState(prev => ({
           ...prev,
           isLoading: false,
           isSuccess: true,
           ipfsHash: result.hash,
-          ipfsUrl: ipfsUrl,
+          ipfsUrl: result.ipfsUrl,
         }));
 
         return {
           success: true,
-          ipfsUrl,
+          ipfsUrl: result.ipfsUrl,
           hash: result.hash,
         };
       } catch (error) {
@@ -94,66 +92,6 @@ export function useIPFSUpload() {
   }, []);
 
   return { ...state, upload, reset };
-}
-
-/**
- * Upload image to Pinata
- */
-async function uploadToPinata(file: File): Promise<{ hash: string }> {
-  const apiKey = process.env.NEXT_PUBLIC_PINATA_API_KEY;
-  const apiSecret = process.env.PINATA_API_SECRET;
-
-  if (!apiKey || !apiSecret) {
-    throw new Error('Pinata credentials not configured');
-  }
-
-  const formData = new FormData();
-  formData.append('file', file);
-
-  const response = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
-    method: 'POST',
-    headers: {
-      pinata_api_key: apiKey,
-      pinata_secret_api_key: apiSecret,
-    },
-    body: formData,
-  });
-
-  if (!response.ok) {
-    throw new Error(`Pinata upload failed: ${response.statusText}`);
-  }
-
-  const data = (await response.json()) as { IpfsHash: string };
-  return { hash: data.IpfsHash };
-}
-
-/**
- * Upload image to NFT.storage
- */
-async function uploadToNFTStorage(file: File): Promise<{ hash: string }> {
-  const apiKey = process.env.NEXT_PUBLIC_NFT_STORAGE_KEY;
-
-  if (!apiKey) {
-    throw new Error('NFT_STORAGE_KEY not configured');
-  }
-
-  const formData = new FormData();
-  formData.append('file', file);
-
-  const response = await fetch('https://api.nft.storage/upload', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: formData,
-  });
-
-  if (!response.ok) {
-    throw new Error(`NFT.storage upload failed: ${response.statusText}`);
-  }
-
-  const data = (await response.json()) as { ok: boolean; value: { cid: string } };
-  return { hash: data.value.cid };
 }
 
 /**
