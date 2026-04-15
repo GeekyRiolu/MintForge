@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useAccount, useNetwork, useSignMessage } from 'wagmi';
 import { SiweMessage } from 'siwe';
-import { getAPIURL } from 'utils/isEnv';
 
 interface SiweAuthState {
   address: string | null;
@@ -81,8 +80,8 @@ export function useSiweAuth(): UseSiweAuthReturn {
     }));
 
     try {
-      // Step 1: Get nonce from backend
-      const nonceResponse = await fetch(`${getAPIURL().replace('/graphql', '')}/api/auth/nonce`);
+      // Step 1: Get nonce from backend (local API route)
+      const nonceResponse = await fetch('/api/auth/nonce');
       if (!nonceResponse.ok) {
         throw new Error('Failed to get nonce');
       }
@@ -108,8 +107,8 @@ export function useSiweAuth(): UseSiweAuthReturn {
         message: messageStr,
       });
 
-      // Step 4: Verify signature on backend
-      const verifyResponse = await fetch(`${getAPIURL().replace('/graphql', '')}/api/auth/verify`, {
+      // Step 4: Verify signature on backend (local API route)
+      const verifyResponse = await fetch('/api/auth/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
