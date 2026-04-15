@@ -5,6 +5,7 @@ import { NextSeo } from 'next-seo';
 import React, { useEffect } from 'react';
 
 import HomeLayout from 'components/layouts/HomeLayout';
+import { AIGeneratedNFT_ABI } from 'constants/abis/AIGeneratedNFT';
 
 import AOS from 'aos';
 
@@ -20,6 +21,8 @@ export default function GenerateWithAI() {
   useEffect(() => {
     AOS.init({ duration: 700 });
   }, []);
+
+  const contractAddress = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS;
 
   return (
     <>
@@ -41,7 +44,10 @@ export default function GenerateWithAI() {
             <div data-aos="fade-up" data-aos-delay="100">
               <div className="rounded-[2.25rem] bg-[#f9d54c] p-2 shadow-[0_30px_120px_rgba(0,0,0,0.12)]">
                 <div className="h-[760px] rounded-[2rem]">
-                  <AIGeneratorChat />
+                  <AIGeneratorChat
+                    contractAddress={contractAddress}
+                    contractABI={AIGeneratedNFT_ABI}
+                  />
                 </div>
               </div>
             </div>
