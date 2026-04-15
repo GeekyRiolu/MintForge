@@ -4,7 +4,6 @@ pragma solidity ^0.8.20;
 import '@openzeppelin/contracts/token/ERC721/ERC721.sol';
 import '@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
-import '@openzeppelin/contracts/utils/Counters.sol';
 
 /**
  * @title AIGeneratedNFT
@@ -12,9 +11,7 @@ import '@openzeppelin/contracts/utils/Counters.sol';
  * @dev Allows users to mint NFTs referencing IPFS metadata URIs
  */
 contract AIGeneratedNFT is ERC721URIStorage, Ownable {
-  using Counters for Counters.Counter;
-
-  Counters.Counter private _tokenIdCounter;
+  uint256 private _tokenIdCounter;
   
   // Mint price (optional - set to 0 for free minting)
   uint256 public mintPrice = 0;
@@ -42,8 +39,8 @@ contract AIGeneratedNFT is ERC721URIStorage, Ownable {
     require(msg.value >= mintPrice, 'Insufficient payment');
     require(allowedMinters[msg.sender] || msg.sender == to, 'Not authorized to mint');
 
-    uint256 tokenId = _tokenIdCounter.current();
-    _tokenIdCounter.increment();
+    uint256 tokenId = _tokenIdCounter;
+    _tokenIdCounter += 1;
 
     _safeMint(to, tokenId);
     _setTokenURI(tokenId, metadataURI);
@@ -99,7 +96,7 @@ contract AIGeneratedNFT is ERC721URIStorage, Ownable {
    * @notice Get total NFTs minted
    */
   function getTotalMinted() public view returns (uint256) {
-    return _tokenIdCounter.current();
+    return _tokenIdCounter;
   }
 
   // Override required functions
