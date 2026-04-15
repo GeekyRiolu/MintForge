@@ -75,7 +75,7 @@ export async function generateNftImages(
       return await generateWithFreepik(prompt);
     }
 
-    return await generateWithHuggingFace(prompt);
+    return await generateWithCloudflare(prompt);
   } catch (error) {
     console.error('Generation error:', error);
     return { success: false, error: 'Failed to generate images' };
@@ -85,7 +85,7 @@ export async function generateNftImages(
 async function fetchWithTimeout(
   input: RequestInfo,
   init: RequestInit = {},
-  timeout = 30000,
+  timeout = 3000000, // 3000 seconds
 ) {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
@@ -96,6 +96,10 @@ async function fetchWithTimeout(
   } finally {
     clearTimeout(id);
   }
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 async function generateWithFreepik(
@@ -165,12 +169,246 @@ async function generateWithFreepik(
   }
 }
 
+async function generateWithCloudflare(
+  prompt: string,
+): Promise<GenerateNftImagesResult> {
+  const cloudflareApiToken = process.env.CLOUDFLARE_API_TOKEN ?? '';
+  const cloudflareAccountId = process.env.CLOUDFLARE_ACCOUNT_ID ?? '';
+
+  console.log('[Cloudflare] API Key present:', !!cloudflareApiToken);
+  console.log('[Cloudflare] Account ID present:', !!cloudflareAccountId);
+  console.log('[Cloudflare] Prompt:', prompt);
+
+  if (!cloudflareApiToken || !cloudflareAccountId) {
+    console.log('[Cloudflare] Missing config, falling back to Replicate');
+    return generateWithReplicate(prompt);
+  }
+
+  try {
+    const enhancedPrompt = `${prompt}, NFT art style, digital art, high quality, 4k`;
+    const model =
+      process.env.CLOUDFLARE_IMAGE_MODEL ??
+      '@cf/black-forest-labs/flux-1-schnell';
+
+    const response = await fetchWithTimeout(
+      `https://api.cloudflare.com/client/v4/accounts/${cloudflareAccountId}/ai/run/${model}`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${cloudflareApiToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt: enhancedPrompt,
+          width: 1024,
+          height: 1024,
+          num_steps: 4,
+        }),
+      },
+      300000,
+    );
+
+    const contentType = response.headers.get('content-type') ?? '';
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(
+        '[Cloudflare] API Error:',
+        response.status,
+        contentType,
+        errorText?.slice?.(0, 1000),
+      );
+      throw new Error('Cloudflare API error');
+    }
+
+    if (!contentType.includes('application/json')) {
+      const text = await response.text();
+      console.error(
+        '[Cloudflare] Unexpected non-JSON response:',
+        contentType,
+        text?.slice?.(0, 1000),
+      );
+      throw new Error('Cloudflare returned non-JSON response');
+    }
+
+    const data = await response.json();
+    const imageData =
+      typeof data?.result?.image === 'string' ? data.result.image : '';
+
+    if (!imageData) {
+      console.error(
+        '[Cloudflare] No image returned:',
+        JSON.stringify(data).slice(0, 1000),
+      );
+      throw new Error('Cloudflare returned no image');
+    }
+
+    return {
+      success: true,
+      images: [ensureDataUrl(imageData)],
+      provider: 'cloudflare',
+    };
+  } catch (error) {
+    console.error('[Cloudflare] Error:', error);
+    return generateWithReplicate(prompt);
+  }
+}
+
+async function generateWithReplicate(
+  prompt: string,
+): Promise<GenerateNftImagesResult> {
+  const replicateApiKey =
+    process.env.REPLICATE_API_TOKEN ??
+    process.env.REPLICATE_API_KEY ??
+    '';
+
+  const replicateEnvName = process.env.REPLICATE_API_TOKEN
+    ? 'REPLICATE_API_TOKEN'
+    : process.env.REPLICATE_API_KEY
+    ? 'REPLICATE_API_KEY'
+    : null;
+
+  console.log(
+    '[Replicate] API Key present:',
+    !!replicateApiKey,
+    replicateEnvName ? `via ${replicateEnvName}` : '',
+  );
+  console.log('[Replicate] Prompt:', prompt);
+
+  if (!replicateApiKey) {
+    console.log('[Replicate] No API key, falling back to Hugging Face');
+    return generateWithHuggingFace(prompt);
+  }
+
+  try {
+    const enhancedPrompt = `${prompt}, NFT art style, digital art, high quality, 4k`;
+    const model = process.env.REPLICATE_MODEL ?? 'black-forest-labs/flux-schnell';
+    const response = await fetchWithTimeout(
+      `https://api.replicate.com/v1/models/${model}/predictions`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${replicateApiKey}`,
+          'Content-Type': 'application/json',
+          Prefer: 'wait',
+        },
+        body: JSON.stringify({
+          input: {
+            prompt: enhancedPrompt,
+            aspect_ratio: '1:1',
+            output_format: 'png',
+          },
+        }),
+      },
+      300000,
+    );
+
+    const contentType = response.headers.get('content-type') ?? '';
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(
+        '[Replicate] API Error:',
+        response.status,
+        contentType,
+        errorText?.slice?.(0, 1000),
+      );
+      throw new Error('Replicate API error');
+    }
+
+    if (!contentType.includes('application/json')) {
+      const text = await response.text();
+      console.error(
+        '[Replicate] Unexpected non-JSON response:',
+        contentType,
+        text?.slice?.(0, 1000),
+      );
+      throw new Error('Replicate returned non-JSON response');
+    }
+
+    const data = await response.json();
+    const outputs = Array.isArray(data.output)
+      ? data.output
+      : typeof data.output === 'string'
+      ? [data.output]
+      : [];
+
+    if (data.status && data.status !== 'succeeded') {
+      console.error('[Replicate] Prediction did not complete:', data.status, JSON.stringify(data).slice(0, 1000));
+      throw new Error(`Replicate prediction ${data.status}`);
+    }
+
+    if (!outputs.length) {
+      throw new Error('Replicate returned no output');
+    }
+
+    const images: string[] = [];
+
+    for (const output of outputs) {
+      if (typeof output !== 'string') {
+        continue;
+      }
+
+      const imageResp = await fetchWithTimeout(output);
+      const imageContentType = imageResp.headers.get('content-type') ?? '';
+
+      if (!imageResp.ok || !imageContentType.startsWith('image/')) {
+        console.error(
+          '[Replicate] Output fetch failed or non-image:',
+          output,
+          imageResp.status,
+          imageContentType,
+        );
+        continue;
+      }
+
+      const arrayBuffer = await imageResp.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      const base64 = buffer.toString('base64');
+      const mime = imageContentType.split(';')[0] ?? 'image/png';
+      images.push(`data:${mime};base64,${base64}`);
+    }
+
+    if (!images.length) {
+      throw new Error('Replicate returned no downloadable images');
+    }
+
+    return {
+      success: true,
+      images,
+      provider: 'replicate',
+    };
+  } catch (error) {
+    console.error('[Replicate] Error:', error);
+    return generateWithHuggingFace(prompt);
+  }
+}
+
 async function generateWithHuggingFace(
   prompt: string,
 ): Promise<GenerateNftImagesResult> {
-  const huggingFaceApiKey = process.env.HUGGINGFACE_API_KEY;
+  
+  const huggingFaceApiKey =
+    process.env.HUGGINGFACE_API_KEY ??
+    process.env.HF_API_TOKEN ??
+    process.env.HF_API_KEY ??
+    process.env.HF_TOKEN ??
+    process.env.HF_KEY ??
+    '';
 
-  console.log('[HuggingFace] API Key present:', !!huggingFaceApiKey);
+  const huggingFaceEnvName = process.env.HUGGINGFACE_API_KEY
+    ? 'HUGGINGFACE_API_KEY'
+    : process.env.HF_API_TOKEN
+    ? 'HF_API_TOKEN'
+    : process.env.HF_API_KEY
+    ? 'HF_API_KEY'
+    : process.env.HF_TOKEN
+    ? 'HF_TOKEN'
+    : process.env.HF_KEY
+    ? 'HF_KEY'
+    : null;
+
+  console.log('[HuggingFace] API Key present:', !!huggingFaceApiKey, huggingFaceEnvName ? `via ${huggingFaceEnvName}` : '');
   console.log('[HuggingFace] Prompt:', prompt);
 
   if (!huggingFaceApiKey) {
@@ -190,27 +428,63 @@ async function generateWithHuggingFace(
 
       console.log(`[HuggingFace] Generating image ${index + 1}/1...`);
 
-      const model = process.env.HUGGINGFACE_MODEL ?? 'mrfakename/Z-Image-Turbo';
+      // Try a few times in case the model is cold or the inference endpoint returns an intermittent HTML "inactivity" page.
+      const model = process.env.HUGGINGFACE_MODEL ?? 'runwayml/stable-diffusion-v1-5';
       const url = `https://api-inference.huggingface.co/models/${model}`;
 
-      const response = await fetchWithTimeout(url, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${huggingFaceApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          inputs: enhancedPrompt,
-        }),
-      });
+      let response: Response | null = null;
+      let lastError: unknown = null;
 
-      console.log(`[HuggingFace] Response status: ${response.status}`);
+      for (let attempt = 1; attempt <= 3; attempt += 1) {
+        try {
+          response = await fetchWithTimeout(
+            url,
+            {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${huggingFaceApiKey}`,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                inputs: enhancedPrompt,
+                options: { wait_for_model: true },
+              }),
+            },
+            3000000,
+          );
+
+          console.log(`[HuggingFace] Attempt ${attempt} response status: ${response.status}`);
+
+          const contentType = response.headers.get('content-type') ?? '';
+
+          // If we receive HTML or an error status, try again (up to attempts)
+          if (!response.ok || contentType.includes('text/html')) {
+            const text = await response.text();
+            lastError = new Error(`HF attempt ${attempt} failed: ${response.status} ${contentType} ${String(text).slice(0, 500)}`);
+            console.warn('[HuggingFace] Non-success or HTML response, retrying:', lastError);
+            if (attempt < 3) await sleep(1500 * attempt);
+            continue;
+          }
+
+          // success-ish, break out and handle below
+          break;
+        } catch (err) {
+          lastError = err;
+          console.warn(`[HuggingFace] Attempt ${attempt} error:`, err);
+          if (attempt < 3) await sleep(1500 * attempt);
+        }
+      }
+
+      if (!response) {
+        console.error('[HuggingFace] No response after retries', lastError);
+        throw lastError ?? new Error('No HuggingFace response');
+      }
 
       const contentType = response.headers.get('content-type') ?? '';
 
       if (!response.ok) {
         const errText = await response.text();
-        console.error('[HuggingFace] API Error:', response.status, contentType, errText?.slice?.(0, 1000));
+        console.error('[HuggingFace] API Error after retries:', response.status, contentType, errText?.slice?.(0, 1000));
         throw new Error('HuggingFace API error');
       }
 
