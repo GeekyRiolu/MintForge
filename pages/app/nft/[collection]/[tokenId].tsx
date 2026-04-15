@@ -9,13 +9,15 @@ import { isValidContractSimple } from 'utils/helpers';
 
 import { getNftPage } from 'lib/graphql-ssr/nft';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import dynamic from 'next/dynamic';
+import dynamicComponent from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { SWRConfig } from 'swr';
 
+export const dynamic = 'force-dynamic';
+
 const NFTDetailPage =
-  dynamic(() => import('components/modules/NFTDetail/NFTDetailPage').then(mod => mod.NFTDetailPage), { loading: () => <LoaderPageFallback /> });
+  dynamicComponent(() => import('components/modules/NFTDetail/NFTDetailPage').then(mod => mod.NFTDetailPage), { loading: () => <LoaderPageFallback /> });
 
 export default function NftPage({ fallback }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();

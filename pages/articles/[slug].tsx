@@ -7,19 +7,21 @@ import NotFoundPage from 'pages/404';
 import { PostData } from 'types/blogs';
 
 import { getPost } from 'lib/contentful/api';
-import dynamic from 'next/dynamic';
+import dynamicComponent from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { CaretLeft } from 'phosphor-react';
+
+export const dynamic = 'force-dynamic';
 
 type PostProps = {
   post: PostData;
   preview: boolean;
 };
 
-const DynamicRelatedPostCard = dynamic(() => import('components/modules/BlogPage/RelatedPostsCard'));
-const DynamicPreviewBanner = dynamic(() => import('components/elements/PreviewBanner'));
+const DynamicRelatedPostCard = dynamicComponent(() => import('components/modules/BlogPage/RelatedPostsCard'));
+const DynamicPreviewBanner = dynamicComponent(() => import('components/elements/PreviewBanner'));
 
 export default function Post({ post, preview }: PostProps) {
   const router = useRouter();

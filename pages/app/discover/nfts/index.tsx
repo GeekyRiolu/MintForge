@@ -1,6 +1,8 @@
 import { Button, ButtonSize, ButtonType } from 'components/elements/Button';
 import { NFTCardSkeleton } from 'components/elements/Skeletons/NFTCardSkeleton';
 import DefaultLayout from 'components/layouts/DefaultLayout';
+
+export const dynamic = 'force-dynamic';
 import { NFTCard } from 'components/modules/NFTCard/NFTCard';
 import { SideNav } from 'components/modules/Search/SideNav';
 import { useFetchTypesenseSearch } from 'graphql/hooks/useFetchTypesenseSearch';

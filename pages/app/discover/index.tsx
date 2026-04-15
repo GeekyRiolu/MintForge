@@ -3,6 +3,8 @@ import Loader from 'components/elements/Loader/Loader';
 import { SearchBar } from 'components/elements/SearchBar';
 import TimePeriodToggle from 'components/elements/TimePeriodToggle';
 import DefaultLayout from 'components/layouts/DefaultLayout';
+
+export const dynamic = 'force-dynamic';
 import { CollectionCard } from 'components/modules/DiscoveryCards/CollectionCard';
 import { CollectionLeaderBoardCard } from 'components/modules/DiscoveryCards/CollectionLeaderBoardCard';
 import { ProfileCard } from 'components/modules/DiscoveryCards/ProfileCard';

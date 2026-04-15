@@ -1,6 +1,8 @@
 import { Button, ButtonSize, ButtonType } from 'components/elements/Button';
 import Loader from 'components/elements/Loader/Loader';
 import DefaultLayout from 'components/layouts/DefaultLayout';
+
+export const dynamic = 'force-dynamic';
 import { ProfileCard } from 'components/modules/DiscoveryCards/ProfileCard';
 import { Profile } from 'graphql/generated/types';
 import { useLeaderboardQuery } from 'graphql/hooks/useLeaderboardQuery';

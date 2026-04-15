@@ -1,6 +1,8 @@
 import Loader from 'components/elements/Loader/Loader';
 import DefaultLayout from 'components/layouts/DefaultLayout';
 import { NFTDetailPage } from 'components/modules/NFTDetail/NFTDetailPage';
+
+export const dynamic = 'force-dynamic';
 import NotFoundPage from 'pages/404';
 import { isNullOrEmpty } from 'utils/format';
 import { tw } from 'utils/tw';

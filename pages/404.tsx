@@ -1,6 +1,8 @@
 import { NullState } from 'components/elements/NullState';
 import DefaultLayout from 'components/layouts/DefaultLayout';
 
+export const dynamic = 'force-dynamic';
+
 export default function NotFoundPage() {
   return <div className="flex flex-col h-full w-full items-center justify-center">
     <NullState

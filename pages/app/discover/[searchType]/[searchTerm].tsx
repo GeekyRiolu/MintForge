@@ -24,6 +24,8 @@ import NoActivityIcon from 'public/icons/no_activity.svg?svgr';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
 
+export const dynamic = 'force-dynamic';
+
 function usePrevious(value) {
   const ref = useRef(value);
   useEffect(() => {

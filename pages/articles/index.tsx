@@ -8,10 +8,12 @@ import { getPaginatedPosts } from 'utils/contentful';
 
 import { getCollection } from 'lib/contentful/api';
 import { BLOG_LIST_HOME_FIELDS } from 'lib/contentful/schemas';
-import dynamic from 'next/dynamic';
+import dynamicComponent from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { useState } from 'react';
+
+export const dynamic = 'force-dynamic';
 
 type PostListProps = {
   postData: PostData[];
@@ -26,8 +28,8 @@ type PostListProps = {
   }
 };
 
-const DynamicBlogSlider = dynamic(() => import('components/modules/BlogPage/BlogSlider'));
-const DynamicPreviewBanner = dynamic(() => import('components/elements/PreviewBanner'));
+const DynamicBlogSlider = dynamicComponent(() => import('components/modules/BlogPage/BlogSlider'));
+const DynamicPreviewBanner = dynamicComponent(() => import('components/elements/PreviewBanner'));
 
 export default function BlogListPage({ postData, preview, data, totalPosts }: PostListProps) {
   const [posts, setPosts] = useState(postData ?? contentfulBackupData[2]?.items as PostData[]);

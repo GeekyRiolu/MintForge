@@ -2,6 +2,8 @@ import { Button, ButtonSize, ButtonType } from 'components/elements/Button';
 import Loader from 'components/elements/Loader/Loader';
 import TimePeriodToggle from 'components/elements/TimePeriodToggle';
 import DefaultLayout from 'components/layouts/DefaultLayout';
+
+export const dynamic = 'force-dynamic';
 import { CollectionCard } from 'components/modules/DiscoveryCards/CollectionCard';
 import { CollectionLeaderBoardCard } from 'components/modules/DiscoveryCards/CollectionLeaderBoardCard';
 import { SideNav } from 'components/modules/Search/SideNav';

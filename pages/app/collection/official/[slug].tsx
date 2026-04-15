@@ -8,17 +8,19 @@ import { isObjEmpty } from 'utils/format';
 
 import { getCollectionPage } from 'lib/graphql-ssr/collection';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import dynamic from 'next/dynamic';
+import dynamicComponent from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import { SWRConfig } from 'swr';
 
-const Collection = dynamic(() => import('components/modules/Collection/Collection').then(mod => mod.Collection), { loading: () => <LoaderPageFallback /> }); // Adds fallback while loading Collection
-const CollectionBanner = dynamic(() => import('components/modules/Collection/Collection').then(mod => mod.CollectionBanner));
-const CollectionBody = dynamic(() => import('components/modules/Collection/Collection').then(mod => mod.CollectionBody));
-const CollectionDescription = dynamic(() => import('components/modules/Collection/Collection').then(mod => mod.CollectionDescription));
-const CollectionDetails = dynamic(() => import('components/modules/Collection/Collection').then(mod => mod.CollectionDetails));
-const CollectionHeader = dynamic(() => import('components/modules/Collection/Collection').then(mod => mod.CollectionHeader));
+export const dynamic = 'force-dynamic';
+
+const Collection = dynamicComponent(() => import('components/modules/Collection/Collection').then(mod => mod.Collection), { loading: () => <LoaderPageFallback /> }); // Adds fallback while loading Collection
+const CollectionBanner = dynamicComponent(() => import('components/modules/Collection/Collection').then(mod => mod.CollectionBanner));
+const CollectionBody = dynamicComponent(() => import('components/modules/Collection/Collection').then(mod => mod.CollectionBody));
+const CollectionDescription = dynamicComponent(() => import('components/modules/Collection/Collection').then(mod => mod.CollectionDescription));
+const CollectionDetails = dynamicComponent(() => import('components/modules/Collection/Collection').then(mod => mod.CollectionDetails));
+const CollectionHeader = dynamicComponent(() => import('components/modules/Collection/Collection').then(mod => mod.CollectionHeader));
 
 export default function OfficialCollectionSlugPage({ fallback }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { collection: preCollection } = Object.values(fallback)[0] ?? {};
