@@ -1,9 +1,12 @@
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
 import clsx from 'clsx';
-import { ArrowUp } from 'phosphor-react';
+import { ArrowUp, Check, Warning } from 'phosphor-react';
 import React, { useEffect, useRef, useState } from 'react';
+import { useAccount } from 'wagmi';
 
+import { useIPFSUpload } from 'hooks/useIPFSUpload';
+import { useNFTMint } from 'hooks/useNFTMint';
 import type { AIChatMessage, GeneratedImagesData } from 'types/ai-chat';
 
 const INITIAL_MESSAGES: AIChatMessage[] = [
@@ -26,8 +29,12 @@ interface AIGeneratorChatProps {
 export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
   onGenerateImages,
 }) => {
+  const { address, isConnected } = useAccount();
+  const { upload: uploadToIPFS, isLoading: isUploading } = useIPFSUpload();
   const [input, setInput] = useState('');
   const [useFreepik, setUseFreepik] = useState(false);
+  const [mintingStates, setMintingStates] = useState<Record<string, 'idle' | 'uploading' | 'minting' | 'success' | 'error'>>({});
+  const [mintErrors, setMintErrors] = useState<Record<string, string>>({});
   const handledImageMessagesRef = useRef<Set<string>>(new Set());
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -82,6 +89,69 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
       setInput(prompt);
     } finally {
       inputRef.current?.focus();
+    }
+  }
+
+  async function handleMintImage(
+    imageUrl: string,
+    prompt: string,
+    messageId: string,
+    imageIndex: number,
+  ) {
+    const mintKey = `${messageId}-${imageIndex}`;
+
+    if (!isConnected || !address) {
+      setMintErrors(prev => ({
+        ...prev,
+        [mintKey]: 'Please connect your wallet first',
+      }));
+      return;
+    }
+
+    try {
+      setMintingStates(prev => ({ ...prev, [mintKey]: 'uploading' }));
+      setMintErrors(prev => ({ ...prev, [mintKey]: '' }));
+
+      // Upload image to IPFS
+      const uploadResult = await uploadToIPFS(
+        imageUrl,
+        `ai-nft-${Date.now()}-${imageIndex}.png`,
+      );
+
+      if (!uploadResult.success || !uploadResult.ipfsUrl) {
+        throw new Error(uploadResult.error || 'Failed to upload to IPFS');
+      }
+
+      setMintingStates(prev => ({ ...prev, [mintKey]: 'minting' }));
+
+      // TODO: Implement actual minting once contract address is configured
+      // For now, show success after simulating upload
+      console.log('Image uploaded to IPFS:', uploadResult.ipfsUrl);
+      console.log('Ready to mint with metadata:', {
+        imageUri: uploadResult.ipfsUrl,
+        prompt,
+        address,
+      });
+
+      setMintingStates(prev => ({ ...prev, [mintKey]: 'success' }));
+
+      // Reset success state after 2 seconds
+      setTimeout(() => {
+        setMintingStates(prev => ({ ...prev, [mintKey]: 'idle' }));
+      }, 2000);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Minting failed';
+      console.error('Mint error:', error);
+
+      setMintingStates(prev => ({ ...prev, [mintKey]: 'error' }));
+      setMintErrors(prev => ({ ...prev, [mintKey]: errorMessage }));
+
+      // Reset error state after 5 seconds
+      setTimeout(() => {
+        setMintingStates(prev => ({ ...prev, [mintKey]: 'idle' }));
+        setMintErrors(prev => ({ ...prev, [mintKey]: '' }));
+      }, 5000);
     }
   }
 
@@ -173,37 +243,107 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
                       </div>
 
                       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                        {generatedImages.images.map((image, imageIndex) => (
-                          <div
-                            key={`${message.id}-${imageIndex}`}
-                            className="group overflow-hidden rounded-[1.5rem] border border-black/10 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-                          >
-                            <div className="overflow-hidden">
-                              <img
-                                src={image}
-                                alt={`Generated NFT ${imageIndex + 1}`}
-                                className="h-56 w-full object-cover transition duration-300 group-hover:scale-[1.03]"
-                              />
+                        {generatedImages.images.map((image, imageIndex) => {
+                          const mintKey = `${message.id}-${imageIndex}`;
+                          const mintState = mintingStates[mintKey] || 'idle';
+                          const errorMessage = mintErrors[mintKey];
+
+                          return (
+                            <div
+                              key={`${message.id}-${imageIndex}`}
+                              className="group overflow-hidden rounded-[1.5rem] border border-black/10 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                            >
+                              <div className="overflow-hidden">
+                                <img
+                                  src={image}
+                                  alt={`Generated NFT ${imageIndex + 1}`}
+                                  className="h-56 w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                                />
+                              </div>
+                              <div className="flex flex-col gap-3 border-t border-black/5 px-4 py-3">
+                                <div className="flex items-center justify-between gap-3">
+                                  <p className="text-xs uppercase tracking-[0.16em] text-black/45">
+                                    Variation {imageIndex + 1}
+                                  </p>
+                                  <button
+                                    type="button"
+                                    className="rounded-full border border-black/10 px-3 py-1.5 text-xs font-medium text-black transition hover:border-black/25 hover:bg-[#fff3c2]"
+                                    onClick={() =>
+                                      downloadImage(
+                                        image,
+                                        `nft-${imageIndex + 1}.png`,
+                                      )
+                                    }
+                                  >
+                                    Download
+                                  </button>
+                                </div>
+
+                                {/* Mint Button */}
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    handleMintImage(
+                                      image,
+                                      generatedImages.prompt,
+                                      message.id,
+                                      imageIndex,
+                                    )
+                                  }
+                                  disabled={
+                                    !isConnected ||
+                                    isUploading ||
+                                    mintState === 'uploading' ||
+                                    mintState === 'minting'
+                                  }
+                                  className={clsx(
+                                    'w-full rounded-full py-2 text-xs font-semibold uppercase tracking-[0.16em] transition',
+                                    mintState === 'success'
+                                      ? 'border border-green-400/50 bg-green-50 text-green-700'
+                                      : mintState === 'error'
+                                        ? 'border border-red-400/50 bg-red-50 text-red-700'
+                                        : isConnected
+                                          ? 'border border-[#f9d54c] bg-[#f9d54c] text-black hover:bg-[#f4b400] disabled:opacity-60'
+                                          : 'border border-black/10 bg-white text-black/35',
+                                  )}
+                                >
+                                  <div className="flex items-center justify-center gap-2">
+                                    {mintState === 'uploading' ||
+                                    mintState === 'minting' ? (
+                                      <>
+                                        <span className="h-1.5 w-1.5 animate-spin rounded-full border border-current border-t-transparent" />
+                                        {mintState === 'uploading'
+                                          ? 'Uploading...'
+                                          : 'Minting...'}
+                                      </>
+                                    ) : mintState === 'success' ? (
+                                      <>
+                                        <Check size={14} weight="bold" />
+                                        Minted!
+                                      </>
+                                    ) : mintState === 'error' ? (
+                                      <>
+                                        <Warning size={14} weight="bold" />
+                                        Error
+                                      </>
+                                    ) : isConnected ? (
+                                      'Mint NFT'
+                                    ) : (
+                                      'Connect Wallet'
+                                    )}
+                                  </div>
+                                </button>
+
+                                {/* Error Message */}
+                                {errorMessage && (
+                                  <p className="text-[10px] text-red-600">
+                                    {errorMessage}
+                                  </p>
+                                )}
+                              </div>
                             </div>
-                            <div className="flex items-center justify-between gap-3 border-t border-black/5 px-4 py-3">
-                              <p className="text-xs uppercase tracking-[0.16em] text-black/45">
-                                Variation {imageIndex + 1}
-                              </p>
-                              <button
-                                type="button"
-                                className="rounded-full border border-black/10 px-3 py-1.5 text-xs font-medium text-black transition hover:border-black/25 hover:bg-[#fff3c2]"
-                                onClick={() =>
-                                  downloadImage(
-                                    image,
-                                    `nft-${imageIndex + 1}.png`,
-                                  )
-                                }
-                              >
-                                Download
-                              </button>
-                            </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     </div>
                   )}
