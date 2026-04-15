@@ -1,4 +1,3 @@
-import { SignatureModal } from 'components/elements/SignatureModal';
 import { GraphQLClient } from 'graphql-request';
 import { useSupportedNetwork } from 'hooks/useSupportedNetwork';
 import { Doppler, getEnv } from 'utils/env';
@@ -160,13 +159,6 @@ export default function GraphQLProvider(props: PropsWithChildren<typeof GraphQLP
         trySignature,
       }}
     >
-      {!signed &&
-        <SignatureModal
-          visible={!signed && !isNullOrEmpty(currentAddress) && !loading}
-          showRetry={sigRejected}
-          onRetry={trySignature}
-        />
-      }
       {props.children}
     </GraphQLContext.Provider>
   );
