@@ -43,6 +43,16 @@ export function MetaMaskSignIn({
     }
   }, [error, onSignInError]);
 
+  // Auto-trigger sign-in when wallet connects and not yet authenticated
+  useEffect(() => {
+    if (isConnected && !isAuthenticated && !loading && !isSigningIn && address) {
+      setIsSigningIn(true);
+      signIn().finally(() => {
+        setIsSigningIn(false);
+      });
+    }
+  }, [isConnected, isAuthenticated, loading, isSigningIn, address, signIn]);
+
   const handleClick = useCallback(async () => {
     if (!isConnected) {
       openConnectModal?.();
