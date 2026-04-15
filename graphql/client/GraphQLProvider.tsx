@@ -4,6 +4,7 @@ import { useSupportedNetwork } from 'hooks/useSupportedNetwork';
 import { Doppler, getEnv } from 'utils/env';
 import { isNullOrEmpty } from 'utils/format';
 import { getAPIURL } from 'utils/isEnv';
+import { getSiweToken, getSiweAddress, getSiweChainId } from 'utils/auth';
 
 import moment from 'moment';
 import { createContext, PropsWithChildren, useCallback, useEffect, useState } from 'react';
@@ -53,15 +54,34 @@ export default function GraphQLProvider(props: PropsWithChildren<typeof GraphQLP
   });
 
   const createSignedClient = useCallback((signature: string, timestamp: string) => {
+    // Check for SIWE token first (new authentication method)
+    const siweToken = getSiweToken();
+    const siweAddress = getSiweAddress();
+    const siweChainId = getSiweChainId();
+
+    const headers: any = {
+      network: 'ethereum', // TODO: support new networks
+    };
+
+    // Use SIWE if available
+    if (siweToken && siweAddress) {
+      headers['authorization'] = `Bearer ${siweToken}`;
+      headers['X-User-Address'] = siweAddress;
+      if (siweChainId) {
+        headers['chain-id'] = siweChainId.toString();
+        headers['chainId'] = siweChainId.toString();
+      }
+    } else {
+      // Fall back to legacy signature method
+      headers['authorization'] = signature;
+      headers['chain-id'] = chain?.id == null ? null : String(chain?.id);
+      headers['chainId'] = chain?.id == null ? null : String(chain?.id);
+      headers['timestamp'] = timestamp;
+    }
+
     const gqlClient = new GraphQLClient(getAPIURL() + '/api', {
       cache: 'default',
-      headers: {
-        authorization: signature,
-        'chain-id': chain?.id == null ? null : String(chain?.id),
-        chainId: chain?.id == null ? null : String(chain?.id),
-        network: 'ethereum', // TODO: support new networks
-        timestamp: timestamp
-      },
+      headers,
     });
     setClient(gqlClient);
   }, [chain?.id]);
