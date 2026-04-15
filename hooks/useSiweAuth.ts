@@ -32,21 +32,29 @@ export function useSiweAuth(): UseSiweAuthReturn {
     isAuthenticated: false,
   });
 
-  // Load token from localStorage on mount
+  // Load token from localStorage on mount and when window regains focus
   useEffect(() => {
-    const storedToken = localStorage.getItem('siwe_token');
-    const storedAddress = localStorage.getItem('siwe_address');
-    const storedChainId = localStorage.getItem('siwe_chainId');
+    const loadFromStorage = () => {
+      const storedToken = localStorage.getItem('siwe_token');
+      const storedAddress = localStorage.getItem('siwe_address');
+      const storedChainId = localStorage.getItem('siwe_chainId');
 
-    if (storedToken && storedAddress) {
-      setState(prev => ({
-        ...prev,
-        token: storedToken,
-        address: storedAddress.toLowerCase(),
-        chainId: storedChainId ? parseInt(storedChainId, 10) : null,
-        isAuthenticated: true,
-      }));
-    }
+      if (storedToken && storedAddress) {
+        setState(prev => ({
+          ...prev,
+          token: storedToken,
+          address: storedAddress.toLowerCase(),
+          chainId: storedChainId ? parseInt(storedChainId, 10) : null,
+          isAuthenticated: true,
+        }));
+      }
+    };
+
+    loadFromStorage();
+
+    // Re-sync when window regains focus (after MetaMask modal closes)
+    window.addEventListener('focus', loadFromStorage);
+    return () => window.removeEventListener('focus', loadFromStorage);
   }, []);
 
   // Clear authentication if wallet disconnected
