@@ -7,8 +7,8 @@ import { ReactNode } from 'react';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { SWRConfig } from 'swr';
 
-const CryptoWalletProvider = dynamic(import('./CryptoWalletContext'));
-const AuthProvider = dynamic(import('./AuthContext').then(mod => mod.AuthProvider));
+const CryptoWalletProvider = dynamic(() => import('./CryptoWalletContext'));
+const AuthProvider = dynamic(() => import('./AuthContext').then(mod => mod.AuthProvider));
 const DndProvider = dynamic(() => import('react-dnd').then(mod => mod.DndProvider));
 const GraphQLProvider = dynamic(import('graphql/client/GraphQLProvider'));
 const NFTListingsContextProvider = dynamic(import('components/modules/Checkout/NFTListingsContext'));

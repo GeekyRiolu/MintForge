@@ -42,9 +42,12 @@ export default function GraphQLProvider(props: PropsWithChildren<typeof GraphQLP
         address: currentAddress,
         timestamp: unixTimestamp
       }));
-      gtag('event', 'SignIn', {
-        ethereumAddress: currentAddress
-      });
+      // Track sign-in event if gtag is available
+      if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+        (window as any).gtag('event', 'SignIn', {
+          ethereumAddress: currentAddress
+        });
+      }
       setSigned(true);
     },
     onError(error) {
