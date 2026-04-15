@@ -14,6 +14,8 @@ import { useRef } from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 
+export const dynamic = 'force-dynamic';
+
 export default function RoadmapPage() {
   const contentRef = useRef<HTMLDivElement>();
   const [firstLoaded, setFirstLoaded] = useState(false);

@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import useSWRImmutable from 'swr/immutable';
 
+export const dynamic = 'force-dynamic';
+
 export default function ConfirmEmailPage() {
   const router = useRouter();
   const { email, token } = router.query;

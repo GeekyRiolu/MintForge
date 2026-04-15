@@ -2,6 +2,8 @@ import DefaultLayout from 'components/layouts/DefaultLayout';
 import { ListingCheckout } from 'components/modules/Checkout/ListingCheckout';
 import { tw } from 'utils/tw';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * Renders the entire cart for listing.
  * with configuration options for the listing side.

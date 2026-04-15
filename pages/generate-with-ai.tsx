@@ -9,6 +9,8 @@ import { AIGeneratedNFT_ABI } from 'constants/abis/AIGeneratedNFT';
 
 import AOS from 'aos';
 
+export const dynamic = 'force-dynamic';
+
 const AIGeneratorChat = dynamic(
   () =>
     import('components/modules/AIGenerator/AIGeneratorChat').then(

@@ -13,6 +13,8 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 
+export const dynamic = 'force-dynamic';
+
 const keySplash = 'https://cdn.nft.com/key_splash2.png';
 
 export default function ProfilePreferencesPage() {

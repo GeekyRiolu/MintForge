@@ -13,6 +13,8 @@ import { Event as OCREvent, PendingAssociationOutput, RemovedAssociationsForRece
 import { useFetchIgnoredEvents } from 'graphql/hooks/useFetchIgnoredEvents';
 import { useGetRemovedAssociationsForReceiver } from 'graphql/hooks/useGetRemovedAssociationsForReceiverQuery';
 import { usePendingAssociationQuery } from 'graphql/hooks/usePendingAssociationQuery';
+
+export const dynamic = 'force-dynamic';
 import { useAllContracts } from 'hooks/contracts/useAllContracts';
 import { useUser } from 'hooks/state/useUser';
 import { useMyNftProfileTokens } from 'hooks/useMyNftProfileTokens';

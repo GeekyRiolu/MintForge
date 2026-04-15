@@ -13,6 +13,8 @@ import { tw } from 'utils/tw';
 
 import { useCallback, useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
+
+export const dynamic = 'force-dynamic';
 import { useAccount } from 'wagmi';
 
 export default function ClaimGenesisKeyPage() {

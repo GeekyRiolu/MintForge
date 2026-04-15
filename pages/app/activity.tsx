@@ -9,6 +9,8 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useAccount } from 'wagmi';
 
+export const dynamic = 'force-dynamic';
+
 export default function Activity() {
   const router = useRouter();
   const { address: currentAddress } = useAccount();

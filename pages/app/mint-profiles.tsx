@@ -13,6 +13,8 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { ArrowCircleLeft } from 'phosphor-react';
 import NFTLogo from 'public/icons/nft_logo.svg?svgr';
+
+export const dynamic = 'force-dynamic';
 import NFTLogoSmall from 'public/icons/nft_logo_small.svg?svgr';
 import ProfileClickIcon from 'public/icons/profile-click-icon.svg?svgr';
 import ProfileIcon from 'public/icons/profile-icon.svg?svgr';

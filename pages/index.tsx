@@ -23,6 +23,8 @@ import { NextSeo } from 'next-seo';
 import React, { useEffect } from 'react';
 import { usePageVisibility } from 'react-page-visibility';
 
+export const dynamic = 'force-dynamic';
+
 const NonAuthLikeModal = dynamic(
   import('components/elements/nonAuthLikeModal')
 );
