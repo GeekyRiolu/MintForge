@@ -1,6 +1,6 @@
 import 'aos/dist/aos.css';
 
-import dynamic from 'next/dynamic';
+import dynamicComponent from 'next/dynamic';
 import { NextSeo } from 'next-seo';
 import React, { useEffect } from 'react';
 
@@ -11,7 +11,7 @@ import AOS from 'aos';
 
 export const dynamic = 'force-dynamic';
 
-const AIGeneratorChat = dynamic(
+const AIGeneratorChat = dynamicComponent(
   () =>
     import('components/modules/AIGenerator/AIGeneratorChat').then(
       (mod) => mod.AIGeneratorChat,

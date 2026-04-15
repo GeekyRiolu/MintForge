@@ -9,7 +9,7 @@ import { tw } from 'utils/tw';
 
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
-import dynamic from 'next/dynamic';
+import dynamicComponent from 'next/dynamic';
 import Link from 'next/link';
 import { ArrowCircleLeft } from 'phosphor-react';
 import NFTLogo from 'public/icons/nft_logo.svg?svgr';
@@ -22,7 +22,7 @@ import ProfileKeyIcon from 'public/icons/profile-key-icon.svg?svgr';
 import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 
-const Player = dynamic(
+const Player = dynamicComponent(
   () => import('@lottiefiles/react-lottie-player').then(mod => mod.Player),
   { ssr: false }
 );

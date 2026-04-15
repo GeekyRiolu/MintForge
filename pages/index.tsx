@@ -18,39 +18,39 @@ import {
   HOME_PAGE_FIELDS_V2,
   HOME_PAGE_FIELDS_V3
 } from 'lib/contentful/schemas';
-import dynamic from 'next/dynamic';
+import dynamicComponent from 'next/dynamic';
 import { NextSeo } from 'next-seo';
 import React, { useEffect } from 'react';
 import { usePageVisibility } from 'react-page-visibility';
 
 export const dynamic = 'force-dynamic';
 
-const NonAuthLikeModal = dynamic(
+const NonAuthLikeModal = dynamicComponent(
   import('components/elements/nonAuthLikeModal')
 );
-const BlogSection = dynamic(import('components/modules/HomePage/BlogSection'));
-const BuildProfile = dynamic(
+const BlogSection = dynamicComponent(import('components/modules/HomePage/BlogSection'));
+const BuildProfile = dynamicComponent(
   import('components/modules/HomePage/BuildProfile')
 );
-const DiscoverCollections = dynamic(
+const DiscoverCollections = dynamicComponent(
   import('components/modules/HomePage/DiscoverCollections')
 );
-const DynamicLinks = dynamic(
+const DynamicLinks = dynamicComponent(
   import('components/modules/HomePage/DynamicLinks')
 );
-const HeroSection = dynamic(import('components/modules/HomePage/HeroSection'));
-const SocialSection = dynamic(
+const HeroSection = dynamicComponent(import('components/modules/HomePage/HeroSection'));
+const SocialSection = dynamicComponent(
   import('components/modules/HomePage/SocialSection')
 );
-const WhatWeCanDo = dynamic(import('components/modules/HomePage/WhatWeCanDo'));
-const HomePageV2Layout = dynamic(
+const WhatWeCanDo = dynamicComponent(import('components/modules/HomePage/WhatWeCanDo'));
+const HomePageV2Layout = dynamicComponent(
   import('components/modules/HomePageV2/HomePageV2'),
   { loading: () => <LoaderPageFallback /> }
 );
-const HomeLayout = dynamic(import('components/layouts/HomeLayout'), {
+const HomeLayout = dynamicComponent(import('components/layouts/HomeLayout'), {
   loading: () => <LoaderPageFallback />
 });
-const DynamicPreviewBanner = dynamic(
+const DynamicPreviewBanner = dynamicComponent(
   import('components/elements/PreviewBanner')
 );
 
