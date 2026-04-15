@@ -82,6 +82,22 @@ export async function generateNftImages(
   }
 }
 
+async function fetchWithTimeout(
+  input: RequestInfo,
+  init: RequestInit = {},
+  timeout = 30000,
+) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  try {
+    // @ts-ignore
+    const resp = await fetch(input, { ...init, signal: controller.signal });
+    return resp;
+  } finally {
+    clearTimeout(id);
+  }
+}
+
 async function generateWithFreepik(
   prompt: string,
 ): Promise<GenerateNftImagesResult> {
@@ -97,7 +113,7 @@ async function generateWithFreepik(
 
     const enhancedPrompt = `${prompt}, NFT art style, digital art, high quality, 4k, professional`;
 
-    const response = await fetch('https://api.freepik.com/v1/ai/mystic', {
+    const response = await fetchWithTimeout('https://api.freepik.com/v1/ai/mystic', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -115,14 +131,23 @@ async function generateWithFreepik(
       }),
     });
 
+    const contentType = response.headers.get('content-type') ?? '';
+
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('[Freepik] API Error:', response.status, errorText);
-      throw new Error(`Freepik API error: ${response.statusText}`);
+      console.error('[Freepik] API Error:', response.status, contentType, errorText?.slice?.(0, 1000));
+      throw new Error('Freepik API error');
+    }
+
+    if (!contentType.includes('application/json')) {
+      const text = await response.text();
+      console.error('[Freepik] Unexpected non-JSON response:', contentType, text?.slice?.(0, 1000));
+      // Treat as transient/unexpected and fallback to Hugging Face
+      throw new Error('Freepik returned non-JSON response');
     }
 
     const data = await response.json();
-    const taskId = data.data?.task_id;
+    const taskId = data.data?.task_id ?? data.task_id ?? data?.id;
     console.log('[Freepik] Task created:', taskId);
 
     if (taskId) {
@@ -165,7 +190,7 @@ async function generateWithHuggingFace(
 
       console.log(`[HuggingFace] Generating image ${index + 1}/1...`);
 
-      const response = await fetch(
+      const response = await fetchWithTimeout(
         'https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5',
         {
           method: 'POST',
@@ -181,10 +206,18 @@ async function generateWithHuggingFace(
 
       console.log(`[HuggingFace] Response status: ${response.status}`);
 
+      const contentType = response.headers.get('content-type') ?? '';
+
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('[HuggingFace] API Error:', response.status, errorText);
-        throw new Error(`HF API error: ${response.statusText}`);
+        const errText = await response.text();
+        console.error('[HuggingFace] API Error:', response.status, contentType, errText?.slice?.(0, 1000));
+        throw new Error('HuggingFace API error');
+      }
+
+      if (!contentType.startsWith('image/')) {
+        const text = await response.text();
+        console.error('[HuggingFace] Unexpected non-image response:', contentType, text?.slice?.(0, 1000));
+        throw new Error('HuggingFace returned non-image response');
       }
 
       const arrayBuffer = await response.arrayBuffer();
@@ -193,7 +226,8 @@ async function generateWithHuggingFace(
       console.log(
         `[HuggingFace] Image ${index + 1} generated, size: ${base64.length} bytes`,
       );
-      images.push(`data:image/png;base64,${base64}`);
+      const mime = response.headers.get('content-type')?.split(';')[0] ?? 'image/png';
+      images.push(`data:${mime};base64,${base64}`);
     } catch (error) {
       console.error(
         `[HuggingFace] Error generating image ${index + 1}:`,

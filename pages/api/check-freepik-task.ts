@@ -64,10 +64,22 @@ export async function checkFreepikTask(
       },
     });
 
+    const contentType = response.headers.get('content-type') ?? '';
+
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('[Freepik Check] API Error:', response.status, errorText);
-      throw new Error(`Freepik API error: ${response.statusText}`);
+      console.error('[Freepik Check] API Error:', response.status, contentType, errorText?.slice?.(0, 1000));
+      throw new Error('Freepik API error');
+    }
+
+    if (!contentType.includes('application/json')) {
+      const text = await response.text();
+      console.error('[Freepik Check] Unexpected non-JSON response:', contentType, text?.slice?.(0, 1000));
+      return {
+        success: false,
+        status: 'FAILED',
+        error: 'Freepik returned an unexpected response while processing the task',
+      };
     }
 
     const data = await response.json();
@@ -83,17 +95,21 @@ export async function checkFreepikTask(
         try {
           const imageResponse = await fetch(imageUrl);
           if (!imageResponse.ok) {
-            throw new Error(
-              `Failed to fetch image: ${imageResponse.statusText}`,
-            );
+            console.error('[Freepik Check] Failed to fetch image:', imageResponse.status, imageResponse.statusText);
+            continue;
+          }
+
+          const imgContentType = imageResponse.headers.get('content-type') ?? '';
+          if (!imgContentType.startsWith('image/')) {
+            const text = await imageResponse.text();
+            console.error('[Freepik Check] Image URL returned non-image content:', imgContentType, text?.slice?.(0, 500));
+            continue;
           }
 
           const arrayBuffer = await imageResponse.arrayBuffer();
           const buffer = Buffer.from(arrayBuffer);
           const base64 = buffer.toString('base64');
-          const mimeType =
-            imageResponse.headers.get('content-type')?.split(';')[0] ??
-            'image/png';
+          const mimeType = imgContentType.split(';')[0] ?? 'image/png';
           images.push(`data:${mimeType};base64,${base64}`);
         } catch (error) {
           console.error('[Freepik Check] Error fetching image:', error);
