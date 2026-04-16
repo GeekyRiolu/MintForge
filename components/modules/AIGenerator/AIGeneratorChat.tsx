@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { ArrowUp, Check, Warning } from 'phosphor-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useAccount } from 'wagmi';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 
 import { useIPFSUpload } from 'hooks/useIPFSUpload';
 import { useNFTMint } from 'hooks/useNFTMint';
@@ -34,6 +35,7 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
   contractABI,
 }) => {
   const { address, isConnected } = useAccount();
+  const { openConnectModal } = useConnectModal();
   const { upload: uploadToIPFS, isLoading: isUploading } = useIPFSUpload();
   const { mint: mintNFT, isLoading: isMinting } = useNFTMint(
     contractAddress,
@@ -54,6 +56,13 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
       api: '/api/chat',
     }),
   });
+
+  const PREDEFINED_PROMPTS: string[] = [
+    'Neon cyberpunk fox portrait, vibrant colors, synthwave lighting.',
+    'Watercolor landscape of surreal floating islands, soft pastel colors.',
+    'Futuristic astronaut portrait in baroque style, intricate details.',
+    'Abstract geometric composition, bold colors, high contrast.',
+  ];
 
   const isLoading = status === 'submitted' || status === 'streaming';
 
@@ -76,9 +85,16 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
     }
   }, [messages, onGenerateImages]);
 
-  async function handleSendMessage() {
-    const prompt = input.trim();
+  async function handleSendMessage(optionalPrompt?: string) {
+    const prompt = (optionalPrompt ?? input).trim();
     if (!prompt || isLoading) {
+      return;
+    }
+
+    if (!isConnected) {
+      // Prompt the user to connect their wallet first
+      openConnectModal?.();
+      setInput(prompt);
       return;
     }
 
@@ -389,6 +405,22 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
 
       <div className="border-t border-black/10 bg-white px-5 py-4 sm:px-6">
         <div className="rounded-[1.75rem] border border-black/10 bg-[#fcf7ea] p-2">
+          <div className="mb-3 flex w-full items-center">
+            <div className="flex gap-2 overflow-x-auto py-1">
+              {PREDEFINED_PROMPTS.map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => {
+                    void handleSendMessage(p);
+                  }}
+                  className="whitespace-nowrap rounded-full border border-black/10 bg-white px-3 py-1 text-sm font-medium text-black hover:bg-[#fff3c2]"
+                >
+                  {p}
+                </button>
+              ))}
+            </div>
+          </div>
           <div className="flex items-end gap-2">
             <textarea
               ref={inputRef}
@@ -410,10 +442,10 @@ export const AIGeneratorChat: React.FC<AIGeneratorChatProps> = ({
               onClick={() => {
                 void handleSendMessage();
               }}
-              disabled={isLoading || !input.trim()}
+              disabled={isLoading || !input.trim() || !isConnected}
               className={clsx(
                 'mb-1 mr-1 flex h-11 w-11 items-center justify-center rounded-full transition',
-                input.trim() && !isLoading
+                input.trim() && !isLoading && isConnected
                   ? 'bg-black text-white hover:bg-[#2c2c2c]'
                   : 'bg-black/10 text-black/35',
               )}

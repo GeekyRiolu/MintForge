@@ -32,6 +32,7 @@ import React, { useContext, useEffect } from 'react';
 import { Link as ScrollLink } from 'react-scroll';
 import { useThemeColors } from 'styles/theme/useThemeColors';
 import { useAccount } from 'wagmi';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 
 const DynamicNotificationBadge = dynamic<React.ComponentProps<typeof StaticNotificationBadge>>(() => import('components/modules/Notifications/NotificationBadge').then(mod => mod.NotificationBadge));
 
@@ -45,6 +46,7 @@ gsap.registerPlugin(ScrollTrigger);
 export const Header = ({ removeBg, homepageHeader }: HeaderProps) => {
   const router = useRouter();
   const { address: currentAddress } = useAccount();
+  const { openConnectModal } = useConnectModal();
   const { primaryIcon } = useThemeColors();
   const { count } = useContext(NotificationContext);
   const { toggleCartSidebar, toList } = useContext(NFTListingsContext);
@@ -193,11 +195,19 @@ export const Header = ({ removeBg, homepageHeader }: HeaderProps) => {
                   </a>
                 </DropdownPickerModal>
 
-                <Link href="/generate-with-ai" passHref>
-                  <a className='text-black text-[2.5rem] minlg:text-lg hover:text-[#6A6A6A] flex items-center relative'>
-                    ✨ Create with AI
-                  </a>
-                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (currentAddress) {
+                      router.push('/generate-with-ai');
+                    } else {
+                      openConnectModal?.();
+                    }
+                  }}
+                  className='text-black text-[2.5rem] minlg:text-lg hover:text-[#6A6A6A] flex items-center relative'
+                >
+                  ✨ Create with AI
+                </button>
               </nav>
             </div>
 
@@ -438,11 +448,19 @@ export const Header = ({ removeBg, homepageHeader }: HeaderProps) => {
                 </a>
               </DropdownPickerModal>
 
-              <Link href="/generate-with-ai" passHref>
-                <a className='text-black text-[2.5rem] minlg:text-lg hover:text-[#6A6A6A] flex items-center relative'>
-                  ✨ Create with AI
-                </a>
-              </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  if (currentAddress) {
+                    router.push('/generate-with-ai');
+                  } else {
+                    openConnectModal?.();
+                  }
+                }}
+                className='text-black text-[2.5rem] minlg:text-lg hover:text-[#6A6A6A] flex items-center relative'
+              >
+                ✨ Create with AI
+              </button>
             </nav>
           </div>
 
