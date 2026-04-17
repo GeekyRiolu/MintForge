@@ -206,7 +206,7 @@ export const Header = ({ removeBg, homepageHeader }: HeaderProps) => {
                   }}
                   className='text-black text-[2.5rem] minlg:text-lg hover:text-[#6A6A6A] flex items-center relative'
                 >
-                  ✨ Create with AI
+                  Create with AI
                 </button>
               </nav>
             </div>
@@ -459,7 +459,7 @@ export const Header = ({ removeBg, homepageHeader }: HeaderProps) => {
                 }}
                 className='text-black text-[2.5rem] minlg:text-lg hover:text-[#6A6A6A] flex items-center relative'
               >
-                ✨ Create with AI
+                Create with AI
               </button>
             </nav>
           </div>
